@@ -1,0 +1,26 @@
+@import "../../../../styles.scss";
+@import "../../../shared/forms.scss";
+
+.social {
+    color: rgb(123, 117, 117);
+    align-items: center;
+}
+
+
+#chosenImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.btn-back {
+    border: none;
+    padding: 5px;
+    color: $boldDark;
+    text-decoration: none;
+    margin-left: auto;
+    border-radius: 13px;
+    box-shadow: -5px 5px 15px #cfcfcf,
+        5px -5px 15px #ffffff;
+}

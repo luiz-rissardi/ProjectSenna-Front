@@ -1,0 +1,14 @@
+@import "../../../../styles.scss";
+@import "../../../shared/forms.scss";
+
+.social {
+    color: rgb(123, 117, 117);
+    align-items: center;
+}
+
+.recover-password{
+    font-weight: 500;
+    &:hover{
+        color: $boldPurple !important;
+    }
+}

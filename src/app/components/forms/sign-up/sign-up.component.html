@@ -1,0 +1,55 @@
+<a routerLink="/auth/sign-in" class="btn-back text "> <i class="fi fi-rr-arrow-small-left"></i>back </a>
+
+<form class="d-flex flex-column mt-4 px-2">
+    @if (this.level === 1) {
+    <fieldset class="form-group m-auto mt-3 w-100">
+        <label for="userName" class="label"> UserName: </label>
+        <input type="text" class="control" id="userName" placeholder=" type your user name">
+        <div class="line"></div>
+    </fieldset>
+    <fieldset class="form-group m-auto mt-3 w-100">
+        <label for="email" class="label"> email: </label>
+        <input type="text" class="control" id="email" placeholder="type your email">
+        <div class="line"></div>
+    </fieldset>
+    <fieldset class="form-group m-auto mt-3 w-100">
+        <label for="password" class="label"> Password: </label>
+        <input type="password" class="control" id="password" placeholder="type your password">
+        <div class="line"></div>
+    </fieldset>
+    <fieldset class="form-group m-auto mt-3 w-100">
+        <label for="ConfirmPassword" class="label"> Confirm password: </label>
+        <input type="password" class="control" id="ConfirmPassword" placeholder="type your password again">
+        <div class="line"></div>
+    </fieldset>
+    <button type="button" buttonStyle style="margin-top: 20px;" (click)="this.level=2"> Next </button>
+    }
+    @else if(this.level === 2){
+    <fieldset class="form-group m-auto">
+        <img id="chosenImage" (click)="changePhoto()" src="../../../../assets/icons/do-utilizador.png"
+            alt="file image chosen">
+        <input type="file" id="inputFoto" accept="image/*" hidden>
+    </fieldset>
+    <fieldset class="form-group m-auto mt-3">
+        <label for="description" class="label"> insert description: </label>
+        <input type="text" class="control" id="description" placeholder="type your description">
+        <div class="line"></div>
+    </fieldset>
+    <fieldset class="form-group m-auto mt-3">
+        <label for="language" class="label"> insert language: </label>
+        <select class="control" id="language" placeholder="type your language" size="1">
+            <option value="pt-br"> portuguese (Brasil)</option>
+            <option value="en"> English </option>
+            <option value="deutch"> German </option>
+            <option value="deutch"> German </option>
+            <option value="deutch"> German </option>
+            <option value="deutch"> German </option>
+            <option value="deutch"> German </option>
+            <option value="spa"> Spanish </option>
+        </select>
+        <div class="line"></div>
+    </fieldset>
+
+    <button type="button" buttonStyle style="margin-top: 100px;"> Sign-Up </button>
+    }
+</form>

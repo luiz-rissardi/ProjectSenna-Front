@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+
+// color of the project
+$boldPurple:#330066;
+$middlePurple:#4402ba;
+$lightPurple:#7b15e1;
+
+$boldGreen:#008900;
+$middleGreen:#0eaf0a;
+$lightGreen:#1cd514;
+
+$boldRed:#990004;
+$middleRed:#d90110;
+
+// neutral colors
+$white:#ffffff;
+$light:rgb(222, 214, 214);
+$lightDark:#6b6d6f;
+$dark:#343a40;
+$boldDark:#191c1ffb;
+
+// functions colors example (warning)
+$warning:rgb(255, 165, 0);
+
+// breakpoints 
+
+@mixin breakPoint($point){
+    @if($point == mobile-only){
+        @media screen and (max-width:600px) {
+           @content; 
+        }
+    }
+    @else if($point == tablet-up){
+        @media screen and (min-width:601px) {
+            @content; 
+         }
+    }
+    @else if($point == notebook-up){
+        @media screen and (min-width:1000px) {
+            @content; 
+         }
+    }
+    @else if($point == desktop-up){
+        @media screen and (min-width:1200px) {
+            @content; 
+         }
+    }
+}
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

@@ -1,0 +1,23 @@
+.button-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 5px;
+    border: none;
+    transition: 300ms linear;
+    box-shadow: 3px 3px 5px #434343,
+        -3px -3px 5px #ffffff;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+
+    &:hover {
+        transition: 300ms linear;
+        scale: 1.05;
+        box-shadow: 5px 5px 12px #3a3a3a,
+            -5px -5px 12px #ffffff;
+    }
+
+    img {
+        width: 100%;
+        image-rendering: optimizeQuality;
+    }
+}
