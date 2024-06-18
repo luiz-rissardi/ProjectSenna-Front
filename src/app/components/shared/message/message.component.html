@@ -1,5 +1,7 @@
 
 <article [className]="this.isYourMessage()?'message-card me':'message-card'">
-    <span class="message-sender"> {{ userName() }} </span>
+    @if(this.isGroup() == true){
+        <span class="message-sender"> {{ userName() }} </span>
+    }
     <p class="message-text"> {{ message() }} </p>
 </article>

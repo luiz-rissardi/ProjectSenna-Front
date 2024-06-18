@@ -4,9 +4,9 @@ import { Injectable, WritableSignal, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ChatStatesService {
-  state: WritableSignal<string | null> = signal(null);
+  state: WritableSignal<string | number | null> = signal(null);
 
-  setState(value: string): void {
+  setState(value: number | string): void {
     this.state.set(value);
   }
 

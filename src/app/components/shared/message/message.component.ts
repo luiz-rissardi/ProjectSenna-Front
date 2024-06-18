@@ -10,6 +10,7 @@ import { Component, input } from '@angular/core';
 export class MessageComponent {
 
   isYourMessage = input<boolean>();
+  isGroup = input<boolean>(true);
   message = input<string>();
   sendAt = input();
   userName = input<string>();

@@ -8,7 +8,8 @@
         height: auto;
         margin-top: 10px;
         border-radius: 0 20px 20px 20px;
-        padding: 8px;
+        padding: 10px;
+        font-family: monospace;
 
         @include breakPoint(mobile-only){
             max-width: 200px;
@@ -16,10 +17,9 @@
     }
 
     &-sender {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         font-weight: bold;
-        font-family: Courier, monospace;
-        border-bottom: 1px solid $boldRed;
+        font-family: monospace;
         color: $boldRed;
     }
 
@@ -31,7 +31,7 @@
 }
 
 .me {
-    background-color: $lightDark;
+    background-color: $dark;
     border-radius: 20px 0px 20px 20px !important;
     
     @include breakPoint(mobile-only){
@@ -52,6 +52,5 @@
 
     span{
         color: $lightGreen;
-        border-bottom: 1px solid $lightGreen;
     }
 }

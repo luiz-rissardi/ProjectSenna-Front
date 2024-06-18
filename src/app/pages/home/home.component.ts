@@ -21,6 +21,8 @@ export class HomeComponent {
       if(this.isMobile){
         if(this.ChatState.state() != null){
           this.showChat = true
+        }else{
+          this.showChat = false
         }
       }
     })

@@ -17,7 +17,6 @@
                 display: flex;
                 font-family: cursive;
                 font-size: 1.2rem;
-                border-radius: 0 0 20px 20px;
                 border: none;
                 box-shadow: 5px 5px 12px #3a3a3a;
                 transition: 200ms linear;
@@ -56,4 +55,8 @@
     color: $light;
     font-weight: 600;
     align-items: center;
+
+    p{
+        font-size: 1.3rem;
+    }
 }

@@ -8,5 +8,39 @@ import { Component } from '@angular/core';
   styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
+  protected users = [
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+    {
+      userName: "luiz gustavo rissardi",
+      photo: "../../../assets/icons/do-utilizador.png",
+    },
+  ]
 
 }

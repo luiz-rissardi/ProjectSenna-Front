@@ -6,19 +6,18 @@
     border: none;
     transition: 300ms linear;
     box-shadow: 3px 3px 8px #3a3a3a,
-        -3px -3px 8px #ffffff;
+        -3px -3px 8px #838383;
     background: linear-gradient(145deg, #e6e6e6, #ffffff);
 
     &:hover {
         transition: 300ms linear;
         scale: 1.05;
         box-shadow: 5px 5px 12px #3a3a3a,
-            -5px -5px 12px #ffffff;
+            -5px -5px 12px #999999;
     }
 
     img {
         width: 100%;
-        border-radius: 50%;
         image-rendering: optimizeSpeed;
     }
 }

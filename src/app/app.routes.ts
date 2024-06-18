@@ -4,6 +4,9 @@ import { SignInComponent } from './components/forms/sign-in/sign-in.component';
 import { SignUpComponent } from './components/forms/sign-up/sign-up.component';
 import { RecoverPasswordComponent } from './components/forms/recover-password/recover-password.component';
 import { ConversartionsComponent } from './components/conversartions/conversartions.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { ForumsComponent } from './components/forums/forums.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 
 export const routes: Routes = [
@@ -35,15 +38,15 @@ export const routes: Routes = [
             },
             {
                 path: "group",
-                loadComponent: () => import("./components/groups/groups.component").then(c => c.GroupsComponent)
+                component:GroupsComponent
             },
             {
                 path: "forum",
-                loadComponent: () => import("./components/forums/forums.component").then(c => c.ForumsComponent)
+                component:ForumsComponent
             },
             {
                 path: "contact",
-                loadComponent: () => import("./components/contacts/contacts.component").then(c => c.ContactsComponent)
+                component:ContactsComponent
             },
         ]
     }
