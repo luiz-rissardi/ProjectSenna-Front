@@ -1,0 +1,78 @@
+@import "../../../../styles.scss";
+
+.chat {
+    width: 100%;
+    height: 85vh;
+    background-image: linear-gradient(to top, $boldPurple, $lightPurple);
+    padding: 20px;
+    overflow: hidden;
+    overflow-y: auto;
+    border: 5px solid $boldPurple;
+    display: flex;
+    border-radius:  0px 20px 0px 0px;
+    flex-direction: column;
+
+    &-sender {
+        width: 100%;
+        height: 13vh;
+        display: flex;
+        color: $boldDark;
+        background-color: $middlePurple;
+        border-radius: 0px 0px 20px 0px;
+    }
+
+    &-input {
+        width: 80% !important;
+        height: 8vh;
+        margin: auto;
+        border-radius: 40px;
+        border: none;
+        background-color: $light;
+        outline: none;
+        padding-inline: 20px;
+
+        &::placeholder {
+            color: $boldDark;
+        }
+
+    }
+
+    &-button {
+
+        &-emogi {
+            width: 60px;
+            height: 60px;
+            color: $white;
+            background-color: transparent;
+            margin: auto;
+            border: none;
+        }
+
+        &-send {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            padding-top: 5px;
+            color: $boldGreen;
+            margin: auto;
+            border: none;
+            background-color: $light;
+            box-shadow: 1px 1px 5px #bcbcbc,
+                -3px -3px 8px #747474;
+
+            &:active {
+                scale: 0.9;
+            }
+        }
+    }
+
+}
+
+::-webkit-scrollbar {
+    background-color: white;
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $boldGreen;
+}

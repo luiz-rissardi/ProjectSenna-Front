@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonIconComponent } from '../../button-icon/button-icon.component';
+import { ButtonIconComponent } from '../../shared/button-icon/button-icon.component';
 import { RouterLink } from '@angular/router';
 import { ButtonStyleDirective } from '../../../directives/button-style.directive';
 

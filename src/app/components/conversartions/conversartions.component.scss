@@ -1,0 +1,31 @@
+@import "../../../styles.scss";
+
+.search-icon {
+    position: absolute;
+    left: 15%;
+    bottom: 20%;
+    color: $lightDark;
+
+    @include breakPoint(tablet-up){
+        left: 9%;
+        bottom: 30%;
+    }
+}
+
+.control-search {
+    width: 100%;
+    height: 6vh;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    padding-inline: 50px;
+    position: relative;
+}
+
+.data-chats-notifications {
+    padding: 20px;
+    padding-bottom: 80px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}

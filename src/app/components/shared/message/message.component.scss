@@ -1,0 +1,57 @@
+@import "../../../../styles.scss";
+
+.message {
+    &-card {
+        width: 100%;
+        max-width: 350px;
+        background-color: $white;
+        height: auto;
+        margin-top: 10px;
+        border-radius: 0 20px 20px 20px;
+        padding: 8px;
+
+        @include breakPoint(mobile-only){
+            max-width: 200px;
+        }
+    }
+
+    &-sender {
+        font-size: 0.9rem;
+        font-weight: bold;
+        font-family: Courier, monospace;
+        border-bottom: 1px solid $boldRed;
+        color: $boldRed;
+    }
+
+    &-text {
+        font-size: 1.1rem;
+        color: $dark;
+        font-weight: 600;
+    }
+}
+
+.me {
+    background-color: $lightDark;
+    border-radius: 20px 0px 20px 20px !important;
+    
+    @include breakPoint(mobile-only){
+        margin-left: 40%;
+    }
+
+    @include breakPoint(tablet-up){
+        margin-left: 56%;
+    }
+
+    @include breakPoint(notebook-up){
+        margin-left: 73%;
+    }
+
+    p {
+        color: $white ;
+    }
+
+    span{
+        color: $lightGreen;
+        border-bottom: 1px solid $lightGreen;
+    }
+}

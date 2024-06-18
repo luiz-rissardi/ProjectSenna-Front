@@ -1,0 +1,16 @@
+<section class="chat" id="chat">
+    @for (item of this.messages; track $index) {
+    <message [sendAt]="item.sendAt" [isYourMessage]="item.username == 'nathalia'" [message]="item.message"
+        [userName]="item.username">
+    </message>
+    }
+</section>
+<div class="chat-sender">
+    <button type="button" class="chat-button-emogi">
+        <i class="fi fi-rr-comment-smile"  style="font-size: 1.8rem;"></i>
+    </button>
+    <input type="text" class="chat-input" placeholder="sender your message">
+    <button type="button" class="chat-button-send">
+        <i class="fi fi-rr-paper-plane" style="font-size: 1.8rem;"></i>
+    </button>
+</div>

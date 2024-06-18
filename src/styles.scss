@@ -31,7 +31,7 @@ $warning:rgb(255, 165, 0);
         }
     }
     @else if($point == tablet-up){
-        @media screen and (min-width:601px) {
+        @media screen and (min-width:601px) and (max-width:999px) {
             @content; 
          }
     }
@@ -48,4 +48,4 @@ $warning:rgb(255, 165, 0);
 }
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+

@@ -1,16 +1,14 @@
-@import "../../styles.scss";
-
 fieldset:focus-within input::placeholder,
 fieldset:focus-within label,
 fieldset:focus-within input {
-    color: $boldPurple;
+    color: #330066;
     /* Altere a cor do placeholder e do label quando o input ou seu container está em foco */
 }
 
 .control {
     width: 100%;
     border: 0;
-    border-bottom: 3px solid $light;
+    border-bottom: 3px solid rgb(222, 214, 214);
     outline: none;
     padding: 5px;
     padding-bottom: 15px;
@@ -26,7 +24,7 @@ fieldset:focus-within input {
 .line{
     width: 0%;
     height: 3px;
-    background-color: $boldPurple;
+    background-color: #330066;
     transition: 300ms linear;
     z-index: 2;
     position: relative;
