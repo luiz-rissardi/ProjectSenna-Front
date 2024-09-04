@@ -5,12 +5,11 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { RouterLink } from '@angular/router';
 import { ChatStatesService } from '../../../core/states/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
-import { Buffer } from 'buffer';
 
 @Component({
   selector: 'chat',
   standalone: true,
-  imports: [MessageComponent, ButtonIconComponent, RouterLink, ButtonIconDirective],
+  imports: [MessageComponent,ButtonIconComponent, ButtonIconDirective],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
