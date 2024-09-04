@@ -1,5 +1,5 @@
 <section class="chat-user-data">
-    <button class="chat-button-emogi invert" (click)="closeChat()">
+    <button ButtonIcon class="invert" (click)="closeChat()">
         →
     </button>
     <button-icon alt="teste"
@@ -9,12 +9,12 @@
     <p class="mt-3"> User current name </p>
 
     <div class="d-flex ms-auto">
-        <button type="button" class="chat-button-emogi">
+        <button type="button" ButtonIcon>
             <i class="fi fi-rr-phone-flip mt-2" style="font-size: 1.5rem;"></i>
         </button>
 
         <div class="d-block">
-            <button type="button" class="chat-button-emogi" (click)="toogleDroptDown(dropdown)">
+            <button type="button" ButtonIcon (click)="toogleDroptDown(dropdown)">
                 <i class="fi fi-rr-menu-dots-vertical mt-5" style="font-size: 1.5rem;"></i>
             </button>
             <div #dropdown class="position-absolute dropdown" style="display: none;">
@@ -42,22 +42,25 @@
 
 <section class="chat" id="chat">
     @for (item of this.messages; track $index) {
-    <message [isGroup]="false" [sendAt]="item.sendAt" [isYourMessage]="item.username == 'nathalia'"
+    <message [isGroup]="false" [sendAt]="item.sendAt" [isYourMessage]="item.username == 'eduardo'"
         [message]="item.message" [userName]="item.username">
     </message>
     }
 </section>
+
 <div class="chat-sender">
     <div class="d-flex ms-auto">
-        <button type="button" class="chat-button-emogi">
+        <button type="button" ButtonIcon>
             <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
         </button>
-
-        <button type="button" class="chat-button-emogi">
+        <button type="button" ButtonIcon (click)="chosenFile()">
             <i class="fi fi-rr-menu-dots-vertical" style="font-size: 1.3rem;"></i>
+            <input type="file" hidden id="file">
         </button>
     </div>
 
+    <!-- <a href="#" id="img">dowload</a> -->
+    <img src="" id="img" alt="">
     <input type="text" class="chat-input" placeholder="sender your message" (keyup.enter)="teste()">
     <button type="button" class="chat-button-mic mx-2">
         <i class="fi fi-rr-circle-microphone"></i>

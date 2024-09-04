@@ -1,8 +1,14 @@
-
-
 <div class="user">
     <button-icon alt="userPhoto" image="../assets/icons/do-utilizador.png"></button-icon>
     <p class="text-center mt-3"> User Name </p>
+    <div class="d-flex ms-auto">
+        <button type="button" ButtonIcon>
+            <i class="fi fi-rr-square-plus" style="font-size: 1.3rem;"></i>
+        </button>
+        <button type="button" ButtonIcon>
+            <i class="fi fi-rr-menu-dots-vertical" style="font-size: 1.3rem;"></i>
+        </button>
+    </div>
 </div>
 <section class="data-area-session">
     <button class="session" [routerLink]="'/home/conversation'">
@@ -12,7 +18,7 @@
         <p class="m-auto"> grupos </p>
     </button>
     <button class="session" [routerLink]="'/home/forum'">
-        <p class="m-auto"> fórums </p> 
+        <p class="m-auto"> fórums </p>
     </button>
     <button class="session" [routerLink]="'/home/contact'">
         <p class="m-auto"> contatos </p>

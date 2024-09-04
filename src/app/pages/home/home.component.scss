@@ -9,7 +9,6 @@
         width: 100%;
         
         @include breakPoint(notebook-up) {
-            border-radius: 20px 0 0 0;
             width: 30%;
         }
     }
@@ -21,7 +20,6 @@
         overflow: hidden;
         
         @include breakPoint(notebook-up) {
-            border-radius: 0px 20px 0px 0px;
             margin-inline-start: 5px;
             width: 70%;
         }

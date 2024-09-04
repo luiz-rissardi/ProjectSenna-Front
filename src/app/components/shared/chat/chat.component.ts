@@ -1,41 +1,114 @@
-import {  Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { RouterLink } from '@angular/router';
 import { ChatStatesService } from '../../../core/states/chat-states.service';
+import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'chat',
   standalone: true,
-  imports: [MessageComponent,ButtonIconComponent,RouterLink],
+  imports: [MessageComponent, ButtonIconComponent, RouterLink, ButtonIconDirective],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+  styleUrl: './chat.component.scss',
 })
 export class ChatComponent extends DOMManipulation implements OnInit {
 
   private chatState = inject(ChatStatesService);
-  
-  ngOnInit(): void {
+
+  async ngOnInit() {
+
+
+    // console.log(new TextDecoder().decode(t.data));
+
     setTimeout(() => {
       const chatBox = this.findElement("chat") as HTMLElement
       chatBox.scrollTop = chatBox.scrollHeight
     }, 0);
+
+    const inputFile = document.getElementById("file");
+    const i = document.getElementById("img") as HTMLImageElement;
+
+
+    // const data = await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0")
+    // // const result = await data.json();
+
+    // data.body
+    //   .pipeThrough(new TextDecoderStream())
+    //   .pipeTo(new WritableStream({
+    //     write(chunk, controller) {
+    //       const dados = JSON.parse(chunk);
+    //       const t = dados.data.data
+    //       const lol = Buffer.from(t)
+    //       i.src = URL.createObjectURL(new Blob([lol]))
+    //     }
+    //   }))
+
+
+
+    inputFile.addEventListener('change', function (event: any) {
+      const file = event.target.files[0];
+
+      const fileSizeInBytes = file.size;
+      const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+      console.log(`Tamanho do arquivo: ${fileSizeInMB.toFixed(2)} MB`);
+
+      const fileReader = new FileReader();
+
+      fileReader.onload = async (e) => {
+
+        const imageData = e.target.result
+        console.log(imageData);
+        // const blob = new Blob([imageData]);
+        // console.log(blob);
+        // // const t  = Buffer.from(await blob.arrayBuffer());
+        // // console.log(blob);
+        // i.src = URL.createObjectURL(blob)
+
+
+
+        // const formData = new FormData();
+        // formData.append("messageText", "ola a todos aqui sou eu de novo ola mundo");
+        // formData.append("userId", "2fc0b1a3-37be-4dd4-aed7-bcad3e89dbb2");
+        // formData.append("language", "pt-br");
+        // formData.append("messageArrayBuffer", blob, file.name);
+        // try {
+        //   await fetch("http://localhost:3000/chat/95171413-c9f0-42f9-9a83-81913a4c4dfc/message/image", {
+        //     method: "POST",
+        //     body: formData
+        //   })
+        // } catch (error) {
+        //   console.log(error);
+        // }
+
+      }
+
+      fileReader.readAsDataURL(file)
+
+    });
   }
 
-  protected closeChat(){
+  chosenFile() {
+    const inputFile = document.getElementById("file");
+    inputFile.click()
+
+  }
+
+  protected closeChat() {
     this.chatState.state.set(null)
   }
 
-  protected toogleDroptDown(el:HTMLElement){
-    if(el.style.display != "none"){
+  protected toogleDroptDown(el: HTMLElement) {
+    if (el.style.display != "none") {
       el.style.display = "none"
-    }else{
+    } else {
       el.style.display = "block"
     }
   }
 
-  teste(){
+  teste() {
     console.log("tescla enter acionada");
   }
 
@@ -97,7 +170,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     },
     {
       message: "ola tudo bem ?",
-      username: "nathalia",
+      username: "eduardo",
       sendAt: new Date()
     },
     {
@@ -107,22 +180,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     },
     {
       message: "ola tudo bem ?",
-      username: "nathalia",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "nathalia",
+      username: "eduardo",
       sendAt: new Date()
     },
     {
@@ -137,12 +195,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     },
     {
       message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "nathalia",
+      username: "eduardo",
       sendAt: new Date()
     },
     {
@@ -152,7 +205,27 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     },
     {
       message: "ola tudo bem ?",
-      username: "nathalia",
+      username: "Luiz",
+      sendAt: new Date()
+    },
+    {
+      message: "ola tudo bem ?",
+      username: "Luiz",
+      sendAt: new Date()
+    },
+    {
+      message: "ola tudo bem ?",
+      username: "eduardo",
+      sendAt: new Date()
+    },
+    {
+      message: "ola tudo bem ?",
+      username: "Luiz",
+      sendAt: new Date()
+    },
+    {
+      message: "ola tudo bem ?",
+      username: "eduardo",
       sendAt: new Date()
     },
     {

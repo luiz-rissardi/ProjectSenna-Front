@@ -18,6 +18,7 @@
                 font-family: cursive;
                 font-size: 1.2rem;
                 border: none;
+                border-radius: 0 0 20px 20px;
                 box-shadow: 5px 5px 12px #3a3a3a;
                 transition: 200ms linear;
 
@@ -49,7 +50,7 @@
 .user {
     display: flex;
     width: auto;
-    padding: 10px;
+    padding: 3px;
     background-color: $boldPurple;
     gap: 10px;
     color: $light;

@@ -2,7 +2,7 @@
 
 .chat {
     width: 100%;
-    height: 77vh;
+    height: 76vh;
     background-image: linear-gradient(to top, $boldPurple, $lightPurple);
     padding: 20px;
     overflow: hidden;
@@ -24,7 +24,7 @@
     &-user-data {
         display: flex;
         width: 100%;
-        padding: 8px;
+        padding: 1px;
         padding-inline: 50px;
         background-color: $boldPurple;
         gap: 10px;
@@ -74,19 +74,9 @@
 
     &-button {
 
-        &-emogi {
+        &-emogi, &-mic {
             width: 60px;
             height: 60px;
-            color: $white;
-            background-color: transparent;
-            margin: auto;
-            border: none;
-        }
-
-        &-mic {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
             color: $white;
             background-color: transparent;
             margin: auto;
@@ -111,8 +101,8 @@
 .invert{
     transform: rotate(180deg);
     display: block;
-    margin: unset;
-    font-size: 1.3rem;
+    margin: inherit !important;
+    font-size: 1.5rem;
 
     @include breakPoint(notebook-up){
         display: none;

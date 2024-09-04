@@ -1,4 +1,4 @@
-import { ButtonStyleDirective } from './button-style.directive';
+import { ButtonStyleDirective } from "./button-style.directive";
 
 describe('ButtonStyleDirective', () => {
   it('should create an instance', () => {

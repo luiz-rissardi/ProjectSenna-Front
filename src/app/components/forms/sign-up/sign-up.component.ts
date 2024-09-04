@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { fromEvent, map } from "rxjs"
-import { ButtonStyleDirective } from '../../../directives/button-style.directive';
+import { ButtonStyleDirective } from '../../../directives/buttonStyle/button-style.directive';
 
 @Component({
   selector: 'app-sign-up',
