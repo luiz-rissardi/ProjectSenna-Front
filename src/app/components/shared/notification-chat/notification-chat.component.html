@@ -1,4 +1,4 @@
 <article #notification class="notification" (click)="openChat(notification)">
-    <button-icon [alt]="'user photo' + this.userName()" [image]="this.userPhoto()" ></button-icon>
+    <button-icon [alt]="'user photo' + this.userName()" [image]="this.userPhoto()" [execute]="this.openUserDetail" ></button-icon>
     <p class="mt-3"> {{this.userName() }} </p>
 </article>

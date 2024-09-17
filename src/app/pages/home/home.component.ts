@@ -1,12 +1,13 @@
-import { Component, inject,computed,signal,effect } from '@angular/core';
+import { Component, inject,effect } from '@angular/core';
 import { ChatDataComponent } from '../../components/chat-data/chat-data.component';
 import { ChatComponent } from '../../components/shared/chat/chat.component';
-import { ChatStatesService } from '../../core/states/chat-states.service';
+import { ChatStatesService } from '../../core/states/chat/chat-states.service';
+import { UserDetailComponent } from "../../components/user-detail/user-detail.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ChatDataComponent,ChatComponent],
+  imports: [ChatDataComponent, ChatComponent, UserDetailComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

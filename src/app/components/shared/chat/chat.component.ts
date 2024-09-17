@@ -2,8 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { RouterLink } from '@angular/router';
-import { ChatStatesService } from '../../../core/states/chat-states.service';
+import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 
 @Component({

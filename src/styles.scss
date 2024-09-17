@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 // color of the project
-$boldPurple:#330066;
-$middlePurple:#4402ba;
-$lightPurple:#7b15e1;
+$boldPurple:rgb(0 0 0 / 79%);
+$middlePurple:#202020;
+$lightPurple:#2B2B2B;
 
 $boldGreen:#008900;
 $middleGreen:#0eaf0a;
@@ -49,3 +49,9 @@ $warning:rgb(255, 165, 0);
 
 /* Importing Bootstrap SCSS file. */
 
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

@@ -13,35 +13,35 @@ export class ConversartionsComponent {
   protected users = [
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
     {
       userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
+      photo: "../../../assets/fabio.png",
     },
   ]
 }

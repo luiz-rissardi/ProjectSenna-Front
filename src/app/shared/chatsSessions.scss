@@ -2,23 +2,15 @@
 
 .search-icon {
     position: absolute;
-    left: 15%;
     bottom: 23%;
+    display: flex;
     color: $lightDark;
+    right: 81%;
+    top: 30%;
 
     @include breakPoint(tablet-up) {
         left: 9%;
-        bottom: 30%;
-    }
-
-    @include breakPoint(mobile-only) {
-        left: 18%;
-        bottom: 20%;
-    }
-    
-    @include breakPoint(desktop-up) {
-        left: 12%;
-        bottom: 25%;
+        top: 40%;
     }
 }
 

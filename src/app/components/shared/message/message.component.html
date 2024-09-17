@@ -1,7 +1,9 @@
-
-<article [className]="this.isYourMessage()?'message-card me':'message-card'">
-    @if(this.isGroup() == true){
+<div class="position-relative">
+    <div [className]="this.isYourMessage()?'setLeft setLeft-me':'setLeft'"></div>
+    <article [className]="this.isYourMessage()?'message-card me':'message-card'">
+        @if(this.isGroup() == true){
         <span class="message-sender"> {{ userName() }} </span>
-    }
-    <p class="message-text"> {{ message() }} </p>
-</article>
+        }
+        <p class="message-text"> {{ message() }} </p>
+    </article>
+</div>

@@ -1,0 +1,10 @@
+
+@if(this.userDetailSignal()?.show ){
+    <section class="user-detail-box">
+        <img class="user-detail-photo" [src]="this.userDetailSignal().data.photo" alt="user image">
+        <h3> {{ this.userDetailSignal().data.userName }} </h3>
+    
+        <p> {{ this.userDetailSignal().data.description }} </p>
+    </section>
+
+}

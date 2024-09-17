@@ -3,11 +3,12 @@
 .message {
     &-card {
         width: 100%;
-        max-width: 350px;
+        max-width: 300px;
         background-color: $white;
         height: auto;
         margin-top: 10px;
-        border-radius: 0 20px 20px 20px;
+        margin-left: 10px;
+        border-radius: 0 5px 5px 5px;
         padding: 10px;
         font-family: monospace;
 
@@ -32,19 +33,10 @@
 
 .me {
     background-color: $dark;
-    border-radius: 20px 0px 20px 20px !important;
-    
-    @include breakPoint(mobile-only){
-        margin-left: 40%;
-    }
-
-    @include breakPoint(tablet-up){
-        margin-left: 56%;
-    }
-
-    @include breakPoint(notebook-up){
-        margin-left: 73%;
-    }
+    margin-left: 50px;
+    border-radius: 5px 0px 5px 5px !important;
+    margin-left: auto;
+    margin-right: 3%;
 
     p {
         color: $white ;
@@ -52,5 +44,22 @@
 
     span{
         color: $lightGreen;
+    }
+}
+
+
+.setLeft {
+    width: 0;
+    height: 0;
+    rotate: 270deg;
+    border-left: 15px solid transparent;
+    border-bottom: 15px solid $white;
+    position:absolute;
+    /* Cor e tamanho do triângulo */
+
+    &-me{
+        border-bottom: 15px solid $dark;
+        left: 96.5%;
+        rotate: 180deg;
     }
 }
