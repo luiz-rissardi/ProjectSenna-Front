@@ -1,49 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 
 // color of the project
-$boldPurple:rgb(0 0 0 / 79%);
-$middlePurple:#202020;
-$lightPurple:#2B2B2B;
+$blackCarbon: rgb(0 0 0 / 79%);
+$blackCarbonFosco: #202020;
+$lightblackCarbon: #5c5c5c;
 
-$boldGreen:#008900;
-$middleGreen:#0eaf0a;
-$lightGreen:#1cd514;
+$boldGreen: #008900;
+$middleGreen: #0eaf0a;
+$lightGreen: #1cd514;
 
-$boldRed:#990004;
-$middleRed:#d90110;
+$boldRed: #990004;
+$middleRed: #d90110;
 
 // neutral colors
-$white:#ffffff;
-$light:rgb(222, 214, 214);
-$lightDark:#6b6d6f;
-$dark:#343a40;
-$boldDark:#191c1ffb;
+$white: #ffffff;
+$light: rgb(222, 214, 214);
+$lightDark: #6b6d6f;
+$dark: #343a40;
+$boldDark: #191c1ffb;
 
 // functions colors example (warning)
-$warning:rgb(255, 165, 0);
+$warning: rgb(255, 165, 0);
 
 // breakpoints 
 
-@mixin breakPoint($point){
-    @if($point == mobile-only){
+@mixin breakPoint($point) {
+    @if($point ==mobile-only) {
         @media screen and (max-width:600px) {
-           @content; 
+            @content;
         }
     }
-    @else if($point == tablet-up){
+
+    @else if($point ==tablet-up) {
         @media screen and (min-width:601px) and (max-width:999px) {
-            @content; 
-         }
+            @content;
+        }
     }
-    @else if($point == notebook-up){
+
+    @else if($point ==notebook-up) {
         @media screen and (min-width:1000px) {
-            @content; 
-         }
+            @content;
+        }
     }
-    @else if($point == desktop-up){
+
+    @else if($point ==desktop-up) {
         @media screen and (min-width:1200px) {
-            @content; 
-         }
+            @content;
+        }
     }
 }
 

@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthComponent } from './pages/auth/auth.component';
-import { SignInComponent } from './components/forms/sign-in/sign-in.component';
-import { SignUpComponent } from './components/forms/sign-up/sign-up.component';
-import { RecoverPasswordComponent } from './components/forms/recover-password/recover-password.component';
+import { SignInComponent } from './components/shared/forms/sign-in/sign-in.component';
+import { SignUpComponent } from './components/shared/forms/sign-up/sign-up.component';
+import { RecoverPasswordComponent } from './components/shared/forms/recover-password/recover-password.component';
 import { ConversartionsComponent } from './components/conversartions/conversartions.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { ForumsComponent } from './components/forums/forums.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 
 
@@ -39,10 +38,6 @@ export const routes: Routes = [
             {
                 path: "group",
                 component:GroupsComponent
-            },
-            {
-                path: "forum",
-                component:ForumsComponent
             },
             {
                 path: "contact",

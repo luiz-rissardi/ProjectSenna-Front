@@ -4,6 +4,7 @@ import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
+import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
 
 @Component({
   selector: 'chat',
@@ -15,12 +16,21 @@ import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.
 export class ChatComponent extends DOMManipulation implements OnInit {
 
   private chatState = inject(ChatStatesService);
+  private userDetailState: UserDetailState = inject(UserDetailState);
+
+  protected openUserDetail = ()=> {
+    console.log("object");
+    this.userDetailState.userDetailSignal.set({
+      show:true,
+      data:{
+        userName:"fabio",
+        description:"uma breve descrição",
+        photo:"https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n"
+      }
+    })
+  }
 
   async ngOnInit() {
-
-
-    // console.log(new TextDecoder().decode(t.data));
-
     setTimeout(() => {
       const chatBox = this.findElement("chat") as HTMLElement
       chatBox.scrollTop = chatBox.scrollHeight

@@ -1,5 +1,5 @@
 import { Component, TemplateRef, inject } from '@angular/core';
-import { ButtonStyleDirective } from '../../../directives/buttonStyle/button-style.directive';
+import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

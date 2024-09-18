@@ -2,21 +2,25 @@
 
 .chat {
     width: 100%;
-    height: 78vh;
-    background-image: linear-gradient(to top, $boldPurple, $lightPurple);
+    height: 79vh;
+    background-image: linear-gradient(to top, $blackCarbon, $lightblackCarbon);
     padding: 20px;
     overflow: hidden;
     overflow-y: auto;
-    border: 5px solid $boldPurple;
+    border: 5px solid $blackCarbon;
     display: flex;
     flex-direction: column;
     background-image: url("../../../../assets/wall.jpg");
 
+    @include breakPoint(notebook-up){
+        height: 75vh;
+    }
+
 
     &::-webkit-scrollbar {
-        background-color: $boldPurple;
+        background-color: $blackCarbon;
         padding: 20px;
-        width: 5px;
+        width: 3px;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -26,9 +30,9 @@
     &-user-data {
         display: flex;
         width: 100%;
-        padding: 1px;
+        padding: 3px;
         padding-inline: 50px;
-        background-color: $boldPurple;
+        background-color: $blackCarbon;
         gap: 10px;
         color: $light;
         font-weight: 600;
@@ -52,7 +56,7 @@
         height: 13vh;
         display: flex;
         color: $boldDark;
-        background-color: $middlePurple;
+        background-color: $blackCarbonFosco;
 
         @include breakPoint(mobile-only) {
             height: 11vh;
@@ -61,11 +65,11 @@
 
     &-input {
         width: 80% !important;
-        height: 8vh;
+        height: 6vh;
         margin: auto;
         margin-inline: 1%;
         padding-inline: 2%;
-        border-radius: 40px;
+        border-radius: 10px;
         border: none;
         background-color: $light;
         outline: none;

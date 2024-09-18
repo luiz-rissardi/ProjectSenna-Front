@@ -33,7 +33,11 @@ export class NotificationChatComponent extends DOMManipulation {
     })
   }
 
-  openChat(el: HTMLElement) {
+  protected stopPropagation(event: Event){
+    event.stopPropagation();
+  }
+
+  protected openChat(el: HTMLElement) {
     this.isSetted = true
     this.chatState.setState(this.chatId())
     this.addClassToElement(el, "active")

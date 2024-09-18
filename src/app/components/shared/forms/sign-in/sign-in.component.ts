@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ButtonIconComponent } from '../../shared/button-icon/button-icon.component';
+import { ButtonIconComponent } from '../../button-icon/button-icon.component';
 import { RouterLink } from '@angular/router';
-import { ButtonStyleDirective } from '../../../directives/buttonStyle/button-style.directive';
+import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ButtonIconComponent,RouterLink,ButtonStyleDirective],
+  imports: [ButtonIconComponent, RouterLink, ButtonStyleDirective],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })

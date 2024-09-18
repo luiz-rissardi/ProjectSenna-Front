@@ -1,40 +1,6 @@
 @import "../../../styles.scss";
 
 .data {
-    &-area {
-        &-session {
-            background-color: $white;
-            display: flex;
-            justify-content: space-between;
-
-            .session {
-                width: 100%;
-                height: 10vh;
-                background-color: $boldDark;
-                color: $white;
-                display: flex;
-                font-family: cursive;
-                font-size: 1.2rem;
-                border: none;
-                border-left:1px solid $light;
-                transition: 200ms linear;
-
-                &:nth-child(1){
-                    border: none;
-                    // border-left: 1px solid $light;
-                }
-
-                &:hover {
-                    cursor: pointer;
-                    transition: 200ms linear;
-                    color: $light;
-                    background-color: $dark;
-                }
-            }
-        }
-    }
-
-
     &-chats {
         width: 100%;
         height: 85vh;

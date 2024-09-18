@@ -5,21 +5,48 @@
         width: 30%;
         position: absolute;
         height: 100vh;
-        left: 70%; /* Inicialmente à esquerda fora da tela */
-        background-color: rgba($dark, 0.8); /* Use rgba para definir transparência */
+        left: 70%;
+        /* Inicialmente à esquerda fora da tela */
+        background-color: $dark;
+        /* Use rgba para definir transparência */
         z-index: 100;
         display: flex;
         align-items: center;
-        padding: 20px;
+        padding-top: 20px;
         flex-direction: column;
-        animation: toRight 1s ease-in-out; /* Defina a duração e o tipo da animação */
-
-        h3, p{
+        animation: toLeft 200ms ease-in-out;
+        h3,
+        p {
             color: $white;
+        }
+
+        @include breakPoint(mobile-only) {
+            width: 100%;
+            animation: toLeftMobile 200ms ease-in-out;
+            left: 0%;
         }
     }
 
-    &-photo{
+    &-section{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-inline: auto;
+        background-color: $blackCarbonFosco;
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    &-hidden {
+        animation: toRight 200ms ease-in-out;
+        
+        @include breakPoint(mobile-only){
+            animation: toRightMobile 200ms ease-in-out;
+        }
+    }
+
+    &-photo {
         width: 200px;
         height: 200px;
         border-radius: 50%;
@@ -27,11 +54,68 @@
     }
 }
 
+.btn-back {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    margin-bottom: 20px;
+    margin-inline-end: auto;
+    margin-left: 20px;
+    color: $white;
+    font-size: 1.5rem;
+    font-weight: 900;
+    background-color: $blackCarbonFosco;
+    transition: 300ms ease-in;
+
+    &:hover{
+        color: $lightblackCarbon;
+        background-color: $white;
+        transition: 300ms ease-in;
+    }
+}
+
 @keyframes toRight {
+    0% {
+        left: 70% !important;
+    }
+
+    100% {
+        left: 100%;
+        /* Ajuste para a posição final desejada */
+    }
+}
+
+@keyframes toLeft {
     0% {
         left: 100%;
     }
+
     100% {
-        left: 70%; /* Ajuste para a posição final desejada */
+        left: 70% !important;
+        /* Ajuste para a posição final desejada */
+    }
+}
+
+
+@keyframes toRightMobile {
+    0% {
+        left: 0% !important;
+    }
+
+    100% {
+        left: 100%;
+        /* Ajuste para a posição final desejada */
+    }
+}
+
+@keyframes toLeftMobile {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 0% !important;
+        /* Ajuste para a posição final desejada */
     }
 }
