@@ -2,6 +2,43 @@
 
 <section class="container-fluid p-0">
     <div class="edit-photo d-flex">
-    
+        <button ButtonIcon class="m-auto">
+            <img alt="user photo" src="../../../../../assets/fabio.png">
+        </button>
     </div>
+
+    <form class="d-flex flex-column mt-5 p-3 pt-5">
+        <fieldset class="form-group m-auto w-100">
+            <label for="userName" class="label"> User name: </label>
+            <input type="text" class="control" id="userName" placeholder=" change your user name">
+            <div class="line"></div>
+        </fieldset>
+        <fieldset class="form-group m-auto w-100">
+            <label for="userDescription" class="label"> User description: </label>
+            <input type="text" class="control" id="userDescription" placeholder=" change your user description">
+            <div class="line"></div>
+        </fieldset>
+        <fieldset class="form-group m-auto w-100">
+            <label for="userEmail" class="label"> Email: </label>
+            <input type="text" class="control" id="userEmail" placeholder=" change your email account">
+            <div class="line"></div>
+        </fieldset>
+        <fieldset class="form-group m-auto w-100">
+            <label for="userPassword" class="label"> password: </label>
+            <input type="password" class="control" id="userPassword" placeholder=" change your password">
+            <div class="line"></div>
+        </fieldset>
+        <fieldset class="form-group m-auto mt-3">
+            <label for="userlanguage" class="label"> language: </label>
+            <select class="control" id="userlanguage" placeholder="change language of system" size="1">
+                <option value="pt-br"> portuguese (Brasil)</option>
+                <option value="en"> English </option>
+                <option value="deutch"> German </option>
+                <option value="spa"> Spanish </option>
+            </select>
+            <div class="line"></div>
+        </fieldset>
+
+        <button type="button" buttonStyle> Saved </button>
+    </form>
 </section>

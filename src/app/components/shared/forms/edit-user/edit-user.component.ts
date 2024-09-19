@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ButtonIconComponent } from '../../button-icon/button-icon.component';
+import { ButtonIconDirective } from '../../../../directives/buttonIcon/button-icon.directive';
+import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [ButtonIconComponent],
+  imports: [ButtonIconDirective,ButtonStyleDirective],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss'
 })
