@@ -11,10 +11,12 @@
             <i class="fi fi-rr-user-add m-auto"></i>
         </button>
 
-        <div class="mt-auto" style="margin-bottom:2rem">
+        <div class="mt-auto d-flex flex-column align-items-center" style="margin-bottom:4rem">
             <button (click)="this.selectSection($event)" class="session" [routerLink]="'/home/configuration'" placement="right" ngbTooltip="configuração">
                 <i class="fi fi-rs-settings m-auto"></i>
             </button>
+
+            <button-icon alt="user photo" image="../../../../../assets/fabio.png" [routerLink]="'/home/edit-user'" ></button-icon>
         </div>
     </section>
 </div>
