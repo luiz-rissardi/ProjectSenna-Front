@@ -5,11 +5,11 @@
     bottom: 23%;
     display: flex;
     color: $lightDark;
-    right: 81%;
+    right: 87%;
     top: 30%;
 
     @include breakPoint(tablet-up) {
-        left: 9%;
+        left: 4%;
         top: 40%;
     }
 }
@@ -17,10 +17,11 @@
 .control-search {
     width: 100%;
     height: 6vh;
+    background-color: $light;
     border-radius: 20px;
     outline: none;
     border: none;
-    padding-inline: 50px;
+    padding-inline-start: 40px;
     position: relative;
 }
 

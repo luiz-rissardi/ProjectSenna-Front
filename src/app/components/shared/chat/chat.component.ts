@@ -19,7 +19,6 @@ export class ChatComponent extends DOMManipulation implements OnInit {
   private userDetailState: UserDetailState = inject(UserDetailState);
 
   protected openUserDetail = ()=> {
-    console.log("object");
     this.userDetailState.userDetailSignal.set({
       show:true,
       data:{

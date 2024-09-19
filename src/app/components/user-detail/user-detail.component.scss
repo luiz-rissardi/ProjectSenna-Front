@@ -6,9 +6,7 @@
         position: absolute;
         height: 100vh;
         left: 70%;
-        /* Inicialmente à esquerda fora da tela */
-        background-color: $dark;
-        /* Use rgba para definir transparência */
+        background-color: rgb($dark,0.7);
         z-index: 100;
         display: flex;
         align-items: center;
@@ -65,14 +63,8 @@
     color: $white;
     font-size: 1.5rem;
     font-weight: 900;
-    background-color: $blackCarbonFosco;
+    background-color: transparent;
     transition: 300ms ease-in;
-
-    &:hover{
-        color: $lightblackCarbon;
-        background-color: $white;
-        transition: 300ms ease-in;
-    }
 }
 
 @keyframes toRight {

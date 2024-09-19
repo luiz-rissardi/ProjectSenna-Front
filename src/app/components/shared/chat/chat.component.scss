@@ -2,7 +2,7 @@
 
 .chat {
     width: 100%;
-    height: 79vh;
+    height: 80vh;
     background-image: linear-gradient(to top, $blackCarbon, $lightblackCarbon);
     padding: 20px;
     overflow: hidden;
@@ -13,7 +13,7 @@
     background-image: url("../../../../assets/wall.jpg");
 
     @include breakPoint(notebook-up){
-        height: 75vh;
+        height: 78vh;
     }
 
 
@@ -53,7 +53,7 @@
 
     &-sender {
         width: 100%;
-        height: 13vh;
+        height: 10vh;
         display: flex;
         color: $boldDark;
         background-color: $blackCarbonFosco;
@@ -65,7 +65,7 @@
 
     &-input {
         width: 80% !important;
-        height: 6vh;
+        height: 5vh;
         margin: auto;
         margin-inline: 1%;
         padding-inline: 2%;

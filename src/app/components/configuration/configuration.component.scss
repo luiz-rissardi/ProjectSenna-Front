@@ -1,0 +1,30 @@
+@import "../../../styles.scss";
+
+
+h1 {
+    font-size: 2rem;
+}
+
+.btn {
+    background-color: $white;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 20px;
+
+    i{
+        font-size: 2rem;
+    }
+
+    &:hover{
+        background-color: $light;
+    }
+}
+
+.image-perfil{
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}

@@ -34,4 +34,8 @@ export class DOMManipulation {
         return this.dom.createElement(tag)
     }
 
+    protected getElementsByClass(className: string) {
+        return this.el.nativeElement.querySelectorAll(`.${className}`)
+    }
+
 }

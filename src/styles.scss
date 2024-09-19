@@ -14,7 +14,7 @@ $middleRed: #d90110;
 
 // neutral colors
 $white: #ffffff;
-$light: rgb(222, 214, 214);
+$light: rgb(235, 235, 235);
 $lightDark: #6b6d6f;
 $dark: #343a40;
 $boldDark: #191c1ffb;
@@ -25,25 +25,25 @@ $warning: rgb(255, 165, 0);
 // breakpoints 
 
 @mixin breakPoint($point) {
-    @if($point ==mobile-only) {
+    @if($point == mobile-only) {
         @media screen and (max-width:600px) {
             @content;
         }
     }
 
-    @else if($point ==tablet-up) {
+    @else if($point == tablet-up) {
         @media screen and (min-width:601px) and (max-width:999px) {
             @content;
         }
     }
 
-    @else if($point ==notebook-up) {
+    @else if($point == notebook-up) {
         @media screen and (min-width:1000px) {
             @content;
         }
     }
 
-    @else if($point ==desktop-up) {
+    @else if($point == desktop-up) {
         @media screen and (min-width:1200px) {
             @content;
         }

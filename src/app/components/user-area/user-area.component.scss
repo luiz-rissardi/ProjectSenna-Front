@@ -3,36 +3,14 @@
 .data {
     &-area {
         &-session {
-            background-color: rgba(221, 221, 221);
+            background-color: #a5d3fb;
             width: 60px;
             height: 100vh;
             display: flex;
+            align-items: center;
             flex-direction: column;
-
-            .session {
-                width: 90%;
-                height: 8vh;
-                background-color: $white;
-                border-radius: 10px;
-                margin: 5%;
-                color: $blackCarbon;
-                display: flex;
-                font-family: cursive;
-                font-size: 1.2rem;
-                border: none;
-                display: flex;
-                transition: 200ms linear;
-
-                &:hover {
-                    cursor: pointer;
-                    transition: 200ms linear;
-                    color: $light;
-                    background-color: $dark;
-                }
-            }
         }
     }
-
 
     &-chats {
         width: 100%;
@@ -41,17 +19,54 @@
     }
 }
 
+.session {
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    margin: 5%;
+    display: flex;
+    font-family: cursive;
+    border: none;
+    display: flex;
+    transition: 200ms linear;
+
+    i {
+        color: $blackCarbon;
+        font-size: 1.5rem;
+        margin: auto;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transition: 200ms linear;
+
+        i {
+            color: $lightblackCarbon;
+        }
+    }
+}
+
+.active {
+    background-color: $white;
+
+    i {
+        color: $lightblackCarbon;
+    }
+}
+
 .user {
     display: flex;
     width: auto;
     padding: 3px;
-    background-color: rgb(0 0 0 / 79%);;
+    background-color: rgb(0 0 0 / 79%);
+    ;
     gap: 10px;
     color: $light;
     font-weight: 600;
     align-items: center;
 
-    p{
+    p {
         font-size: 1.3rem;
     }
 }

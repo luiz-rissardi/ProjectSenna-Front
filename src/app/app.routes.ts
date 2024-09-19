@@ -6,6 +6,8 @@ import { RecoverPasswordComponent } from './components/shared/forms/recover-pass
 import { ConversartionsComponent } from './components/conversartions/conversartions.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { EditUserComponent } from './components/shared/forms/edit-user/edit-user.component';
 
 
 export const routes: Routes = [
@@ -43,6 +45,14 @@ export const routes: Routes = [
                 path: "contact",
                 component:ContactsComponent
             },
+            {
+                path: "configuration",
+                loadComponent: () => import("./components/configuration/configuration.component").then(c => c.ConfigurationComponent),
+            },
+            {
+                path:"edit-user",
+                component:EditUserComponent
+            }
         ]
     }
 ];

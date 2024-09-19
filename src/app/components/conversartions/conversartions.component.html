@@ -1,11 +1,12 @@
+<h1 class="ms-3">Conversations</h1>
 <form>
-    <fieldset class="form-group m-auto w-100 my-3 px-5 position-relative">
+    <fieldset class="form-group m-auto w-100 my-3 px-3 position-relative">
         <input type="text" class="control-search" id="userName" placeholder="Search conversation">
         <i class="fi fi-rr-search search-icon"></i>
     </fieldset>
 </form>
 <section class="data-chats-notifications">
     @for (item of this.users; track $index) {
-        <notification-chat [userName]="item.userName" [userPhoto]="item.photo"></notification-chat>
+    <notification-chat [userName]="item.userName" [userPhoto]="item.photo"></notification-chat>
     }
 </section>
