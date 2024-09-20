@@ -28,3 +28,15 @@ h1 {
         background-color: $light;
     }
 }
+
+.warning{
+    width: 75%;
+    margin: auto;
+    padding: 10px;
+    display: flex;
+    border: none;
+    border-radius: 20px;
+    color: $white;
+    justify-content: center;
+    background-color: $middleRed;
+}

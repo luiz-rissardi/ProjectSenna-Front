@@ -7,8 +7,20 @@
 
 
 <section class="container-fluid p-0 d-flex flex-column ">
-    <button class="btn">
+    <button class="btn" (click)="this.openModal(content)">
         <i class="fi fi-rr-exclamation mt-2 mx-3 text-danger"></i>
         <p class="my-auto text-danger"> Desative account </p>
     </button>
 </section>
+
+
+<ng-template #content let-modal>
+    <div class="modal-body mt-5">
+        <form>
+            <div class="mb-3 d-flex flex-column">
+                <p class="text-center text-secondary"> Please note, if you deactivate your account, it will never be accessible again, and the email linked to it will also be deleted. </p>
+                <button type="button" class="warning" (click)="modal.close()"> confirm </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
