@@ -58,3 +58,13 @@ $warning: rgb(255, 165, 0);
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.back {
+    display: block;
+    margin: inherit !important;
+    font-size: 1.5rem;
+
+    @include breakPoint(notebook-up) {
+        display: none;
+    }
+}

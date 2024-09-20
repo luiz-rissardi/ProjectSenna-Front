@@ -8,6 +8,9 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { EditUserComponent } from './components/shared/forms/edit-user/edit-user.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { EditPrivacyDataComponent } from './components/shared/forms/edit-privacy-data/edit-privacy-data.component';
+import { AccountComponent } from './components/account/account.component';
 
 
 export const routes: Routes = [
@@ -52,6 +55,18 @@ export const routes: Routes = [
             {
                 path:"edit-user",
                 component:EditUserComponent
+            },
+            {
+                path:"privacy",
+                component:  PrivacyComponent,
+            },
+            {
+                path:"edit-privacy",
+                component:EditPrivacyDataComponent
+            },
+            {
+                path:"account",
+                component:AccountComponent
             }
         ]
     }

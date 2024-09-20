@@ -1,0 +1,25 @@
+<div class="d-flex">
+    <button ButtonIcon class="back" [routerLink]="'/home/configuration'">
+        ←
+    </button>
+    <h1 class="ms-3"> Privacy </h1>
+</div>
+
+<section class="container-fluid p-0 d-flex flex-column ">
+    <button class="btn" [routerLink]="'/home/edit-privacy'">
+        <i class="fi fi-rr-key mt-2 mx-3"></i>
+        <p class="my-auto"> change privacy data </p>
+    </button>
+
+    <fieldset class="form-group px-4">
+        <label class="custom-checkbox">
+            <input type="checkbox" id="markRead" (click)="changeMarkReadConfirmation()">
+            <span class="checkmark mt-1"></span>
+            <label for="markRead" class="ms-3"> confirmed read messages </label>
+            <p class="m-3" style="font-size: 12px;"> 
+                If you check not to confirm read, people won't know that
+                you've read their messages, but you
+                won't know that they've read your messages either. </p>
+        </label>
+    </fieldset>
+</section>

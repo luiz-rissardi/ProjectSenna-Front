@@ -1,0 +1,89 @@
+@import "../../../styles.scss";
+
+h1 {
+    font-size: 2rem;
+}
+
+.back {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    color: $dark !important;
+}
+
+.btn {
+    background-color: $white;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 20px;
+
+    i {
+        font-size: 2rem;
+    }
+
+    &:hover {
+        background-color: $light;
+    }
+}
+
+/* Oculta o checkbox padrão */
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Estilo do "checkmark" */
+.custom-checkbox .checkmark {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background-color: #a5d3fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    /* Canto arredondado */
+    display: inline-block;
+}
+
+/* Quando o checkbox é marcado */
+.custom-checkbox input:checked+.checkmark {
+    margin: auto;
+    background-color: #4caf50;
+    /* Cor de fundo quando marcado */
+}
+
+/* Adiciona um "check" visual quando o checkbox é marcado */
+.custom-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked+.checkmark:after {
+    display: block;
+}
+
+/* Estilo do "check" */
+.custom-checkbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+
+p {
+    @include breakPoint(tablet-up) {
+        font-size: 1.2rem !important;
+    }
+}

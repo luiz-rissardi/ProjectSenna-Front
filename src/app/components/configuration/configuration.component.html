@@ -1,6 +1,6 @@
 <h1 class="ms-3">Configurations</h1>
 
-<section class="configuration">
+<section class="container-fluid p-0">
     <button class="btn" [routerLink]="'/home/edit-user'">
         <img class="image-perfil" src="../assets/icons/do-utilizador.png" alt="user name">
         <div class="ms-3 d-flex flex-column text-start">
@@ -9,12 +9,12 @@
         </div>
     </button>
     <hr>
-    <button class="btn">
+    <button class="btn" [routerLink]="'/home/account'">
         <i class="fi fi-rs-circle-user mt-2 mx-3"></i>
         <p class="my-auto"> Account </p>
     </button>
-    <button class="btn">
-        <i class="fi fi-rr-lock mt-2 mx-3"></i>
+    <button class="btn" [routerLink]="'/home/privacy'">
+        <i class="fi fi-rr-lock mt-2 mx-3" ></i>
         <p class="my-auto"> Privacy </p>
     </button>
     <button class="btn">

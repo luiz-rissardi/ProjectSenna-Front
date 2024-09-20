@@ -105,15 +105,6 @@
     }
 }
 
-.back {
-    display: block;
-    margin: inherit !important;
-    font-size: 1.5rem;
-
-    @include breakPoint(notebook-up) {
-        display: none;
-    }
-}
 
 .dropdown {
     width: 180px;

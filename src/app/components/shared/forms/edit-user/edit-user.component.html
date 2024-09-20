@@ -1,4 +1,9 @@
-<h1 class="ms-3">Configurations</h1>
+<div class="d-flex">
+    <button ButtonIcon class="back" [routerLink]="'/home/configuration'">
+        ←
+    </button>
+    <h1 class="ms-3"> Perfil </h1>
+</div>
 
 <section class="container-fluid p-0">
     <div class="edit-photo d-flex">
@@ -18,16 +23,7 @@
             <input type="text" class="control" id="userDescription" placeholder=" change your user description">
             <div class="line"></div>
         </fieldset>
-        <fieldset class="form-group m-auto w-100">
-            <label for="userEmail" class="label"> Email: </label>
-            <input type="text" class="control" id="userEmail" placeholder=" change your email account">
-            <div class="line"></div>
-        </fieldset>
-        <fieldset class="form-group m-auto w-100">
-            <label for="userPassword" class="label"> password: </label>
-            <input type="password" class="control" id="userPassword" placeholder=" change your password">
-            <div class="line"></div>
-        </fieldset>
+
         <fieldset class="form-group m-auto mt-3">
             <label for="userlanguage" class="label"> language: </label>
             <select class="control" id="userlanguage" placeholder="change language of system" size="1">
@@ -39,6 +35,6 @@
             <div class="line"></div>
         </fieldset>
 
-        <button type="button" buttonStyle> Saved </button>
+        <button type="button" class="mt-3" buttonStyle> Save </button>
     </form>
 </section>

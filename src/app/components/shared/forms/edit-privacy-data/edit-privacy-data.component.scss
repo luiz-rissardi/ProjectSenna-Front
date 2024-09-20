@@ -1,0 +1,13 @@
+@import "../../../../../styles.scss";
+@import "../../../../shared/forms.scss";
+
+h1 {
+    font-size: 2rem;
+}
+
+.back{
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    color: $dark !important;
+}
