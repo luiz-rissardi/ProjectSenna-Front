@@ -3,7 +3,7 @@
     [classList]="this.userDetailSignal()?.data == undefined?'user-detail-box user-detail-hidden':'user-detail-box'">
     <button class="btn-back" (click)="this.closeDetails()"> → </button>
     <article class="user-detail-section">
-        <img class="user-detail-photo" [src]="this.userDetailSignal().data.photo" alt="user image">
+        <img loading="lazy" class="user-detail-photo" [src]="this.userDetailSignal().data.photo" alt="user image">
         <h3> {{ this.userDetailSignal().data.userName }} </h3>
     </article>
     <article class="user-detail-section">

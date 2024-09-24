@@ -38,35 +38,35 @@ export const routes: Routes = [
         children: [
             {
                 path: "conversation",
-                component:ConversartionsComponent
+                loadComponent: () => import('./components/conversartions/conversartions.component').then(c => c.ConversartionsComponent)
             },
             {
                 path: "group",
-                component:GroupsComponent
+                loadComponent: () => import('./components/groups/groups.component').then(c => c.GroupsComponent)
             },
             {
                 path: "contact",
-                component:ContactsComponent
+                loadComponent: () => import('./components/contacts/contacts.component').then(c => c.ContactsComponent)
             },
             {
                 path: "configuration",
-                loadComponent: () => import("./components/configuration/configuration.component").then(c => c.ConfigurationComponent),
+                loadComponent: () => import('./components/configuration/configuration.component').then(c => c.ConfigurationComponent)
             },
             {
-                path:"edit-user",
-                component:EditUserComponent
+                path: "edit-user",
+                loadComponent: () => import('./components/shared/forms/edit-user/edit-user.component').then(c => c.EditUserComponent)
             },
             {
-                path:"privacy",
-                component:  PrivacyComponent,
+                path: "privacy",
+                loadComponent: () => import('./components/privacy/privacy.component').then(c => c.PrivacyComponent)
             },
             {
-                path:"edit-privacy",
-                component:EditPrivacyDataComponent
+                path: "edit-privacy",
+                loadComponent: () => import('./components/shared/forms/edit-privacy-data/edit-privacy-data.component').then(c => c.EditPrivacyDataComponent)
             },
             {
-                path:"account",
-                component:AccountComponent
+                path: "account",
+                loadComponent: () => import('./components/account/account.component').then(c => c.AccountComponent)
             }
         ]
     }

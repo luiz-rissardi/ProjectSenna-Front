@@ -1,4 +1,4 @@
-import { Component, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, WritableSignal } from '@angular/core';
 import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 
@@ -7,7 +7,8 @@ import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.
   standalone: true,
   imports: [ ButtonStyleDirective ],
   templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.scss'
+  styleUrl: './user-detail.component.scss',
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class UserDetailComponent {
 

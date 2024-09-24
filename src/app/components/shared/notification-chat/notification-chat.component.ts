@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, effect, inject, input } from '@angular/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
 import { DOMManipulation } from '../../../shared/DomManipulation';
@@ -10,7 +10,8 @@ import { UserDetailState } from '../../../core/states/userDetail/user-detail.ser
   standalone: true,
   imports: [ButtonIconComponent],
   templateUrl: './notification-chat.component.html',
-  styleUrl: './notification-chat.component.scss'
+  styleUrl: './notification-chat.component.scss',
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class NotificationChatComponent extends DOMManipulation {
 
