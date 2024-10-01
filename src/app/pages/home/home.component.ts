@@ -3,11 +3,12 @@ import { ChatDataComponent } from '../../components/chat-data/chat-data.componen
 import { ChatComponent } from '../../components/shared/chat/chat.component';
 import { ChatStatesService } from '../../core/states/chat/chat-states.service';
 import { UserDetailComponent } from "../../components/user-detail/user-detail.component";
+import { WarnigComponent } from "../../components/shared/warnig/warnig.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ChatDataComponent, ChatComponent, UserDetailComponent],
+  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

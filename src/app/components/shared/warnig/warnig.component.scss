@@ -1,0 +1,55 @@
+@import "../../../../styles.scss";
+
+.sucess{
+    background-color: $middleGreen;
+    color: $white;
+}
+
+.fail{
+    background-color: $middleRed;
+    color: $white;
+}
+
+.warnig{
+    z-index: 100;
+    width: auto;
+    padding: 20px;
+    height: 10vh;
+    position: absolute;
+    right:3%;
+    display: none;
+    bottom: 3%;
+}
+
+.show{
+    display: flex !important;
+    animation: toLeft 200ms ease-in-out;
+}
+
+.hidden{
+    display: none !important;
+    animation: toRight 200ms ease-in-out;
+}
+
+
+@keyframes toRight {
+    0% {
+        right: 3% !important;
+    }
+
+    100% {
+        left: 100%;
+        /* Ajuste para a posição final desejada */
+    }
+}
+
+@keyframes toLeft {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        right: 3% !important;
+        /* Ajuste para a posição final desejada */
+    }
+}

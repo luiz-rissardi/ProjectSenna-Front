@@ -1,18 +1,18 @@
 <h1 class="text-center"> Login </h1>
 
-<form class="d-flex flex-column mt-3 px-2">
+<form [formGroup]="this.formGroupLogin" class="d-flex flex-column mt-3 px-2">
     <fieldset class="form-group m-auto w-100">
-        <label for="userName" class="label"> UserName: </label>
-        <input type="text" class="control" id="userName" placeholder=" type your user name">
+        <label for="email" class="label"> email: </label>
+        <input type="text" class="control" id="email" formControlName="email" placeholder=" type your email">
         <div class="line"></div>
     </fieldset>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="password" class="label"> Password: </label>
-        <input type="password" class="control" id="password" placeholder="type your password">
+        <input type="password" class="control" id="password" formControlName="password" placeholder="type your password">
         <div class="line"></div>
     </fieldset>
     <a class="ms-auto my-2 me-md-1 me-4 text-secondary recover-password" routerLink="/auth/recover-password" style="text-decoration:none;"> Forgot password </a>
-    <button type="button" buttonStyle routerLink="/home/conversation" > Login </button>
+    <button type="button" buttonStyle (click)="this.login()"> Login </button>
 </form>
 
 <div class="social d-flex flex-column mt-1">
