@@ -9,21 +9,16 @@ import { User } from '../../entity/user';
 export class UserService extends Service {
 
   login(email: string, password: string): Observable<User | any> {
-    const body = { email, password };
-    return this.http.post(this.uri + "/user/login", body, this.options)
+    const object = { email, password };
+    const body = this.toFormData(object)
+    return this.http.post(this.uri + "/user/login", body)
   }
 
-  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), language: string, password: string, fileName = "") {
-    const formData = new FormData()
-    
-    formData.append("userName", userName)
-    formData.append("userDescription", userDescription)
-    formData.append("language", language)
-    formData.append("email", email)
-    formData.append("password", password)
-    formData.append("arrayBuffer", arrayBuffer, fileName)
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), language: string, password: string) {
+    const object = { userDescription, userName, email, arrayBuffer, language, password }
+    const body = this.toFormData(object)
 
-    return this.http.post(this.uri + "/user", formData)
+    return this.http.post(this.uri + "/user", body);
   }
 
   updateUser(user: User) {

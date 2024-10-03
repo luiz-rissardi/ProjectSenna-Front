@@ -1,7 +1,6 @@
-<a routerLink="/auth/sign-in" class="btn-back text "> <i class="fi fi-rr-arrow-small-left"></i>back </a>
-
 <form [formGroup]="this.formGroupCreate" class="d-flex flex-column mt-4 px-2">
     @if (this.level === 1) {
+    <a routerLink="/auth/sign-in" class="btn-back text"> <i class="fi fi-rr-arrow-small-left"></i>back </a>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="userName" class="label"> UserName: </label>
         <input type="text" class="control" formControlName="userName" id="userName" placeholder=" type your user name">
@@ -18,7 +17,7 @@
         <div class="line"></div>
         @if(this.spans[1]){
         <span>
-            <p class="text-danger"> please insert your email </p>
+            <p class="text-danger"> please insert a valid email </p>
         </span>
         }
     </fieldset>
@@ -35,7 +34,7 @@
         </div>
         @if(this.spans[2]){
         <span>
-            <p class="text-danger"> please insert your password </p>
+            <p class="text-danger"> Invalid password, the password must contain at least: - 8 digits - 1 special character - 1 uppercase letter - 1 lowercase letter - 1 number </p>
         </span>
         }
     </fieldset>
@@ -54,6 +53,7 @@
     }
 
     @else if(this.level === 2){
+    <a class="btn-back text" (click)="this.level = 1"> <i class="fi fi-rr-arrow-small-left"></i>back </a>
     <fieldset class="form-group m-auto">
         <img loading="lazy" id="chosenImage" (click)="changePhoto()" src="../../../../assets/icons/do-utilizador.png"
             alt="file image chosen">

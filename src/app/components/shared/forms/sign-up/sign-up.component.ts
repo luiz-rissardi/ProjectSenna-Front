@@ -65,6 +65,14 @@ export class SignUpComponent {
       return value
     });
 
+    if (this.validateEmail(email) == false) {
+      this.spans[1] = true
+    }
+    
+    if (this.validatePassword(password) == false) {
+      this.spans[2] = true
+    }
+
     if (password != confirmedPassword) {
       this.spans[3] = true;
     }
@@ -101,13 +109,12 @@ export class SignUpComponent {
         this.UserData.arrayBuffer,
         this.UserData.lang,
         this.UserData.password,
-        this.UserData.fileName,
       )
     }
 
   }
 
-  async changePhoto() {
+  protected async changePhoto() {
     this.inputPhoto = this.elRef.nativeElement.querySelector('#inputFoto') as HTMLInputElement;
     this.chosenImage = this.elRef.nativeElement.querySelector('#chosenImage') as HTMLImageElement;
     this.inputPhoto.click();
@@ -119,12 +126,22 @@ export class SignUpComponent {
           const blob = new Blob([file])
           const urlImage = URL.createObjectURL(blob);
           this.UserData.arrayBuffer = blob;
-          this.UserData.filename = file.name;
           this.chosenImage.src = urlImage;
         }
       })
     ).subscribe()
   }
+
+  private validateEmail(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  }
+
+  private validatePassword(password: string): boolean {
+    const regexPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regexPasswordPattern.test(password)
+  }
+
 }
 
 

@@ -28,9 +28,9 @@ export class UserFacade {
     }
   }
 
-  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, language: string, password: string, fileName = "") {
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, language: string, password: string) {
     try {
-      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password, fileName)
+      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password, )
         .subscribe((data: ResponseHttp) => {
           if (data.isSuccess == true) {
             this.userState.userSignal.set(data.value)
@@ -39,7 +39,6 @@ export class UserFacade {
           }
         })
     } catch (error) {
-      console.log(error);
       this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "It was not possible to register" } })
     }
   }

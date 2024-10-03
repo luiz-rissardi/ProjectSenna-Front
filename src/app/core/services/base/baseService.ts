@@ -10,4 +10,12 @@ export class Service {
     protected uri = "http://localhost:3000";
 
     protected http = inject(HttpClient)
+
+    protected toFormData(object: any) {
+        const mappedFormData = new FormData();
+        Object.keys(object).map(key => {
+            mappedFormData.append(key,object[key])
+        })
+        return mappedFormData;
+    }
 }
