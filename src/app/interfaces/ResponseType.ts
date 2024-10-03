@@ -1,13 +1,13 @@
 
 
 export interface ResponseHttp {
-    error: Error | null ;
+    error: Partial<Error> | null ;
     isSuccess: boolean,
     value: any;
 }
 
 export interface Warning {
-    error: Error;
+    error: Partial<Error> ;
     IsSucess: boolean;
 }
 

@@ -22,8 +22,8 @@ export class DOMManipulation {
         return contais
     }
 
-    protected addChild(elementParent: HTMLElement, child: any) {
-        this.addChild(elementParent, child)
+    protected setProperty(elementParent: HTMLElement, styleProperty: any, value:any) {
+        this.dom.setProperty(elementParent,styleProperty,value);
     }
 
     protected findElement(elementId: string) {

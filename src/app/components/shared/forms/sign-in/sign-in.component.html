@@ -5,13 +5,31 @@
         <label for="email" class="label"> email: </label>
         <input type="text" class="control" id="email" formControlName="email" placeholder=" type your email">
         <div class="line"></div>
+        @if(this.spans[0]){
+        <span>
+            <p class="text-danger"> please insert your email </p>
+        </span>
+        }
     </fieldset>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="password" class="label"> Password: </label>
-        <input type="password" class="control" id="password" formControlName="password" placeholder="type your password">
-        <div class="line"></div>
+        <div class="d-flex w-100">
+            <div class="w-100">
+                <input type="password" class="control" #passwordInput id="password" formControlName="password"
+                    placeholder="type your password">
+                <div class="line"></div>
+            </div>
+            <i [classList]="this.passwordIsVisible == false? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
+                (click)="this.toggleVisiblePassword()"></i>
+        </div>
+        @if(this.spans[1]){
+        <span>
+            <p class="text-danger"> your password is empty </p>
+        </span>
+        }
     </fieldset>
-    <a class="ms-auto my-2 me-md-1 me-4 text-secondary recover-password" routerLink="/auth/recover-password" style="text-decoration:none;"> Forgot password </a>
+    <a class="ms-auto my-2 me-md-1 me-4 text-secondary recover-password" routerLink="/auth/recover-password"
+        style="text-decoration:none;"> Forgot password </a>
     <button type="button" buttonStyle (click)="this.login()"> Login </button>
 </form>
 
@@ -23,5 +41,5 @@
 
 <div class="d-flex flex-column px-4">
     <p class="text-center" style="color:rgb(123, 117, 117);"> or sign-up with </p>
-    <button type="button" routerLink="/auth/sign-up"  buttonStyle > Sign-up </button>
+    <button type="button" routerLink="/auth/sign-up" buttonStyle> Sign-up </button>
 </div>

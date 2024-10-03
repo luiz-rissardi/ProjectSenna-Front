@@ -1,29 +1,58 @@
 <a routerLink="/auth/sign-in" class="btn-back text "> <i class="fi fi-rr-arrow-small-left"></i>back </a>
 
-<form class="d-flex flex-column mt-4 px-2">
+<form [formGroup]="this.formGroupCreate" class="d-flex flex-column mt-4 px-2">
     @if (this.level === 1) {
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="userName" class="label"> UserName: </label>
-        <input type="text" class="control" id="userName" placeholder=" type your user name">
+        <input type="text" class="control" formControlName="userName" id="userName" placeholder=" type your user name">
         <div class="line"></div>
+        @if(this.spans[0]){
+        <span>
+            <p class="text-danger"> please insert your user name </p>
+        </span>
+        }
     </fieldset>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="email" class="label"> email: </label>
-        <input type="text" class="control" id="email" placeholder="type your email">
+        <input type="text" class="control" formControlName="email" id="email" placeholder="type your email">
         <div class="line"></div>
+        @if(this.spans[1]){
+        <span>
+            <p class="text-danger"> please insert your email </p>
+        </span>
+        }
     </fieldset>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="password" class="label"> Password: </label>
-        <input type="password" class="control" id="password" placeholder="type your password">
-        <div class="line"></div>
+        <div class="d-flex w-100">
+            <div class="w-100">
+                <input type="password" class="control" #passwordInput id="password" formControlName="password"
+                    placeholder="type your password">
+                <div class="line"></div>
+            </div>
+            <i [classList]="this.passwordIsVisible == false? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
+                (click)="this.toggleVisiblePassword()"></i>
+        </div>
+        @if(this.spans[2]){
+        <span>
+            <p class="text-danger"> please insert your password </p>
+        </span>
+        }
     </fieldset>
     <fieldset class="form-group m-auto mt-3 w-100">
         <label for="ConfirmPassword" class="label"> Confirm password: </label>
-        <input type="password" class="control" id="ConfirmPassword" placeholder="type your password again">
+        <input type="password" class="control" #confirmedPassword formControlName="confirmedPassword"
+            id="ConfirmPassword" placeholder="type your password again">
         <div class="line"></div>
+        @if(this.spans[3]){
+        <span>
+            <p class="text-danger"> please insert your password again </p>
+        </span>
+        }
     </fieldset>
-    <button type="button" buttonStyle style="margin-top: 20px;" (click)="this.level=2"> Next </button>
+    <button type="button" buttonStyle style="margin-top: 20px;" (click)="this.next()"> Next </button>
     }
+
     @else if(this.level === 2){
     <fieldset class="form-group m-auto">
         <img loading="lazy" id="chosenImage" (click)="changePhoto()" src="../../../../assets/icons/do-utilizador.png"
@@ -32,24 +61,27 @@
     </fieldset>
     <fieldset class="form-group m-auto mt-3">
         <label for="description" class="label"> insert description: </label>
-        <input type="text" class="control" id="description" placeholder="type your description">
+        <input type="text" class="control" formControlName="description" id="description"
+            placeholder="type your description">
         <div class="line"></div>
     </fieldset>
     <fieldset class="form-group m-auto mt-3">
-        <label for="language" class="label"> insert language: </label>
-        <select class="control" id="language" placeholder="type your language" size="1">
+        <label for="language" class="label"> Select your language: </label>
+        <select class="control" id="language" formControlName="lang" placeholder="type your language" size="1">
+            <option value=""> select your language </option>
             <option value="pt-br"> portuguese (Brasil)</option>
             <option value="en"> English </option>
-            <option value="deutch"> German </option>
-            <option value="deutch"> German </option>
-            <option value="deutch"> German </option>
-            <option value="deutch"> German </option>
-            <option value="deutch"> German </option>
-            <option value="spa"> Spanish </option>
+            <!-- <option value="deutch"> German </option>
+            <option value="spa"> Spanish </option> -->
         </select>
+        @if(this.spans[4]){
+        <span>
+            <p class="text-danger"> please select your language </p>
+        </span>
+        }
         <div class="line"></div>
     </fieldset>
 
-    <button type="button" buttonStyle style="margin-top: 100px;"> Sign-Up </button>
+    <button type="button" buttonStyle style="margin-top: 100px;" (click)="this.createUser()"> Sign-Up </button>
     }
 </form>

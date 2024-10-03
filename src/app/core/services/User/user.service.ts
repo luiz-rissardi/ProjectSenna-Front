@@ -13,16 +13,24 @@ export class UserService extends Service {
     return this.http.post(this.uri + "/user/login", body, this.options)
   }
 
-  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, languages: string, password: string) {
-    const body = { userName, userDescription, arrayBuffer, languages, email, password };
-    return this.http.post(this.uri + "/user", body, this.options)
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), language: string, password: string, fileName = "") {
+    const formData = new FormData()
+    
+    formData.append("userName", userName)
+    formData.append("userDescription", userDescription)
+    formData.append("language", language)
+    formData.append("email", email)
+    formData.append("password", password)
+    formData.append("arrayBuffer", arrayBuffer, fileName)
+
+    return this.http.post(this.uri + "/user", formData)
   }
 
-  updateUser(user:User){
-    return this.http.patch(this.uri+`/user/${user.userId}`,user,this.options)
+  updateUser(user: User) {
+    return this.http.patch(this.uri + `/user/${user.userId}`, user, this.options)
   }
-  
-  getAllContacts(contactId:string){
-    return this.http.get(this.uri+`/user/contact/${contactId}`,this.options)
+
+  getAllContacts(contactId: string) {
+    return this.http.get(this.uri + `/user/contact/${contactId}`, this.options)
   }
 }

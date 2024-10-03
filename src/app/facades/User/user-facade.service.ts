@@ -24,7 +24,23 @@ export class UserFacade {
           }
         })
     } catch (error) {
+      this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "Unable to login" } })
+    }
+  }
 
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, language: string, password: string, fileName = "") {
+    try {
+      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password, fileName)
+        .subscribe((data: ResponseHttp) => {
+          if (data.isSuccess == true) {
+            this.userState.userSignal.set(data.value)
+          } else {
+            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, error: data.error })
+          }
+        })
+    } catch (error) {
+      console.log(error);
+      this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "It was not possible to register" } })
     }
   }
 }

@@ -9,7 +9,7 @@ import { UserDetailState } from '../../../core/states/userDetail/user-detail.ser
 @Component({
   selector: 'chat',
   standalone: true,
-  imports: [MessageComponent,ButtonIconComponent, ButtonIconDirective],
+  imports: [MessageComponent, ButtonIconComponent, ButtonIconDirective],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -18,13 +18,13 @@ export class ChatComponent extends DOMManipulation implements OnInit {
   private chatState = inject(ChatStatesService);
   private userDetailState: UserDetailState = inject(UserDetailState);
 
-  protected openUserDetail = ()=> {
+  protected openUserDetail = () => {
     this.userDetailState.userDetailSignal.set({
-      show:true,
-      data:{
-        userName:"fabio",
-        description:"uma breve descrição",
-        photo:"https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n"
+      show: true,
+      data: {
+        userName: "fabio",
+        description: "uma breve descrição",
+        photo: "https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n"
       }
     })
   }
@@ -67,28 +67,26 @@ export class ChatComponent extends DOMManipulation implements OnInit {
       fileReader.onload = async (e) => {
 
         const imageData = e.target.result
-        console.log(imageData);
-        // const blob = new Blob([imageData]);
+        const blob = new Blob([imageData]);
+        console.log(blob);
+        // const t  = Buffer.from(await blob.arrayBuffer());
         // console.log(blob);
-        // // const t  = Buffer.from(await blob.arrayBuffer());
-        // // console.log(blob);
         // i.src = URL.createObjectURL(blob)
 
 
 
-        // const formData = new FormData();
-        // formData.append("messageText", "ola a todos aqui sou eu de novo ola mundo");
-        // formData.append("userId", "2fc0b1a3-37be-4dd4-aed7-bcad3e89dbb2");
-        // formData.append("language", "pt-br");
-        // formData.append("messageArrayBuffer", blob, file.name);
-        // try {
-        //   await fetch("http://localhost:3000/chat/95171413-c9f0-42f9-9a83-81913a4c4dfc/message/image", {
-        //     method: "POST",
-        //     body: formData
-        //   })
-        // } catch (error) {
-        //   console.log(error);
-        // }
+        const formData = new FormData();
+        formData.append("messageId", "cbf6aa69-8e14-40cc-87c3-8b24cd7e0508");
+        formData.append("fileName", file.name);
+        formData.append("messageArrayBuffer", blob, file.name);
+        try {
+          await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0/file", {
+            method: "POST",
+            body: formData
+          })
+        } catch (error) {
+          console.log(error);
+        }
 
       }
 

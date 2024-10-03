@@ -6,9 +6,14 @@
     align-items: center;
 }
 
-.recover-password{
+.recover-password {
     font-weight: 500;
-    &:hover{
+
+    &:hover {
         color: $blackCarbon !important;
     }
+}
+
+.fi-rr-eye {
+    cursor: pointer;
 }
