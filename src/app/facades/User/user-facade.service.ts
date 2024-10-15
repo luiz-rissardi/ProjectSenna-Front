@@ -3,6 +3,8 @@ import { UserService } from '../../core/services/User/user.service';
 import { UserState } from '../../core/states/User/userState.service';
 import { ResponseHttp } from '../../interfaces/ResponseType';
 import { WarningState } from '../../core/states/warning/warning.service';
+import { User } from '../../core/entity/user';
+import { Buffer } from 'buffer';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +18,16 @@ export class UserFacade {
   login(email: string, password: string) {
     try {
       this.userService.login(email, password)
-        .subscribe((data: ResponseHttp) => {
+        .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
+
+            const photoArrayBlob = data.value?.photo?.data;
+            if(photoArrayBlob != undefined){
+              const photoBuffer = Buffer.from(photoArrayBlob);
+              data.value.photo = URL.createObjectURL(new Blob([photoBuffer]))
+            }
             this.userState.userSignal.set(data.value)
+            
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, error: data.error })
           }
@@ -30,8 +39,8 @@ export class UserFacade {
 
   createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, language: string, password: string) {
     try {
-      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password, )
-        .subscribe((data: ResponseHttp) => {
+      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password,)
+        .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
             this.userState.userSignal.set(data.value)
           } else {

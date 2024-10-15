@@ -17,3 +17,9 @@
 .fi-rr-eye {
     cursor: pointer;
 }
+
+p{
+    @include breakPoint(mobile-only){
+        font-size: 10px;
+    }
+}

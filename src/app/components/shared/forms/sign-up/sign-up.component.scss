@@ -25,3 +25,9 @@
     box-shadow: -5px 5px 15px #cfcfcf,
         5px -5px 15px #ffffff;
 }
+
+p{
+    @include breakPoint(mobile-only){
+        font-size: 10px;
+    }
+}

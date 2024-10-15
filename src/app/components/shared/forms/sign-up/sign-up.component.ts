@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { fromEvent, map } from "rxjs"
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { fromEvent, map, Subject, takeUntil } from "rxjs"
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFacade } from '../../../../facades/User/user-facade.service';
+import { UserState } from '../../../../core/states/User/userState.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,14 +15,17 @@ import { UserFacade } from '../../../../facades/User/user-facade.service';
   styleUrl: './sign-up.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SignUpComponent {
-  private elRef = inject(ElementRef)
-  private userFacade = inject(UserFacade)
+export class SignUpComponent implements OnDestroy {
+  private elRef = inject(ElementRef);
+  private userFacade = inject(UserFacade);
+  private userState = inject(UserState);
+  private router = inject(Router);
   private inputPhoto: HTMLInputElement;
   private chosenImage: HTMLImageElement;
   private UserData: any = { arrayBuffer: null };
   protected spans = [false, false, false, false, false];
   protected level: number = 1;
+  private detroy = new Subject<void>();
   protected passwordIsVisible = false;
   protected formGroupCreate: FormGroup;
 
@@ -37,6 +41,17 @@ export class SignUpComponent {
       description: [""],
       lang: [""],
     })
+
+    effect(() => {
+      if( this.userState.userSignal() != null){
+        this.router.navigate(["/home/conversation"])
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.detroy.next();
+    this.detroy.complete()
   }
 
 
@@ -68,7 +83,7 @@ export class SignUpComponent {
     if (this.validateEmail(email) == false) {
       this.spans[1] = true
     }
-    
+
     if (this.validatePassword(password) == false) {
       this.spans[2] = true
     }
@@ -128,7 +143,8 @@ export class SignUpComponent {
           this.UserData.arrayBuffer = blob;
           this.chosenImage.src = urlImage;
         }
-      })
+      }),
+      takeUntil(this.detroy)
     ).subscribe()
   }
 

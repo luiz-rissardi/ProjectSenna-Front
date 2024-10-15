@@ -5,6 +5,7 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'chat',
@@ -17,6 +18,8 @@ export class ChatComponent extends DOMManipulation implements OnInit {
 
   private chatState = inject(ChatStatesService);
   private userDetailState: UserDetailState = inject(UserDetailState);
+
+  protected imageSrc: string = ""
 
   protected openUserDetail = () => {
     this.userDetailState.userDetailSignal.set({
@@ -36,8 +39,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     }, 0);
 
     const inputFile = document.getElementById("file");
-    const i = document.getElementById("img") as HTMLImageElement;
-
+    // const i = document.getElementById("img") as HTMLImageElement;
 
     // const data = await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0")
     // // const result = await data.json();
@@ -55,44 +57,38 @@ export class ChatComponent extends DOMManipulation implements OnInit {
 
 
 
-    inputFile.addEventListener('change', function (event: any) {
+    inputFile.addEventListener('change', (event: any) => {
       const file = event.target.files[0];
-
-      const fileSizeInBytes = file.size;
-      const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
-      console.log(`Tamanho do arquivo: ${fileSizeInMB.toFixed(2)} MB`);
 
       const fileReader = new FileReader();
 
       fileReader.onload = async (e) => {
-
-        const imageData = e.target.result
-        const blob = new Blob([imageData]);
-        console.log(blob);
-        // const t  = Buffer.from(await blob.arrayBuffer());
-        // console.log(blob);
-        // i.src = URL.createObjectURL(blob)
-
-
-
-        const formData = new FormData();
-        formData.append("messageId", "cbf6aa69-8e14-40cc-87c3-8b24cd7e0508");
-        formData.append("fileName", file.name);
-        formData.append("messageArrayBuffer", blob, file.name);
-        try {
-          await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0/file", {
-            method: "POST",
-            body: formData
-          })
-        } catch (error) {
-          console.log(error);
+        const imageData = e.target?.result; // O resultado da leitura
+        if (imageData) {
+          // Criando um blob a partir dos dados da imagem
+          const blob = new Blob([imageData]);
+          // Gerando uma URL de objeto para o blob
+          this.imageSrc = URL.createObjectURL(blob); // Atualiza o src da imagem
         }
 
       }
-
-      fileReader.readAsDataURL(file)
+      fileReader.readAsArrayBuffer(file)
 
     });
+    // const formData = new FormData();
+    // formData.append("email", "devon@gmail.com");
+    // formData.append("password", "Luiz2006@");
+    // try {
+    //   const data = await fetch("http://localhost:3000/user/login", {
+    //     method: "POST",
+    //     body: formData
+    //   })
+    //   const photo = (await data.json()).value.photo;
+    //   const lol = Buffer.from(photo)
+    //   this.imageSrc = URL.createObjectURL(new Blob([lol]))
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   chosenFile() {

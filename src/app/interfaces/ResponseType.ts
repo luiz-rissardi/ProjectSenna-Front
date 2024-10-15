@@ -1,9 +1,9 @@
 
 
-export interface ResponseHttp {
+export interface ResponseHttp<T> {
     error: Partial<Error> | null ;
     isSuccess: boolean,
-    value: any;
+    value: T;
 }
 
 export interface Warning {

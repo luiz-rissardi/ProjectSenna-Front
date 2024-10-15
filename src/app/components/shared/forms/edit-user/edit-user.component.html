@@ -8,29 +8,33 @@
 <section class="container-fluid p-0">
     <div class="edit-photo d-flex">
         <button ButtonIcon class="m-auto">
-            <img loading="lazy" alt="user photo" src="../../../../../assets/fabio.png">
+            <img loading="lazy" alt="user photo"  (click)="changePhoto()"
+                [src]="this.userAccount?.photo ">
+            <input type="file" id="inputFoto" accept="image/*" hidden>
         </button>
     </div>
 
     <form class="d-flex flex-column mt-5 p-3 pt-5">
         <fieldset class="form-group m-auto w-100">
             <label for="userName" class="label"> User name: </label>
-            <input type="text" class="control" id="userName" placeholder=" change your user name">
+            <input type="text" [value]="this.userAccount?.userName" class="control" id="userName"
+                placeholder=" change your user name">
             <div class="line"></div>
         </fieldset>
         <fieldset class="form-group m-auto w-100">
             <label for="userDescription" class="label"> User description: </label>
-            <input type="text" class="control" id="userDescription" placeholder=" change your user description">
+            <input type="text" [value]="this.userAccount?.userDescription" class="control" id="userDescription"
+                placeholder=" change your user description">
             <div class="line"></div>
         </fieldset>
 
         <fieldset class="form-group m-auto mt-3">
             <label for="userlanguage" class="label"> language: </label>
             <select class="control" id="userlanguage" placeholder="change language of system" size="1">
-                <option value="pt-br"> portuguese (Brasil)</option>
-                <option value="en"> English </option>
-                <option value="deutch"> German </option>
-                <option value="spa"> Spanish </option>
+                <option value="pt-br" [selected]="this.userAccount?.languages == 'pt-br'"> portuguese (Brasil)</option>
+                <option value="en" [selected]="this.userAccount?.languages == 'en'"> English </option>
+                <!-- <option value="deutch"> German </option> -->
+                <!-- <option value="spa"> Spanish </option> -->
             </select>
             <div class="line"></div>
         </fieldset>

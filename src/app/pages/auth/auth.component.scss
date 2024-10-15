@@ -32,10 +32,19 @@
 
 
 .login {
+    
+    width: 50%;
+    background-color: $white;
+    padding: 20px;
+
+    @include breakPoint(mobile-only){
+        width: 100%;
+        padding: 0;
+        margin: auto;
+    }
+
     &-card {
         z-index: 2;
-        width: 450px;
-        height: 80vh;
         background-color: $white;
         border-radius: 10px;
         margin: auto;
@@ -43,6 +52,15 @@
         flex-direction: column;
         padding-top: 15px;
         padding-inline: 3%;
+
+        @include breakPoint(mobile-only){
+            height: 100vh;
+        }
+
+        @include breakPoint(desktop-up){
+            width: 450px;
+            margin: auto;
+        }
 
         h1 {
             font-weight: 700;

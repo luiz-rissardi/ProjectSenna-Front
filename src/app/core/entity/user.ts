@@ -7,7 +7,7 @@ export class User {
     isActive: boolean;
     email: string;
     userDescription: string;
-    photo: Blob;
+    photo: Blob | any;
     contactId: string;
     languages: string;
     lastOnline: Date;
