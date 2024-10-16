@@ -3,8 +3,6 @@ import { ButtonIconComponent } from '../shared/button-icon/button-icon.component
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
 import { UserState } from '../../core/states/User/userState.service';
-import { Buffer } from 'buffer';
-import { User } from '../../core/entity/user';
 
 @Component({
   selector: 'app-configuration',
@@ -16,14 +14,15 @@ import { User } from '../../core/entity/user';
 export class ConfigurationComponent {
 
   private userState = inject(UserState);
-  protected photoState: string;
+  protected photoState: any;
 
   constructor() {
 
     effect(() => {
-      const photoArrayBlob = this.userState.userSignal()?.photo;
-      if (photoArrayBlob != undefined) {
-        this.photoState = photoArrayBlob
+      const user = this.userState.userSignal();
+      const photo = user?.photo;
+      if (photo != undefined) {
+        this.photoState = photo
       } else {
         // pattern photo to load
         this.photoState = "../../../assets/icons/do-utilizador.png"

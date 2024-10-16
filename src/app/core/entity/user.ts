@@ -1,13 +1,13 @@
-import { NotificationContext, Notification } from "../domainNotifications/notifications.js";
+import {NotificationContext, Notification } from "../domainNotifications/notifications.js";
 
 export class User {
 
-    #notificationContext = new NotificationContext();
+    private notificationContext = new NotificationContext();
     userName: string;
     isActive: boolean;
     email: string;
     userDescription: string;
-    photo: Blob | any;
+    photo: any;
     contactId: string;
     languages: string;
     lastOnline: Date;
@@ -32,13 +32,13 @@ export class User {
     }
 
     getNotifications(): Notification[] {
-        return this.#notificationContext.notificationsData
+        return this.notificationContext.notificationsData
     }
 
     #validatePassword(password: string): void {
         const regexPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
         if (password == null || password == undefined || String(password).trim() == "" || regexPasswordPattern.test(password) == false) {
-            this.#notificationContext.addNotification({
+            this.notificationContext.addNotification({
                 name: "password", message:
                     `senha invalida, a senha deve conter no minimo: - 8 digitos - 1 carater especial - 1 letra maiuscula - 1 letra minuscula - 1 numero`
             });
@@ -48,15 +48,15 @@ export class User {
     isValid(): boolean {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (this.userName == "") {
-            this.#notificationContext.addNotification({ name: "userName", message: "o nome do usuario esta vazio" });
+            this.notificationContext.addNotification({ name: "userName", message: "o nome do usuario esta vazio" });
         }
         if (regex.test(this.email) == false) {
-            this.#notificationContext.addNotification({ name: "email", message: "o email é invalido" });
+            this.notificationContext.addNotification({ name: "email", message: "o email é invalido" });
         }
         if (this.languages == null) {
-            this.#notificationContext.addNotification({ name: "lenguages", message: "o idioma a ser escolhido esta vazio" });
+            this.notificationContext.addNotification({ name: "lenguages", message: "o idioma a ser escolhido esta vazio" });
         }
 
-        return this.#notificationContext.hasNotification();
+        return this.notificationContext.hasNotification();
     }
 }

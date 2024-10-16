@@ -3,7 +3,7 @@
 export interface ResponseHttp<T> {
     error: Partial<Error> | null ;
     isSuccess: boolean,
-    value: T;
+    value: T ;
 }
 
 export interface Warning {

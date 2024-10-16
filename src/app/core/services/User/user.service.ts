@@ -22,7 +22,8 @@ export class UserService extends Service {
   }
 
   updateUser(user: User) {
-    return this.http.patch(this.uri + `/user/${user.userId}`, user, this.options)
+    const body = this.toFormData(user);
+    return this.http.post(this.uri + `/user/${user.userId}`, body)
   }
 
   getAllContacts(contactId: string) {

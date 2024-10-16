@@ -16,7 +16,7 @@
                 <i class="fi fi-rs-settings m-auto"></i>
             </button>
 
-            <button-icon alt="user photo" [image]="this.photoState" [routerLink]="'/home/edit-user'" ></button-icon>
+            <button-icon alt="user photo" [image]="this.userState.userSignal()?.photo" [routerLink]="'/home/edit-user'" ></button-icon>
         </div>
     </section>
 </div>

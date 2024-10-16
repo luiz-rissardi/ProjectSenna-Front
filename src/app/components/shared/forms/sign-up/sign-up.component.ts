@@ -22,7 +22,7 @@ export class SignUpComponent implements OnDestroy {
   private router = inject(Router);
   private inputPhoto: HTMLInputElement;
   private chosenImage: HTMLImageElement;
-  private UserData: any = { arrayBuffer: null };
+  private UserData: any = { };
   protected spans = [false, false, false, false, false];
   protected level: number = 1;
   private detroy = new Subject<void>();

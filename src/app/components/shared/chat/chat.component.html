@@ -2,7 +2,7 @@
     <button ButtonIcon class="back" (click)="closeChat()">
         ←
     </button>
-    <button-icon alt="teste" [execute]="this.openUserDetail"
+    <button-icon alt="user photo" [execute]="this.openUserDetail"
         image="https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n">
     </button-icon>
 
@@ -60,7 +60,7 @@
     </div>
 
     <!-- <a href="#" id="img">dowload</a> -->
-    <!-- <img [src]="imageSrc" id="img" alt="" width="100" height="100"> -->
+    <!-- <img [src]="this.userState.userSignal()?.photo" id="img" alt="" width="100" height="100"> -->
     <input type="text" class="chat-input" placeholder="write your message" (keyup.enter)="teste()">
     <button type="button" class="chat-button-mic mx-2">
         <i class="fi fi-rr-circle-microphone"></i>
