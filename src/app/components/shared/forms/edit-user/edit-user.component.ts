@@ -77,7 +77,9 @@ export class EditUserComponent {
     });
     this.userAccount.photo = this.chosenImage
     const object:any   = { ...this.userAccount };
-    object.arrayBuffer = this.chosenImageBlob;
+    if(this.chosenImageBlob){
+      object.arrayBuffer = this.chosenImageBlob;
+    }
     this.userFacade.updateUser(object);
   }
 }

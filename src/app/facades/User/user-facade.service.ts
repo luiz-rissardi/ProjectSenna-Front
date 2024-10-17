@@ -32,11 +32,11 @@ export class UserFacade {
             this.userState.userSignal.set(data.value)
 
           } else {
-            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, error: data.error })
+            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
           }
         })
     } catch (error) {
-      this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "Unable to login" } })
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "Unable to login" } })
     }
   }
 
@@ -56,11 +56,11 @@ export class UserFacade {
 
             this.userState.userSignal.set(data.value)
           } else {
-            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, error: data.error })
+            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
           }
         })
     } catch (error) {
-      this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "It was not possible to register" } })
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "It was not possible to register" } })
     }
   }
 
@@ -69,7 +69,6 @@ export class UserFacade {
       this.userService.updateUser(user)
         .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
-            console.log(data);
             const photoArrayBlob = data.value?.photo?.data;
             if (photoArrayBlob.length == 0) {
               data.value.photo = "../../../assets/icons/do-utilizador.png"
@@ -82,17 +81,16 @@ export class UserFacade {
               Object.keys(value).map(key => {
                 value[key] = user[key];
               })
-              console.log(value);
               return value;
             })
-            // this.warningState.warnigSignal.set({ IsSucess: true, })
+            this.warningState.warnigSignal.set({ IsSucess: true, data:{message:"usuário atualizado com sucesso"} })
 
           } else {
-            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, error: data.error })
+            this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
           }
         })
     } catch (error) {
-      this.warningState.warnigSignal.set({ IsSucess: false, error: { message: "It was not possible to register" } })
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "It was not possible to register" } })
     }
   }
 

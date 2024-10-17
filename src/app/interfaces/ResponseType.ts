@@ -7,7 +7,7 @@ export interface ResponseHttp<T> {
 }
 
 export interface Warning {
-    error: Partial<Error> ;
+    data: Partial<Error> ;
     IsSucess: boolean;
 }
 

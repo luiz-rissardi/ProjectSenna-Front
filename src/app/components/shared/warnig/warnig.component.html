@@ -1,4 +1,4 @@
 
 <div #warningContainer [classList]="this.warnigState.warnigSignal()?.IsSucess == true?'warnig sucess':'warnig fail'">
-    {{ this.signal()?.error?.message}}
+    {{ this.signal()?.data?.message}}
 </div>
