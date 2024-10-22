@@ -5,6 +5,8 @@ import { ResponseHttp } from '../../interfaces/ResponseType';
 import { WarningState } from '../../core/states/warning/warning.service';
 import { User } from '../../core/entity/user';
 import { Buffer } from 'buffer';
+import { response } from 'express';
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class UserFacade {
   login(email: string, password: string) {
     try {
       this.userService.login(email, password)
-        .subscribe((data: ResponseHttp<User>) => {
+        .subscribe((response:HttpResponse<any>) => {
+          const data:ResponseHttp<User | any> = response.body as ResponseHttp<User | any>;
           if (data.isSuccess == true) {
 
             const photoArrayBlob = data.value?.photo?.data;
@@ -83,7 +86,7 @@ export class UserFacade {
               })
               return value;
             })
-            this.warningState.warnigSignal.set({ IsSucess: true, data:{message:"usuário atualizado com sucesso"} })
+            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "usuário atualizado com sucesso" } })
 
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
