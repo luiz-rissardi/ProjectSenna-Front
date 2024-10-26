@@ -3,20 +3,27 @@
     [classList]="this.userDetailSignal()?.data == undefined?'user-detail-box user-detail-hidden':'user-detail-box'">
     <button class="btn-back" (click)="this.closeDetails()"> → </button>
     <article class="user-detail-section">
-        <img loading="lazy" class="user-detail-photo" [src]="this.userDetailSignal().data.photo" alt="user image">
-        <h3> {{ this.userDetailSignal().data.userName }} </h3>
+        <img loading="lazy" class="user-detail-photo" [src]="this.userDetailSignal().data?.photo" alt="user image">
+        <h3> {{ this.userDetailSignal().data?.userName }} </h3>
     </article>
     <article class="user-detail-section">
         <p>Description: </p>
-        <p> {{ this.userDetailSignal().data.description }} </p>
+        <p> {{ this.userDetailSignal().data?.description }} </p>
     </article>
     <article class="user-detail-section p-4 d-grid gap-3">
         <button buttonStyle>
             apagar conversa
         </button>
-        <button buttonStyle>
-            bloquear contato
-        </button>
+
+        @if (this.userDetailSignal().data.dateOfBlocking == null) {
+            <button buttonStyle>
+                block chat
+            </button>
+        }@else{
+            <button buttonStyle>
+                unlock chat
+            </button>
+        }
     </article>
 </section>
 

@@ -5,7 +5,6 @@ import { ResponseHttp } from '../../interfaces/ResponseType';
 import { WarningState } from '../../core/states/warning/warning.service';
 import { User } from '../../core/entity/user';
 import { Buffer } from 'buffer';
-import { response } from 'express';
 import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
@@ -25,7 +24,7 @@ export class UserFacade {
           if (data.isSuccess == true) {
 
             const photoArrayBlob = data.value?.photo?.data;
-            if (photoArrayBlob.length == 0) {
+            if (photoArrayBlob?.length == 0 || photoArrayBlob == undefined) {
               data.value.photo = "../../../assets/icons/do-utilizador.png"
             } else {
               const photoBuffer = Buffer.from(photoArrayBlob);
@@ -50,7 +49,7 @@ export class UserFacade {
           if (data.isSuccess == true) {
 
             const photoArrayBlob = data.value?.photo?.data;
-            if (photoArrayBlob.length == 0) {
+            if (photoArrayBlob?.length == 0) {
               data.value.photo = "../../../assets/icons/do-utilizador.png"
             } else {
               const photoBuffer = Buffer.from(photoArrayBlob);

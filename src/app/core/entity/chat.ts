@@ -1,15 +1,13 @@
-import { NotificationContext } from "../DomainNotifications/notifications.js";
+import { NotificationContext } from "../domainNotifications/notifications.js"
 
 
 export class Chat {
 
     #notificationContext = new NotificationContext();
-    /**
-     * 
-     * @param {string} chatId 
-     * @param {string} chatType 
-     */
-    constructor(chatId,chatType){
+    chatId: any;
+    chatType: any;
+
+    constructor(chatId:string,chatType:string){
         this.chatId = chatId;
         this.chatType = chatType;
     }

@@ -32,6 +32,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
       data: {
         userName: "fabio",
         description: "uma breve descrição",
+        dateOfBlocking:null,
         photo: "https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n"
       }
     })

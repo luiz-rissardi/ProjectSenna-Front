@@ -11,6 +11,7 @@ interface UserDetailData{
   userName:string;
   photo:string;
   description:string;
+  dateOfBlocking:Date;
 }
 
 @Injectable({

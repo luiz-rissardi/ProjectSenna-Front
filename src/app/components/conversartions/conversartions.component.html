@@ -6,7 +6,13 @@
     </fieldset>
 </form>
 <section class="data-chats-notifications">
-    @for (item of this.users; track $index) {
-    <notification-chat [userName]="item.userName" [userPhoto]="item.photo"></notification-chat>
+    @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
+
+    <notification-chat
+    [dateOfBlocking]="item.dateOfBlocking" 
+    [userDescription]="item.otherUserDescription" 
+    [chatId]="item.chatId"
+    [userName]="item.otherUserName"
+    [userPhoto]="item.otherUserPhoto"></notification-chat>
     }
 </section>

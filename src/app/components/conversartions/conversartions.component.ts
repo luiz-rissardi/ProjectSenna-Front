@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
+import { ChatFacade } from '../../facades/Chat/chat.service';
+import { UserState } from '../../core/states/User/userState.service';
+import { ChatArrayState } from '../../core/states/Chats/chats.service';
 
 @Component({
   selector: 'app-conversartions',
@@ -9,6 +12,18 @@ import { NotificationChatComponent } from '../shared/notification-chat/notificat
   styleUrl: './conversartions.component.scss'
 })
 export class ConversartionsComponent {
+
+
+  private chatFacade = inject(ChatFacade)
+  private userState = inject(UserState);
+  protected chatsArrayState = inject(ChatArrayState);
+
+  constructor(){
+    const userId = this.userState.userSignal()?.userId;
+    if(userId){
+      this.chatFacade.getChatsOfUser(userId)
+    }
+  }
 
   protected users = [
     {

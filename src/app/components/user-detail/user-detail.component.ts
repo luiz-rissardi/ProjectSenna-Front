@@ -17,7 +17,7 @@ export class UserDetailComponent {
     this.userDetailSignal = this.userDetailState.userDetailSignal
   }
 
-  closeDetails(){
+  protected closeDetails(){
     this.userDetailSignal.update(current => {
       current.data = undefined;
       return current;

@@ -1,4 +1,4 @@
-import {NotificationContext, Notification } from "../domainNotifications/notifications.js";
+import { NotificationContext, Notification } from "../domainNotifications/notifications.js";
 
 export class User {
 
