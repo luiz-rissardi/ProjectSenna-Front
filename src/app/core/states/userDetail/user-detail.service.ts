@@ -12,6 +12,9 @@ interface UserDetailData{
   photo:string;
   description:string;
   dateOfBlocking:Date;
+  userId:string;
+  isActive:boolean | string;
+  chatId:string;
 }
 
 @Injectable({

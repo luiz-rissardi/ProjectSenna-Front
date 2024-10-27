@@ -20,8 +20,10 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   userName = input<string>();
   userPhoto = input<string | undefined | Blob>();
   chatId = input<string | undefined>();
+  userId = input<string | undefined>();
   userDescription = input<string | undefined>();
   dateOfBlocking = input<Date | undefined>();
+  isActive = input<boolean | string | undefined>();
 
   photoURL = signal(undefined);
 
@@ -67,7 +69,10 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
         userName:this.userName(),
         description:this.userDescription(),
         photo:this.photoURL(),
-        dateOfBlocking:this.dateOfBlocking()
+        dateOfBlocking:this.dateOfBlocking(),
+        userId:this.userId(),
+        chatId:this.chatId(),
+        isActive:this.isActive()
       }
     })
   }

@@ -15,12 +15,12 @@
             apagar conversa
         </button>
 
-        @if (this.userDetailSignal().data.dateOfBlocking == null) {
-            <button buttonStyle>
+        @if (this.userDetailSignal().data?.isActive) {
+            <button buttonStyle (click)="this.blockChat()">
                 block chat
             </button>
         }@else{
-            <button buttonStyle>
+            <button buttonStyle (click)="this.unlockedChat()">
                 unlock chat
             </button>
         }
