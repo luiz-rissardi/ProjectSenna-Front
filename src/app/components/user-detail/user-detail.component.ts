@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, WritableSignal } from '@ang
 import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { ChatFacade } from '../../facades/Chat/chat.service';
+import { ChatStatesService } from '../../core/states/chat/chat-states.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,6 +14,7 @@ import { ChatFacade } from '../../facades/Chat/chat.service';
 export class UserDetailComponent {
 
   protected userDetailSignal: WritableSignal<UserDetail>;
+  private chatStateService = inject(ChatStatesService)
   private chatFacade = inject(ChatFacade)
 
   constructor(userDetailState:UserDetailState){
@@ -37,6 +39,12 @@ export class UserDetailComponent {
       current.data.dateOfBlocking = new Date();
       return current
     })
+
+    this.chatStateService.chatState.update(el => {
+      el.isActive = false;
+      return el
+    })
+
     this.chatFacade.blockChat(this.userDetailSignal().data.userId,this.userDetailSignal().data.chatId);
   }
 
@@ -46,6 +54,12 @@ export class UserDetailComponent {
       current.data.dateOfBlocking = null
       return current
     })
+
+    this.chatStateService.chatState.update(el => {
+      el.isActive = true;
+      return el
+    })
+
     this.chatFacade.deblockChat(this.userDetailSignal().data.userId,this.userDetailSignal().data.chatId);
   }
 

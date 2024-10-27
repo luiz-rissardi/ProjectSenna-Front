@@ -1,13 +1,13 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
+import { ChatData } from '../../entity/chatData';
+
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatStatesService {
-  state: WritableSignal<string | number | null> = signal(null);
-
-  setState(value: number | string): void {
-    this.state.set(value);
-  }
+  chatState: WritableSignal<Partial<ChatData> | null> = signal(null);
 
 }

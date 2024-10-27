@@ -8,7 +8,4 @@ export class ChatArrayState {
 
   chatsArrayState: WritableSignal<ChatData[]> = signal(null);
 
-  setState(value: ChatData[]): void {
-    this.chatsArrayState.set(value);
-  }
 }

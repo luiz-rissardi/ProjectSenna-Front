@@ -3,7 +3,7 @@
 export interface ChatData {
     memberType: string,
     lastClear: Date,
-    isActive: string,
+    isActive: boolean,
     userId: string,
     chatId: string,
     dateOfBlocking: Date,

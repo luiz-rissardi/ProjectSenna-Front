@@ -48,7 +48,9 @@
     }
 </section>
 
+
 <div class="chat-sender">
+    @if(this.chatStateService.chatState()?.isActive == true){
     <div class="d-flex ms-auto">
         <button type="button" ButtonIcon>
             <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
@@ -65,4 +67,7 @@
     <button type="button" class="chat-button-mic mx-2">
         <i class="fi fi-rr-circle-microphone"></i>
     </button>
+    }@else {
+        <h4 class="m-auto text-white "> This chat is blocked ! </h4>
+    }
 </div>

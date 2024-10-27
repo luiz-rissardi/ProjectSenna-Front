@@ -16,12 +16,13 @@ import { UserState } from '../../../core/states/User/userState.service';
 })
 export class ChatComponent extends DOMManipulation implements OnInit {
 
-  private chatState = inject(ChatStatesService);
   private userDetailState: UserDetailState = inject(UserDetailState);
+  protected chatStateService = inject(ChatStatesService);
   protected userState = inject(UserState);
   protected imageSrc: any = ""
 
   constructor() {
+
     super();
   }
 
@@ -42,62 +43,62 @@ export class ChatComponent extends DOMManipulation implements OnInit {
   }
 
   async ngOnInit() {
-    setTimeout(() => {
-      const chatBox = this.findElement("chat") as HTMLElement
-      chatBox.scrollTop = chatBox.scrollHeight
-    }, 0);
+    // setTimeout(() => {
+    //   const chatBox = this.findElement("chat") as HTMLElement
+    //   chatBox.scrollTop = chatBox.scrollHeight
+    // }, 0);
 
-    const inputFile = document.getElementById("file");
-    // const i = document.getElementById("img") as HTMLImageElement;
+    // const inputFile = document.getElementById("file");
+    // // const i = document.getElementById("img") as HTMLImageElement;
 
-    // const data = await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0")
-    // // const result = await data.json();
+    // // const data = await fetch("http://localhost:8729/chat/message/6c7bf14d-eef6-442a-acaf-a2eb50e8eef0")
+    // // // const result = await data.json();
 
-    // data.body
-    //   .pipeThrough(new TextDecoderStream())
-    //   .pipeTo(new WritableStream({
-    //     write(chunk, controller) {
-    //       const dados = JSON.parse(chunk);
-    //       const t = dados.data.data
-    //       const lol = Buffer.from(t)
-    //       i.src = URL.createObjectURL(new Blob([lol]))
+    // // data.body
+    // //   .pipeThrough(new TextDecoderStream())
+    // //   .pipeTo(new WritableStream({
+    // //     write(chunk, controller) {
+    // //       const dados = JSON.parse(chunk);
+    // //       const t = dados.data.data
+    // //       const lol = Buffer.from(t)
+    // //       i.src = URL.createObjectURL(new Blob([lol]))
+    // //     }
+    // //   }))
+
+
+
+    // inputFile.addEventListener('change', (event: any) => {
+    //   const file = event.target.files[0];
+
+    //   const fileReader = new FileReader();
+
+    //   fileReader.onload = async (e) => {
+    //     const imageData = e.target?.result; // O resultado da leitura
+    //     if (imageData) {
+    //       // Criando um blob a partir dos dados da imagem
+    //       const blob = new Blob([imageData]);
+    //       // Gerando uma URL de objeto para o blob
+    //       this.imageSrc = URL.createObjectURL(blob); // Atualiza o src da imagem
     //     }
-    //   }))
 
+    //   }
+    //   fileReader.readAsArrayBuffer(file)
 
-
-    inputFile.addEventListener('change', (event: any) => {
-      const file = event.target.files[0];
-
-      const fileReader = new FileReader();
-
-      fileReader.onload = async (e) => {
-        const imageData = e.target?.result; // O resultado da leitura
-        if (imageData) {
-          // Criando um blob a partir dos dados da imagem
-          const blob = new Blob([imageData]);
-          // Gerando uma URL de objeto para o blob
-          this.imageSrc = URL.createObjectURL(blob); // Atualiza o src da imagem
-        }
-
-      }
-      fileReader.readAsArrayBuffer(file)
-
-    });
-    // const formData = new FormData();
-    // formData.append("email", "devon@gmail.com");
-    // formData.append("password", "Luiz2006@");
-    // try {
-    //   const data = await fetch("http://localhost:3000/user/login", {
-    //     method: "POST",
-    //     body: formData
-    //   })
-    //   const photo = (await data.json()).value.photo;
-    //   const lol = Buffer.from(photo)
-    //   this.imageSrc = URL.createObjectURL(new Blob([lol]))
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    // });
+    // // const formData = new FormData();
+    // // formData.append("email", "devon@gmail.com");
+    // // formData.append("password", "Luiz2006@");
+    // // try {
+    // //   const data = await fetch("http://localhost:3000/user/login", {
+    // //     method: "POST",
+    // //     body: formData
+    // //   })
+    // //   const photo = (await data.json()).value.photo;
+    // //   const lol = Buffer.from(photo)
+    // //   this.imageSrc = URL.createObjectURL(new Blob([lol]))
+    // // } catch (error) {
+    // //   console.log(error);
+    // // }
   }
 
   chosenFile() {
@@ -107,7 +108,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
   }
 
   protected closeChat() {
-    this.chatState.state.set(null)
+    this.chatStateService.chatState.set(null)
   }
 
   protected toogleDroptDown(el: HTMLElement) {
