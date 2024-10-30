@@ -25,6 +25,10 @@ export class ConversartionsComponent {
     }
   }
 
+  protected inviteFriends(){
+    
+  }
+
   protected users = [
     {
       userName: "luiz gustavo rissardi",

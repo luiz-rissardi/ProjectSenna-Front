@@ -3,14 +3,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { SignInComponent } from './components/shared/forms/sign-in/sign-in.component';
 import { SignUpComponent } from './components/shared/forms/sign-up/sign-up.component';
 import { RecoverPasswordComponent } from './components/shared/forms/recover-password/recover-password.component';
-import { ConversartionsComponent } from './components/conversartions/conversartions.component';
-import { GroupsComponent } from './components/groups/groups.component';
-import { ContactsComponent } from './components/contacts/contacts.component';
-import { ConfigurationComponent } from './components/configuration/configuration.component';
-import { EditUserComponent } from './components/shared/forms/edit-user/edit-user.component';
-import { PrivacyComponent } from './components/privacy/privacy.component';
-import { EditPrivacyDataComponent } from './components/shared/forms/edit-privacy-data/edit-privacy-data.component';
-import { AccountComponent } from './components/account/account.component';
 
 
 export const routes: Routes = [
@@ -71,6 +63,3 @@ export const routes: Routes = [
         ]
     }
 ];
-
-// dificuldade que aa pessoas tem de se comunicar em linguas diferentes
-//oportunidade perdidas de negocios e pessoais

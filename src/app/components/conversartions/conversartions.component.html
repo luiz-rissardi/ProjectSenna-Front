@@ -1,20 +1,28 @@
-<h1 class="ms-3">Conversations</h1>
-<form>
-    <fieldset class="form-group m-auto w-100 my-3 px-3 position-relative">
-        <input type="text" class="control-search" id="userName" placeholder="Search conversation">
-        <i class="fi fi-rr-search search-icon"></i>
-    </fieldset>
-</form>
-<section class="data-chats-notifications">
-    @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
+<section class="conversation">
+    <h1 class="ms-3">Conversations</h1>
+    <form>
+        <fieldset class="form-group m-auto w-100 my-3 px-3 position-relative">
+            <input type="text" class="control-search" id="userName" placeholder="Search conversation">
+            <i class="fi fi-rr-search search-icon"></i>
+        </fieldset>
+    </form>
+    <section class="data-chats-notifications">
+        @if(this.chatsArrayState?.chatsArrayState()?.length != 0 && this.chatsArrayState?.chatsArrayState()?.length !=
+        undefined){
+        @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
 
-    <notification-chat
-    [dateOfBlocking]="item.dateOfBlocking" 
-    [userDescription]="item.otherUserDescription" 
-    [chatId]="item.chatId"
-    [isActive]="item.isActive"
-    [userId]="item.userId"
-    [userName]="item.otherUserName"
-    [userPhoto]="item.otherUserPhoto"></notification-chat>
-    }
+        <notification-chat [dateOfBlocking]="item.dateOfBlocking" [userDescription]="item.otherUserDescription"
+            [chatId]="item.chatId" [isActive]="item.isActive" [userId]="item.userId" [userName]="item.otherUserName"
+            [userPhoto]="item.otherUserPhoto"></notification-chat>
+        }
+        }@else {
+        <div class="flex flex-column text-center">
+
+            <p class="text-secondary"> invite your friends ! </p>
+            <button type="button" class="invite">
+                <i class="fi fi-rr-add" style="font-size: 1.5rem;"></i>
+            </button>
+        </div>
+        }
+    </section>
 </section>

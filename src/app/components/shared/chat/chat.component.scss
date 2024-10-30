@@ -30,7 +30,6 @@
     &-user-data {
         display: flex;
         width: 100%;
-        padding: 3px;
         padding-inline: 50px;
         background-color: $blackCarbon;
         gap: 10px;
@@ -103,6 +102,11 @@
             }
         }
     }
+}
+
+.social-network-img{
+    image-rendering: optimizeSpeed;
+    width: 250px;
 }
 
 
