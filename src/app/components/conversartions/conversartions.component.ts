@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, TemplateRef } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
 import { ChatFacade } from '../../facades/Chat/chat.service';
 import { UserState } from '../../core/states/User/userState.service';
 import { ChatArrayState } from '../../core/states/Chats/chats.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-conversartions',
@@ -16,6 +17,7 @@ export class ConversartionsComponent {
 
   private chatFacade = inject(ChatFacade)
   private userState = inject(UserState);
+  private modalService = inject(NgbModal);
   protected chatsArrayState = inject(ChatArrayState);
 
   constructor(){
@@ -25,7 +27,11 @@ export class ConversartionsComponent {
     }
   }
 
-  protected inviteFriends(){
+  protected inviteFriends(el:TemplateRef<any>){
+    this.modalService.open(el);
+  }
+
+  protected share(){
     
   }
 

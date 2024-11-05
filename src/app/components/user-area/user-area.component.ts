@@ -17,8 +17,24 @@ export class UserAreaComponent extends DOMManipulation {
 
   protected userState = inject(UserState);
 
+
+
   constructor() {
     super();
+
+    effect(() => {
+      if (typeof Worker !== 'undefined') {
+        // Create a new
+        const worker = new Worker(new URL("../../workers/photo-process.worker", import.meta.url));
+        worker.onmessage = ({ data }) => {
+          this.userState.userSignal.update(user => {
+            user.photo = data
+            return user;
+          })
+        };
+        worker.postMessage(this.userState.userSignal().photo);
+      }
+    })
   }
 
   selectSection(elementRef: Event) {

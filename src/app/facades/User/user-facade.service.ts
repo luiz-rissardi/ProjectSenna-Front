@@ -6,6 +6,7 @@ import { WarningState } from '../../core/states/warning/warning.service';
 import { User } from '../../core/entity/user';
 import { Buffer } from 'buffer';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ import { HttpResponse } from '@angular/common/http';
 export class UserFacade {
 
   private userState = inject(UserState);
-  private userService = inject(UserService)
-  private warningState = inject(WarningState)
+  private userService = inject(UserService);
+  private warningState = inject(WarningState);
 
   login(email: string, password: string) {
     try {

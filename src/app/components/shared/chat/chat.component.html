@@ -55,30 +55,37 @@
 
 <div class="chat-sender">
     @if(this.chatStateService.chatState()?.isActive == true){
-        <div class="d-flex ms-auto">
-            <button type="button" ButtonIcon>
-                <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
-            </button>
-            <button type="button" ButtonIcon (click)="chosenFile()">
-                <i class="fi fi-rr-menu-dots-vertical" style="font-size: 1.3rem;"></i>
-                <input type="file" hidden id="file">
-            </button>
-        </div>
-
-        <!-- <a href="#" id="img">dowload</a> -->
-        <!-- <img [src]="this.userState.userSignal()?.photo" id="img" alt="" width="100" height="100"> -->
-        <input type="text" class="chat-input" placeholder="write your message">
-        <button type="button" class="chat-button-mic mx-2">
-            <i class="fi fi-rr-circle-microphone"></i>
+    <div class="d-flex ms-auto">
+        <button type="button" ButtonIcon>
+            <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
         </button>
-    }@else {
-        <h4 class="m-auto text-white "> This chat is blocked ! </h4>
-    }
+        <button type="button" ButtonIcon (click)="chosenFile()">
+            <i class="fi fi-rr-menu-dots-vertical" style="font-size: 1.3rem;"></i>
+            <input type="file" hidden id="file">
+        </button>
     </div>
+
+    <!-- <a href="#" id="img">dowload</a> -->
+    <!-- <img [src]="this.userState.userSignal()?.photo" id="img" alt="" width="100" height="100"> -->
+    <input type="text" class="chat-input" placeholder="write your message">
+    <button type="button" class="chat-button-mic mx-2">
+        <i class="fi fi-rr-circle-microphone"></i>
+    </button>
+    }@else {
+    <h4 class="m-auto text-white "> This chat is blocked ! </h4>
+    }
+</div>
 }
 @else {
-    <div class="w-100 d-flex flex-column align-items-center py-5">
-        <h2 class="text-center mt-5 mb-5 text-secondary "> Desfrute do Just Translate, <br> Converse com qualquer pessoa! </h2>
-        <img loading="lazy" class="social-network-img" src="../../../../assets/redes.webp" alt="rede social">
-    </div>
+<div class="w-100 d-flex flex-column align-items-center py-5">
+    <h2 class="text-center mt-5 mb-5 text-secondary ">
+        Enjoy Just Translate <br>
+        Chat with anyone!
+    </h2>
+    <img loading="eager" class="social-network-img" src="../../../../assets/redes.webp" alt="rede social">
+
+    <article class="inform">
+        Conversations are all private to just 2 users, except when sent to a group with more members!
+    </article>
+</div>
 }
