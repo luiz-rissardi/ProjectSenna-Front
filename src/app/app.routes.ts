@@ -63,5 +63,9 @@ export const routes: Routes = [
                 loadComponent: () => import('./components/account/account.component').then(c => c.AccountComponent)
             }
         ]
+    },
+    {
+        path:"**",
+        redirectTo:"/home/conversation"
     }
 ];
