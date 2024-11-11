@@ -23,9 +23,6 @@ export class ChatComponent extends DOMManipulation implements OnInit {
 
   constructor() {
 
-    effect(()=>{
-      console.log(this.chatStateService.chatState());
-    })
     super();
   }
 

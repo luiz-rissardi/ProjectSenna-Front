@@ -16,12 +16,13 @@ export class UserFacade {
   private userState = inject(UserState);
   private userService = inject(UserService);
   private warningState = inject(WarningState);
+  private routerService = inject(Router);
 
   login(email: string, password: string) {
     try {
       this.userService.login(email, password)
-        .subscribe((response:HttpResponse<any>) => {
-          const data:ResponseHttp<User | any> = response.body as ResponseHttp<User | any>;
+        .subscribe((response: HttpResponse<any>) => {
+          const data: ResponseHttp<User | any> = response.body as ResponseHttp<User | any>;
           if (data.isSuccess == true) {
 
             const photoArrayBlob = data.value?.photo?.data;
@@ -90,6 +91,24 @@ export class UserFacade {
 
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
+          }
+        })
+    } catch (error) {
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "It was not possible to register" } })
+    }
+  }
+
+  changePassword(email: string, password: string) {
+    try {
+      this.userService.changePassword(email, password)
+        .subscribe((data: ResponseHttp<User>) => {
+          if (data.isSuccess == true) {
+            this.routerService.navigate(["/auth/sign-in"])
+            setTimeout(() => {
+              this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "senha alterada com sucesso!" } })
+            }, 200);
+          } else {
+            this.warningState.warnigSignal.set({ IsSucess: false, data: data.error })
           }
         })
     } catch (error) {

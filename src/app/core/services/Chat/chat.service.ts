@@ -7,8 +7,7 @@ import { Service } from '../base/baseService';
 export class ChatService extends Service {
 
   getChats(userId: string) {
-    const body = this.toFormData({});
-    return this.http.post(this.uri + `/user/${userId}/chats`, body);
+    return this.http.post(this.uri + `/user/${userId}/chats`,{});
   }
 
   blockChat(chatId: string, userId: string) {

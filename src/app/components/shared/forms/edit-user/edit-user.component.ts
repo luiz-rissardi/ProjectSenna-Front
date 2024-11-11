@@ -38,8 +38,17 @@ export class EditUserComponent {
     })
     effect(() => {
       this.userAccount = this.userState.userSignal()
+
       if (this.userAccount != undefined) {
-        this.chosenImage = this.userAccount?.photo;
+        if (this.userAccount?.photo?.type == "Buffer") {
+          const worker = new Worker(new URL("../../../../workers/photo-process.worker", import.meta.url));
+          worker.onmessage = ({ data }) => {
+            this.chosenImage = data;
+          };
+          worker.postMessage(this.userState.userSignal().photo);
+        }else{
+          this.chosenImage = this.userAccount?.photo;
+        }
         this.formUserUpdate.get("languages").setValue(this.userAccount?.languages);
         this.formUserUpdate.get("userName").setValue(this.userAccount?.userName);
         this.formUserUpdate.get("userDescription").setValue(this.userAccount?.userDescription);
@@ -76,8 +85,8 @@ export class EditUserComponent {
       this.userAccount[key] = value;
     });
     this.userAccount.photo = this.chosenImage
-    const object:any   = { ...this.userAccount };
-    if(this.chosenImageBlob){
+    const object: any = { ...this.userAccount };
+    if (this.chosenImageBlob) {
       object.arrayBuffer = this.chosenImageBlob;
     }
     this.userFacade.updateUser(object);

@@ -27,6 +27,13 @@ export class UserService extends Service {
     return this.http.post(this.uri + `/user/${user.userId}`, body)
   }
 
+  changePassword( email:string,newPassword:string){
+    const body = this.toFormData({
+      password:newPassword
+    })
+    return this.http.post(this.uri + `/user/recover/password/${email}`,body)
+  }
+
   getAllContacts(contactId: string) {
     return this.http.get(this.uri + `/user/contact/${contactId}`, this.options)
   }

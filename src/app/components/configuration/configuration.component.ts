@@ -13,7 +13,7 @@ import { UserState } from '../../core/states/User/userState.service';
 })
 export class ConfigurationComponent {
 
-  private userState = inject(UserState);
+  protected userState = inject(UserState);
   protected photoState: any;
 
   constructor() {
