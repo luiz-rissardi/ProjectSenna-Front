@@ -7,6 +7,8 @@ import { User } from '../../core/entity/user';
 import { Buffer } from 'buffer';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth/auth.service';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,9 @@ import { Router } from '@angular/router';
 export class UserFacade {
 
   private userState = inject(UserState);
-  private userService = inject(UserService);
   private warningState = inject(WarningState);
+  private userService = inject(UserService);
+  private authService = inject(AuthService);
   private routerService = inject(Router);
 
   login(email: string, password: string) {
@@ -58,7 +61,7 @@ export class UserFacade {
               data.value.photo = URL.createObjectURL(new Blob([photoBuffer]))
             }
 
-            this.userState.userSignal.set(data.value)
+            this.authService.sendConfirmationEmail(data.value);
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
           }

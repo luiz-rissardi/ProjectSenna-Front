@@ -5,14 +5,12 @@ import { SignUpComponent } from './components/shared/forms/sign-up/sign-up.compo
 import { RecoverPasswordComponent } from './components/shared/forms/recover-password/recover-password.component';
 import { authGuard } from './guards/auth/auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
-import { referrerGuard } from './guards/referrer/referrer.guard';
 
 
 export const routes: Routes = [
     {
         path:":email/recover/password",
         component:ChangePasswordComponent,
-        canActivate:[referrerGuard]
     },
     {
         path: "auth",

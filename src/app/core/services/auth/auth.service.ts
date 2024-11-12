@@ -30,4 +30,14 @@ export class AuthService extends Service {
     })
   }
 
+  sendConfirmationEmail(user:User){
+    try {
+      return this.http.post(`http://localhost:8729/api/email/confirmation/${user.userId}`,{
+        user
+      }).subscribe()
+    } catch (error) {
+      return null;
+    }
+  }
+
 }

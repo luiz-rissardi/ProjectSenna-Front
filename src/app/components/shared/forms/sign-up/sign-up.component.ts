@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { fromEvent, map, Subject, takeUntil } from "rxjs"
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFacade } from '../../../../facades/User/user-facade.service';
 import { UserState } from '../../../../core/states/User/userState.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,6 +19,7 @@ import { UserState } from '../../../../core/states/User/userState.service';
 export class SignUpComponent implements OnDestroy {
   private elRef = inject(ElementRef);
   private userFacade = inject(UserFacade);
+  private modalService = inject(NgbModal);
   private userState = inject(UserState);
   private router = inject(Router);
   private inputPhoto: HTMLInputElement;
@@ -30,6 +32,7 @@ export class SignUpComponent implements OnDestroy {
   protected formGroupCreate: FormGroup;
 
   @ViewChild("passwordInput") private passwordInput!: ElementRef;
+  @ViewChild("content") private contentModal!: ElementRef;
   @ViewChild("confirmedPassword") private confirmedPassword!: ElementRef;
 
   constructor(formBuilder: FormBuilder) {
@@ -117,6 +120,7 @@ export class SignUpComponent implements OnDestroy {
     }
 
     if (this.spans.includes(true) == false) {
+      this.modalService.open(this.contentModal)
       this.userFacade.createUser(
         this.UserData.userName,
         this.UserData.description,

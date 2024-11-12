@@ -85,3 +85,15 @@
     <button type="button" buttonStyle style="margin-top: 100px;" (click)="this.createUser()"> Sign-Up </button>
     }
 </form>
+
+
+<ng-template #content let-modal>
+    <div class="modal-body mt-5">
+        <form>
+            <div class="mb-3 d-flex flex-column">
+                <p class="text-center text-secondary"> An account confirmation email has been sent to you, please check and confirm your account. </p>
+                <button type="button" class="btn btn-outline-dark w-75 m-auto" [routerLink]="'/auth/sign-in'"  (click)="modal.close()">ok</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
