@@ -15,11 +15,17 @@ export class ChangePasswordComponent {
 
   public email = input("");
   protected passwordIsVisible = false;
+  protected showWarning = false;
   @ViewChild("passwordInput") private passwordInput!: ElementRef;
   
 
   protected changePassword(password:string){
-    this.userFacade.changePassword(this.email(),password);
+    if(this.validatePassword(password)){
+      this.showWarning = false;
+      this.userFacade.changePassword(this.email(),password);
+    }else{
+      this.showWarning = true;
+    }
   }
 
   protected toggleVisiblePassword() {
@@ -31,4 +37,10 @@ export class ChangePasswordComponent {
       this.passwordInput.nativeElement.type = "password"
     }
   }
+
+  private validatePassword(password: string): boolean {
+    const regexPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regexPasswordPattern.test(password)
+  }
+
 }
