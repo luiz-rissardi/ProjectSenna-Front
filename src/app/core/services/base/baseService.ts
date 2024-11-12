@@ -8,9 +8,12 @@ export class Service {
         observe: "response" as const,
     }
 
-    protected uri = "http://localhost:3000";
-
     protected http = inject(HttpClient)
+    protected uri:string;
+
+    constructor(baseUri:string = "http://localhost:3000"){
+        this.uri = baseUri;
+    }
 
     protected toFormData(object: any) {
         const mappedFormData = new FormData();

@@ -1,6 +1,9 @@
 
 <div class="d-flex">
     <section class="data-area-session">
+        <button (click)="this.selectSection($event)" class="session" [routerLink]="'/home/add'" placement="right" ngbTooltip="add conversation">
+            <i class="fi fi-rr-add m-auto"></i>
+        </button>
         <button (click)="this.selectSection($event)" class="session" [routerLink]="'/home/conversation'" placement="right" ngbTooltip="conversations">
             <i class="fi fi-rr-comment m-auto"></i>
         </button>
@@ -8,7 +11,7 @@
             <i class="fi fi-rr-users-alt m-auto"></i>
         </button>
         <button (click)="this.selectSection($event)" class="session" [routerLink]="'/home/contact'" placement="right" ngbTooltip="contacts">
-            <i class="fi fi-rr-user-add m-auto"></i>
+            <i class="fi fi-rr-user m-auto"></i>
         </button>
 
         <div class="mt-auto d-flex flex-column align-items-center" style="margin-bottom:4rem">

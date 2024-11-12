@@ -12,11 +12,18 @@ export class AuthService extends Service {
     super();
   }
 
+  login(email: string, password: string) {
+    const object = { email, password };
+    const body = this.toFormData(object)
+    return this.http.post(this.uri + "/user/login", body, this.options)
+  }
+
   async verifyAuthenticate(token: string): Promise<User | any> {
 
     const body = this.toFormData({
       token
     })
+
 
     return new Promise((resolve, reject) => {
       try {
@@ -28,16 +35,6 @@ export class AuthService extends Service {
         reject(error);
       }
     })
-  }
-
-  sendConfirmationEmail(user:User){
-    try {
-      return this.http.post(`http://localhost:8729/api/email/confirmation/${user.userId}`,{
-        user
-      }).subscribe()
-    } catch (error) {
-      return null;
-    }
   }
 
 }

@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'button-icon',
   standalone: true,
-  imports: [ButtonIconDirective],
+  imports: [RouterModule],
   templateUrl: './button-icon.component.html',
   styleUrl: './button-icon.component.scss'
 })

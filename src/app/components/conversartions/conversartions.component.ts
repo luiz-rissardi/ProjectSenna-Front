@@ -31,10 +31,6 @@ export class ConversartionsComponent {
     this.modalService.open(el);
   }
 
-  protected share(){
-    
-  }
-
   protected users = [
     {
       userName: "luiz gustavo rissardi",

@@ -8,10 +8,8 @@ import { User } from '../../entity/user';
 })
 export class UserService extends Service {
 
-  login(email: string, password: string) {
-    const object = { email, password };
-    const body = this.toFormData(object)
-    return this.http.post(this.uri + "/user/login", body,this.options)
+  constructor(){
+    super();
   }
 
   createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), language: string, password: string) {

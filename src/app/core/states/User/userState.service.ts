@@ -1,4 +1,4 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { User } from '../../entity/user';
 
 @Injectable({
@@ -7,6 +7,5 @@ import { User } from '../../entity/user';
 export class UserState {
 
   public userSignal: WritableSignal<User> = signal(null);
-
   
 }

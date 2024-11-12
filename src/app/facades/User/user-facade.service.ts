@@ -8,7 +8,7 @@ import { Buffer } from 'buffer';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { error } from 'console';
+import { EmailService } from '../../core/services/Email/email.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,13 @@ export class UserFacade {
   private userState = inject(UserState);
   private warningState = inject(WarningState);
   private userService = inject(UserService);
+  private emailService = inject(EmailService);
   private authService = inject(AuthService);
   private routerService = inject(Router);
 
   login(email: string, password: string) {
     try {
-      this.userService.login(email, password)
+      this.authService.login(email, password)
         .subscribe((response: HttpResponse<any>) => {
           const data: ResponseHttp<User | any> = response.body as ResponseHttp<User | any>;
           if (data.isSuccess == true) {
@@ -61,7 +62,7 @@ export class UserFacade {
               data.value.photo = URL.createObjectURL(new Blob([photoBuffer]))
             }
 
-            this.authService.sendConfirmationEmail(data.value);
+            this.emailService.sendConfirmationEmail(data.value);
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })
           }

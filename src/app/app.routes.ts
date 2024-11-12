@@ -66,6 +66,10 @@ export const routes: Routes = [
             {
                 path: "account",
                 loadComponent: () => import('./components/account/account.component').then(c => c.AccountComponent)
+            },
+            {
+                path: "add",
+                loadComponent: () => import('./components/add/add.component').then(c => c.AddComponent)
             }
         ]
     },

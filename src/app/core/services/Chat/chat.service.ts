@@ -6,6 +6,10 @@ import { Service } from '../base/baseService';
 })
 export class ChatService extends Service {
 
+  constructor(){
+    super();
+  }
+
   getChats(userId: string) {
     return this.http.post(this.uri + `/user/${userId}/chats`,{});
   }

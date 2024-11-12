@@ -1,15 +1,14 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DOMManipulation } from '../../shared/DomManipulation';
-import { ButtonIconDirective } from '../../directives/buttonIcon/button-icon.directive';
 import { ButtonIconComponent } from '../shared/button-icon/button-icon.component';
 import { UserState } from '../../core/states/User/userState.service';
 
 @Component({
   selector: 'app-user-area',
   standalone: true,
-  imports: [RouterLink, NgbTooltipModule, ButtonIconDirective, ButtonIconComponent],
+  imports: [RouterLink, NgbTooltipModule, ButtonIconComponent],
   templateUrl: './user-area.component.html',
   styleUrl: './user-area.component.scss',
 })
