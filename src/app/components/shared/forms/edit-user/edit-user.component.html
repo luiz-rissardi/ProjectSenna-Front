@@ -10,8 +10,8 @@
     <form [formGroup]="this.formUserUpdate">
         <div class="edit-photo d-flex">
             <button ButtonIcon class="m-auto">
-                <img loading="lazy" alt="user photo" (click)="changePhoto()"
-                    [src]="this.chosenImage || '../../../assets/icons/do-utilizador.png' ">
+                <img #buttonImage (error)="this.loadAlternativeImage()" loading="lazy" alt="user photo" (click)="changePhoto()" 
+                    [src]="this.chosenImage">
                 <input type="file" id="inputFoto" formControlName="photo" accept="image/*" hidden>
             </button>
         </div>

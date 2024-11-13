@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject } from '@angular/core';
+import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
 import { ButtonIconDirective } from '../../../../directives/buttonIcon/button-icon.directive';
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
@@ -28,6 +28,8 @@ export class EditUserComponent {
   protected formUserUpdate: FormGroup;
   protected userAccount!: User;
 
+  @ViewChild("buttonImage") private buttonImage: ElementRef<any>
+
   constructor(formBuilder: FormBuilder) {
     this.formUserUpdate = formBuilder.group({
       userName: [],
@@ -36,9 +38,9 @@ export class EditUserComponent {
       languages: []
 
     })
+
     effect(() => {
       this.userAccount = this.userState.userSignal()
-
       if (this.userAccount != undefined) {
         if (this.userAccount?.photo?.type == "Buffer") {
           const worker = new Worker(new URL("../../../../workers/photo-process.worker", import.meta.url));
@@ -90,5 +92,9 @@ export class EditUserComponent {
       object.arrayBuffer = this.chosenImageBlob;
     }
     this.userFacade.updateUser(object);
+  }
+
+  loadAlternativeImage() {
+    this.buttonImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"
   }
 }

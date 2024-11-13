@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, input, Input, InputSignal, TemplateRef, ViewChild, viewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -9,9 +9,15 @@ import { RouterModule } from '@angular/router';
   styleUrl: './button-icon.component.scss'
 })
 export class ButtonIconComponent {
-  @Input({ required: true }) image: string | undefined;
-  @Input({ required: true }) alt: string | undefined;
-  @Input({ required: false }) execute: Function | undefined;
+  image: InputSignal<string | undefined> = input("");
+  alt:InputSignal<string | undefined> = input("");
+  execute:InputSignal<Function | undefined> = input();
+
+  @ViewChild("buttonImage") private buttonImage: ElementRef<any>
+
+  loadAlternativeImage() {
+    this.buttonImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"
+  }
 
   protected executeFn() {
     if (typeof this.execute == "function") {
