@@ -23,12 +23,9 @@
         @if(query.value != ""){
         <div class="contacts py-3">
             @for (item of this.filtedListUsers; track $index) {
-                @defer (when item.photo != undefined) {
+                @defer (when item != undefined) {
                     <app-contact-search 
-                        [photo]="item.photo"
-                        [userId]="item.userId" 
-                        [userName]="item.userName"
-                        [description]="item.userDescription">
+                        [user]="item">
                     </app-contact-search>
                 }@loading(minimum 500ms){
                 <div class="d-flex">

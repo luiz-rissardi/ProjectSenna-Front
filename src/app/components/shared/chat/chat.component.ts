@@ -31,6 +31,7 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     if(el != null){
       el.style.display = "none"
     }
+    
     this.userDetailState.userDetailSignal.update(data => {
       data.show = true;
       return data

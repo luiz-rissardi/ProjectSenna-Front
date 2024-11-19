@@ -34,9 +34,9 @@ export class AddComponent implements AfterViewInit, OnDestroy {
       debounceTime(700),
       map((e: any) => {
         const query = e.target.value;
-        this.filtedListUsers.length = 0;
         this.userService.getUsersByQuery(query)
         .subscribe((users:User[]) => {
+          this.filtedListUsers.length = 0;
           this.filtedListUsers = users;
         })
       }),

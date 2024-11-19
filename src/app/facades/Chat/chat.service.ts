@@ -6,6 +6,7 @@ import { ChatData } from '../../core/entity/chatData';
 import { ChatArrayState } from '../../core/states/Chats/chats.service';
 import { Chat } from '../../core/entity/chat';
 import { forkJoin } from 'rxjs';
+import { User } from '../../core/entity/user';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class ChatFacade {
     }
   }
 
-  createNewChat(currentUserId: string, targetUserId: string) {
+  createNewChat(currentUserId: string, targetUser: Partial<User>) {
     try {
       this.chatService.createNewChat()
         .subscribe((result: ResponseHttp<Chat>) => {
@@ -70,10 +71,28 @@ export class ChatFacade {
             forkJoin(
               [
                 this.chatService.addUsersInChat(chat.chatId, currentUserId),
-                this.chatService.addUsersInChat(chat.chatId, targetUserId)
+                this.chatService.addUsersInChat(chat.chatId, targetUser.userId)
               ]).subscribe((results:[ResponseHttp<ChatData>, ResponseHttp<ChatData>]) => {
+                const obj: ChatData = {
+                  memberType: results[0].value.memberType,
+                  lastClear: results[0].value.lastClear,
+                  isActive: results[0].value.isActive,
+                  userId: currentUserId,
+                  chatId: chat.chatId,
+                  dateOfBlocking: results[0].value.dateOfBlocking,
+                  otherUserId: targetUser.userId,
+                  otherUserName: targetUser.userName,
+                  otherUserDescription: targetUser.userDescription,
+                  otherUserPhoto: targetUser.photo,
+                  otherUserLastOnline: targetUser.lastOnline
+                }
                 const finalyResults = results.filter(el => el.isSuccess == true);
                 if(finalyResults.length > 0){
+                  this.chatArrayState.chatsArrayState.update((chats:ChatData[]) => {
+                    console.log(obj);
+                    chats.push(obj)
+                    return chats
+                  })
                   this.warningState.warnigSignal.set({ IsSucess: true, data: {message:"Chat Criado com sucesso!"} })
                 }
               })

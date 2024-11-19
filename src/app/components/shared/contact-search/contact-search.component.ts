@@ -2,6 +2,7 @@ import { AfterViewInit, Component, inject, input, InputSignal, signal } from '@a
 import { LimitTextPipe } from '../../../pipes/limit-text.pipe';
 import { UserState } from '../../../core/states/User/userState.service';
 import { ChatFacade } from '../../../facades/Chat/chat.service';
+import { User } from '../../../core/entity/user';
 
 
 @Component({
@@ -13,15 +14,13 @@ import { ChatFacade } from '../../../facades/Chat/chat.service';
 })
 export class ContactSearchComponent implements AfterViewInit {
 
-  userName: InputSignal<string> = input("");
-  userId: InputSignal<string> = input("");
-  photo: InputSignal<any> = input(null);
-  description: InputSignal<string> = input("");
+  user: InputSignal<User> = input(null);
+
   protected photoImage = signal(null);
   protected clicked: boolean = false;
   private userStateService = inject(UserState);
   private chatFacade = inject(ChatFacade);
-  
+
 
 
   ngAfterViewInit(): void {
@@ -30,16 +29,27 @@ export class ContactSearchComponent implements AfterViewInit {
       worker.onmessage = ({ data }) => {
         this.photoImage.set(data)
       };
-      worker.postMessage(this.photo());
+      worker.postMessage(this.user().photo);
     }
   }
 
-  AddNewChat(){
+  AddNewChat() {
     const currentUserId = this.userStateService.userSignal()?.userId;
-    const targetUserId = this.userId();
 
-    this.chatFacade.createNewChat(currentUserId,targetUserId);
-    
+    this.chatFacade.createNewChat(currentUserId, {
+      // memberType: "conversation",
+      // lastClear: Date,
+      isActive: this.user().isActive,
+      userId: this.user().userId,
+      // chatId: this.,
+      // dateOfBlocking: Date,
+      // otherUserId: string,
+      userName: this.user().userName,
+      userDescription: this.user().userDescription,
+      photo: this.user().photo,
+      lastOnline: this.user().lastOnline
+    });
+
   }
 
   loadAlternativeImage() {

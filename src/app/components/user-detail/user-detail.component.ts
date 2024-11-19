@@ -1,12 +1,13 @@
-import { Component, inject, WritableSignal } from '@angular/core';
+import { Component, effect, inject, WritableSignal } from '@angular/core';
 import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
 import { ChatFacade } from '../../facades/Chat/chat.service';
 import { ChatState } from '../../core/states/chat/chat-states.service';
+import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [],
+  imports: [ButtonStyleDirective],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })
@@ -29,20 +30,27 @@ export class UserDetailComponent {
 
   protected blockChat() {
     this.userDetailSignal.update(current => {
-      current.data.isActive = false;
-      current.data.dateOfBlocking = new Date();
-      return current
+      return {
+        ...current, // Gera uma nova referência
+        data: {
+          ...current.data,
+          isActive: false,
+          dateOfBlocking: new Date()
+        }
+      };
     })
 
     this.chatStateService.chatState.update(el => {
-      if (el != undefined) {
-        el.isActive = false;
+      if (el !== undefined) {
+        return {
+          ...el, // Copia o objeto atual
+          isActive: false // Atualiza o valor de 'isActive'
+        };
       } else {
         return {
           isActive: false
-        }
+        };
       }
-      return el
     })
 
     this.chatFacade.blockChat(this.userDetailSignal().data.userId, this.userDetailSignal().data.chatId);
@@ -50,20 +58,27 @@ export class UserDetailComponent {
 
   protected unlockedChat() {
     this.userDetailSignal.update(current => {
-      current.data.isActive = true;
-      current.data.dateOfBlocking = null
-      return current
+      return {
+        ...current, // Gera uma nova referência
+        data: {
+          ...current.data,
+          isActive: true,
+          dateOfBlocking: null
+        }
+      };
     })
 
     this.chatStateService.chatState.update(el => {
-      if (el != undefined) {
-        el.isActive = true;
+      if (el !== undefined) {
+        return {
+          ...el, // Copia o objeto atual
+          isActive: true // Atualiza o valor de 'isActive'
+        };
       } else {
         return {
           isActive: true
-        }
+        };
       }
-      return el
     })
 
     this.chatFacade.deblockChat(this.userDetailSignal().data.userId, this.userDetailSignal().data.chatId);

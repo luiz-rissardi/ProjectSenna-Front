@@ -43,7 +43,6 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
 
   ngAfterViewInit(): void {
     if (typeof Worker !== 'undefined') {
-      // Create a new
       const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
       worker.onmessage = ({ data }) => {
         this.photoURL.set(data)

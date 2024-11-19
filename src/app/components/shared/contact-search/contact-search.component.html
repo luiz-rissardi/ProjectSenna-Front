@@ -2,11 +2,11 @@
     <section class="contact-box d-flex flex-column" tabindex="0" (focus)="this.clicked = true" (blur)="this.clicked = false">
         <div class="d-flex">
             <img (error)="this.loadAlternativeImage()" class="contact-photo" [src]="this.photoImage()"
-                [alt]="'photo of'+this.userName()">
+                [alt]="'photo of'+this.user().userName">
 
             <div class="flex flex-column ms-3 mb-3">
-                <p class="text-dark"> {{ this.userName() }} </p>
-                <span class="text-secondary"> {{ this.description() | limitText:30 }} </span>
+                <p class="text-dark"> {{ this.user().userName }} </p>
+                <span class="text-secondary"> {{ this.user().userDescription | limitText:30 }} </span>
             </div>
         </div>
         @if(this.clicked){
