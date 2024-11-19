@@ -10,7 +10,7 @@
             </div>
         </div>
         @if(this.clicked){
-        <button type="button" class="contact-box-aux my-3">
+        <button type="button" class="contact-box-aux my-3" (focus)="this.clicked = true" (click)="AddNewChat()">
             add to chat
         </button>
         }

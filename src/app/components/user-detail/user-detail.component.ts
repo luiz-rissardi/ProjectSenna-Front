@@ -1,20 +1,19 @@
 import { Component, inject, WritableSignal } from '@angular/core';
 import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
-import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { ChatFacade } from '../../facades/Chat/chat.service';
-import { ChatStatesService } from '../../core/states/chat/chat-states.service';
+import { ChatState } from '../../core/states/chat/chat-states.service';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [ButtonStyleDirective],
+  imports: [],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent {
 
   protected userDetailSignal: WritableSignal<UserDetail>;
-  private chatStateService = inject(ChatStatesService)
+  private chatStateService = inject(ChatState)
   private chatFacade = inject(ChatFacade)
 
   constructor(userDetailState: UserDetailState) {

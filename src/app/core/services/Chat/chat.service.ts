@@ -10,6 +10,16 @@ export class ChatService extends Service {
     super();
   }
 
+  createNewChat(){
+    return this.http.post(this.uri + `/chat`,{});
+  }
+
+  addUsersInChat(chatId:string,userId:string,memberType:string = "conversation"){
+    return this.http.post(this.uri + `/chat/${chatId}/participant/${userId}`,{
+      memberType
+    });
+  }
+
   getChats(userId: string) {
     return this.http.post(this.uri + `/user/${userId}/chats`,{});
   }

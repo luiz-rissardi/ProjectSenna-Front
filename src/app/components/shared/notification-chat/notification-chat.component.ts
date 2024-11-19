@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, effect, inject, input, signal } from '@angular/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
+import { ChatState } from '../../../core/states/chat/chat-states.service';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -26,7 +26,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   isActive = input<boolean | undefined>();
   protected photoURL = signal(undefined);
 
-  private chatState = inject(ChatStatesService);
+  private chatState = inject(ChatState);
   private userDetailState = inject(UserDetailState);
   private isSetted = false
 
@@ -76,7 +76,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
         isActive:this.isActive()
       }
     })
-    
+
     this.addClassToElement(el, "active")
   }
 

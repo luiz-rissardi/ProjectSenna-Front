@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, input, InputSignal, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, input, InputSignal, signal } from '@angular/core';
 import { LimitTextPipe } from '../../../pipes/limit-text.pipe';
+import { UserState } from '../../../core/states/User/userState.service';
+import { ChatFacade } from '../../../facades/Chat/chat.service';
 
 
 @Component({
@@ -17,6 +19,9 @@ export class ContactSearchComponent implements AfterViewInit {
   description: InputSignal<string> = input("");
   protected photoImage = signal(null);
   protected clicked: boolean = false;
+  private userStateService = inject(UserState);
+  private chatFacade = inject(ChatFacade);
+  
 
 
   ngAfterViewInit(): void {
@@ -29,8 +34,12 @@ export class ContactSearchComponent implements AfterViewInit {
     }
   }
 
-  teste(){
-    console.log("object");
+  AddNewChat(){
+    const currentUserId = this.userStateService.userSignal()?.userId;
+    const targetUserId = this.userId();
+
+    this.chatFacade.createNewChat(currentUserId,targetUserId);
+    
   }
 
   loadAlternativeImage() {

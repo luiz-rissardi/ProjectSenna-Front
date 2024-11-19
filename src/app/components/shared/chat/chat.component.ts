@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { ChatStatesService } from '../../../core/states/chat/chat-states.service';
+import { ChatState } from '../../../core/states/chat/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
 import { UserState } from '../../../core/states/User/userState.service';
@@ -17,7 +17,7 @@ import { UserState } from '../../../core/states/User/userState.service';
 export class ChatComponent extends DOMManipulation implements OnInit {
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
-  protected chatStateService = inject(ChatStatesService);
+  protected chatStateService = inject(ChatState);
   protected userState = inject(UserState);
   protected imageSrc: any = ""
 

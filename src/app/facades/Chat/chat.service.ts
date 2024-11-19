@@ -4,6 +4,8 @@ import { ChatService } from '../../core/services/Chat/chat.service';
 import { ResponseHttp } from '../../interfaces/ResponseType';
 import { ChatData } from '../../core/entity/chatData';
 import { ChatArrayState } from '../../core/states/Chats/chats.service';
+import { Chat } from '../../core/entity/chat';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +58,31 @@ export class ChatFacade {
         })
     } catch (error) {
       this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "error occurred unlocking the chat" } })
+    }
+  }
+
+  createNewChat(currentUserId: string, targetUserId: string) {
+    try {
+      this.chatService.createNewChat()
+        .subscribe((result: ResponseHttp<Chat>) => {
+          if (result.isSuccess == true) {
+            const chat = result.value
+            forkJoin(
+              [
+                this.chatService.addUsersInChat(chat.chatId, currentUserId),
+                this.chatService.addUsersInChat(chat.chatId, targetUserId)
+              ]).subscribe((results:[ResponseHttp<ChatData>, ResponseHttp<ChatData>]) => {
+                const finalyResults = results.filter(el => el.isSuccess == true);
+                if(finalyResults.length > 0){
+                  this.warningState.warnigSignal.set({ IsSucess: true, data: {message:"Chat Criado com sucesso!"} })
+                }
+              })
+          } else {
+            this.warningState.warnigSignal.set({ IsSucess: false, data: result.error })
+          }
+        })
+    } catch (error) {
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "error occurred in creation of chat" } })
     }
   }
 }

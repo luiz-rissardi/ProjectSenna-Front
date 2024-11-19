@@ -20,49 +20,18 @@ export class ConversartionsComponent {
   private modalService = inject(NgbModal);
   protected chatsArrayState = inject(ChatArrayState);
 
-  constructor(){
-    const userId = this.userState.userSignal()?.userId;
-    if(userId){
-      this.chatFacade.getChatsOfUser(userId)
+
+  constructor() {
+    if (this.chatsArrayState.chatsArrayState()?.length == undefined) {
+      const userId = this.userState.userSignal()?.userId;
+      if (userId) {
+        this.chatFacade.getChatsOfUser(userId)
+      }
     }
   }
 
-  protected inviteFriends(el:TemplateRef<any>){
+  protected inviteFriends(el: TemplateRef<any>) {
     this.modalService.open(el);
   }
 
-  protected users = [
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/fabio.png",
-    },
-  ]
 }

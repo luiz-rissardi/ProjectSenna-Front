@@ -7,7 +7,7 @@ import { ChatData } from '../../entity/chatData';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatStatesService {
+export class ChatState {
   chatState: WritableSignal<Partial<ChatData> | null> = signal(null);
 
 }
