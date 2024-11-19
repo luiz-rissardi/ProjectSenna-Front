@@ -1,10 +1,10 @@
 <section class="chat-user-data">
-    @if(this.chatStateService.chatState() != undefined){
+    @if(this.chatStateService.chatState()?.chatId != undefined){
     <button ButtonIcon class="back" (click)="closeChat()">
         ←
     </button>
-    <button-icon alt="user photo" [execute]="this.openUserDetail"
-        image="https://imgs.search.brave.com/ahZhx2klnGxFg24V5yC9nemnvdbslYDQoVF3AUGrWjw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/bHVjaWRwaWMuY29t/LzY1YWFjMjRiNzg5/MGUucG5n">
+    <button-icon alt="user photo" (click)="this.openUserDetail(null)"
+        [image]="this.userDetailState.userDetailSignal().data.photo">
     </button-icon>
 
     <p class="mt-3"> User current name </p>
@@ -21,7 +21,7 @@
             <div #dropdown class="position-absolute dropdown" style="display: none;">
                 <ul class="p-0">
                     <li>
-                        <button type="button" class="dropdown-button" (click)="this.openUserDetail()">
+                        <button type="button" class="dropdown-button" (click)="this.openUserDetail(dropdown)">
                             profile
                         </button>
                     </li>
@@ -42,7 +42,7 @@
     }
 </section>
 
-@if(this.chatStateService.chatState() != undefined){
+@if(this.chatStateService.chatState()?.chatId != undefined){
 
 <section class="chat" id="chat">
     @for (item of this.messages; track $index) {
@@ -78,7 +78,7 @@
 }
 @else {
 <div class="w-100 d-flex flex-column align-items-center py-5" style="background-color:#a5d3fb; height: 100vh;">
-    <h2 class="text-center mt-5 mb-5 text-secondary ">
+    <h2 class="text-center mt-5 mb-5 text-dark ">
         Enjoy Just Translate <br>
         Chat with anyone!
     </h2>

@@ -1,11 +1,12 @@
 import { Component, ElementRef, inject, input, signal, ViewChild } from '@angular/core';
 import { UserFacade } from '../../facades/User/user-facade.service';
 import { WarnigComponent } from "../../components/shared/warnig/warnig.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [WarnigComponent],
+  imports: [WarnigComponent,RouterLink],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss'
 })

@@ -5,7 +5,7 @@
         background-color: $light;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        // overflow: hidden;
         width: 100%;
         
         @include breakPoint(notebook-up) {

@@ -7,14 +7,18 @@
         </fieldset>
     </form>
     <section class="data-chats-notifications">
-        @if(this.chatsArrayState?.chatsArrayState()?.length != 0 && this.chatsArrayState?.chatsArrayState()?.length !=
-        undefined){
+        @if(
+        this.chatsArrayState?.chatsArrayState()?.length != 0 &&
+        this.chatsArrayState?.chatsArrayState()?.length !=undefined
+        ){
+
         @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
 
         <notification-chat [dateOfBlocking]="item.dateOfBlocking" [userDescription]="item.otherUserDescription"
             [chatId]="item.chatId" [isActive]="item.isActive" [userId]="item.userId" [userName]="item.otherUserName"
             [userPhoto]="item.otherUserPhoto"></notification-chat>
         }
+        
         }@else {
         <div class="flex flex-column text-center">
 
@@ -40,7 +44,8 @@
                         <i class="fi fi-brands-facebook"></i>
                     </a>
 
-                    <a class="share-button" href="https://wa.me/?text=Venha%20para%20o%20Just%20Translate!%20Quebre%20barreiras%20e%20converse%20com%20qualquer%20pessoa,%20em%20qualquer%20idioma.%20https://justtranslate.com"
+                    <a class="share-button"
+                        href="https://wa.me/?text=Venha%20para%20o%20Just%20Translate!%20Quebre%20barreiras%20e%20converse%20com%20qualquer%20pessoa,%20em%20qualquer%20idioma.%20https://justtranslate.com"
                         target="_blank" style="text-decoration: none;">
                         <i class="fi fi-brands-whatsapp"></i>
                     </a>

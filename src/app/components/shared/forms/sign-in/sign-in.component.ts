@@ -68,8 +68,4 @@ export class SignInComponent{
       this.passwordInput.nativeElement.type = "password"
     }
   }
-
-  exec = () => {
-
-  }
 }

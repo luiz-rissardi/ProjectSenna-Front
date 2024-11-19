@@ -20,7 +20,6 @@ export class UserFacade {
   private userService = inject(UserService);
   private emailService = inject(EmailService);
   private authService = inject(AuthService);
-  private routerService = inject(Router);
 
   login(email: string, password: string) {
     try {
@@ -107,7 +106,6 @@ export class UserFacade {
       this.userService.changePassword(email, password)
         .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
-            this.routerService.navigate(["/auth/sign-in"])
             setTimeout(() => {
               this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "senha alterada com sucesso!" } })
             }, 200);
@@ -120,5 +118,12 @@ export class UserFacade {
     }
   }
 
+  findUsersByQuery(query: string) {
+    try {
+      this.userService.getUsersByQuery(query)
+    } catch (error) {
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "It was not possible find users" } })
+    }
+  }
 
 }

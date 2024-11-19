@@ -3,9 +3,49 @@
 
 .add {
     height: 100vh;
-    border-right: 3px solid black;
 }
 
 h1 {
     font-size: 2rem;
+}
+
+
+.btn-group {
+    background-color: $lightGreen;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: $white;
+
+    i {
+        margin: auto;
+        font-size: 1.5rem;
+    }
+}
+
+.btn {
+    background-color: $white;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 20px;
+
+    i{
+        font-size: 2rem;
+    }
+
+    &:hover{
+        background-color: $light;
+    }
+}
+
+.contacts{
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 55vh;
 }

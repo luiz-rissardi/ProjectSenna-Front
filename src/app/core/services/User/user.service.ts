@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../base/baseService';
 import { User } from '../../entity/user';
-
+import { StreamToJson } from '../../../shared/pipebleOperators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends Service {
 
-  constructor(){
+  constructor() {
     super();
   }
 
@@ -25,14 +25,21 @@ export class UserService extends Service {
     return this.http.post(this.uri + `/user/${user.userId}`, body)
   }
 
-  changePassword( email:string,newPassword:string){
+  changePassword(email: string, newPassword: string) {
     const body = this.toFormData({
-      password:newPassword
+      password: newPassword
     })
-    return this.http.post(this.uri + `/user/recover/password/${email}`,body)
+    return this.http.post(this.uri + `/user/recover/password/${email}`, body)
   }
 
   getAllContacts(contactId: string) {
-    return this.http.get(this.uri + `/user/contact/${contactId}`, this.options)
+    return this.http.get(this.uri + `/user/contact/${contactId}`)
   }
+
+  getUsersByQuery(query: string) {
+    return this.http.get(this.uri + `/user/find/${query}`, { responseType: "text", observe: 'body' })
+      .pipe( StreamToJson )
+  }
+
 }
+

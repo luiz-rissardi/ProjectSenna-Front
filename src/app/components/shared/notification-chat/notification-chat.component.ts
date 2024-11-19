@@ -24,16 +24,16 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   userDescription = input<string | undefined>();
   dateOfBlocking = input<Date | undefined>();
   isActive = input<boolean | undefined>();
+  protected photoURL = signal(undefined);
 
-  photoURL = signal(undefined);
-
-  private chatStateService = inject(ChatStatesService);
+  private chatState = inject(ChatStatesService);
+  private userDetailState = inject(UserDetailState);
   private isSetted = false
 
-  constructor(private userDetailState: UserDetailState) {
+  constructor() {
     super();
     effect(() => {
-      if (this.chatStateService.chatState() != null && this.isSetted == false) {
+      if (this.chatState.chatState() != null && this.isSetted == false) {
         this.removeClassToElement(this.notificationElement.nativeElement, "active")
       } else {
         this.isSetted = false;
@@ -58,11 +58,25 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
 
   protected openChat(el: HTMLElement) {
     this.isSetted = true
-    this.chatStateService.chatState.set({
+    this.chatState.chatState.set({
       userId:this.userId(),
       chatId:this.chatId(),
       isActive:this.isActive(),
     })
+
+    this.userDetailState.userDetailSignal.set({
+      show:false,
+      data:{
+        chatId:this.chatId(),
+        dateOfBlocking:this.dateOfBlocking(),
+        description:this.userDescription(),
+        photo:this.photoURL(),
+        userId:this.userId(),
+        userName:this.userName(),
+        isActive:this.isActive()
+      }
+    })
+    
     this.addClassToElement(el, "active")
   }
 

@@ -19,7 +19,7 @@
                 <i class="fi fi-rs-settings m-auto"></i>
             </button>
 
-            <button-icon alt="user photo" [image]="this.userState.userSignal()?.photo || '../../../assets/icons/do-utilizador.png' " [routerLink]="'/home/edit-user'" ></button-icon>
+            <button-icon class="userIcon" alt="user photo" (click)="this.selectSection($event)" [image]="this.userState.userSignal()?.photo || '../../../assets/icons/do-utilizador.png' " [routerLink]="'/home/edit-user'" ></button-icon>
         </div>
     </section>
 </div>

@@ -11,17 +11,10 @@ import { RouterModule } from '@angular/router';
 export class ButtonIconComponent {
   image: InputSignal<string | undefined> = input("");
   alt:InputSignal<string | undefined> = input("");
-  execute:InputSignal<Function | undefined> = input();
 
   @ViewChild("buttonImage") private buttonImage: ElementRef<any>
 
   loadAlternativeImage() {
     this.buttonImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"
-  }
-
-  protected executeFn() {
-    if (typeof this.execute == "function") {
-      this.execute();
-    }
   }
 }
