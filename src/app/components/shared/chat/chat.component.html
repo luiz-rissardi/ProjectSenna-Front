@@ -3,11 +3,11 @@
     <button ButtonIcon class="back" (click)="closeChat()">
         ←
     </button>
-    <button-icon alt="user photo" (click)="this.openUserDetail(null)"
+    <button-icon alt="user photo" (click)="this.openUserDetail()"
         [image]="this.userDetailState.userDetailSignal().data.photo">
     </button-icon>
 
-    <p class="mt-3"> User current name </p>
+    <p class="mt-3"> {{ this.userDetailState.userDetailSignal().data.userName }} </p>
 
     <div class="d-flex ms-auto">
         <button type="button" ButtonIcon>
@@ -15,20 +15,26 @@
         </button>
 
         <div class="d-block">
-            <button type="button" ButtonIcon (click)="toogleDroptDown(dropdown)">
+            <button type="button" ButtonIcon (click)="toogleDroptDown()">
                 <i class="fi fi-rr-menu-dots-vertical mt-5" style="font-size: 1.5rem;"></i>
             </button>
-            <div #dropdown class="position-absolute dropdown" style="display: none;">
+            <div #dropdown class="position-absolute dropdown" style="display:none;" >
                 <ul class="p-0">
                     <li>
-                        <button type="button" class="dropdown-button" (click)="this.openUserDetail(dropdown)">
+                        <button type="button" class="dropdown-button" (click)="this.openUserDetail()">
                             profile
                         </button>
                     </li>
-                    <li>
-                        <button type="button" class="dropdown-button">
-                            block
-                        </button>
+                    <li> 
+                        @if(this.chatStateService.chatState()?.isActive == true){
+                            <button type="button" class="dropdown-button" (click)="this.blockChat()">
+                                block
+                            </button>
+                        }@else{
+                            <button type="button" class="dropdown-button" (click)="this.unlockedChat()">
+                                unlock
+                            </button>
+                        }
                     </li>
                     <li>
                         <button type="button" class="dropdown-button">

@@ -36,7 +36,11 @@ h1 {
     padding: 20px;
 
     i{
-        font-size: 2rem;
+        font-size: 1rem;
+
+        @include breakPoint(desktop-up){
+            font-size: 2rem;
+        }
     }
 
     &:hover{

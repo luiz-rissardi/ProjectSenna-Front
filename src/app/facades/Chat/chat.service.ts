@@ -7,6 +7,8 @@ import { ChatArrayState } from '../../core/states/Chats/chats.service';
 import { Chat } from '../../core/entity/chat';
 import { forkJoin } from 'rxjs';
 import { User } from '../../core/entity/user';
+import { ChatState } from '../../core/states/chat/chat-states.service';
+import { UserDetailState } from '../../core/states/userDetail/user-detail.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,10 @@ export class ChatFacade {
 
   private warningState = inject(WarningState);
   private chatService = inject(ChatService);
+
   private chatArrayState = inject(ChatArrayState);
+  private chatDataState = inject(ChatState);
+  private userDetailState = inject(UserDetailState)
 
   getChatsOfUser(userId: string) {
     try {
@@ -34,6 +39,35 @@ export class ChatFacade {
 
   blockChat(userId: string, chatId: string) {
     try {
+      const currentUserDetail = this.userDetailState.userDetailSignal();
+      this.userDetailState.userDetailSignal.set({
+        show: false,
+        data: {
+          ...currentUserDetail.data,
+          isActive: false,
+          dateOfBlocking: new Date(),
+        },
+      });
+
+      // Atualiza o estado do chat
+      const currentChatState = this.chatDataState.chatState();
+      this.chatDataState.chatState.set({
+        ...currentChatState,
+        isActive: false,
+      });
+
+      this.chatArrayState.chatsArrayState.update(chats => {
+        chats = chats.map(el => {
+          if (el.otherUserId == this.userDetailState.userDetailSignal().data.userId) {
+            el.isActive = false;
+            el.dateOfBlocking = new Date();
+          }
+          return el
+        })
+        return chats
+      })
+
+
       this.chatService.blockChat(chatId, userId)
         .subscribe((result: ResponseHttp<any>) => {
           if (result.isSuccess) {
@@ -49,6 +83,35 @@ export class ChatFacade {
 
   deblockChat(userId: string, chatId: string) {
     try {
+      // atualiza o estdado do chat perante o usuario
+      const currentUserDetail = this.userDetailState.userDetailSignal();
+      this.userDetailState.userDetailSignal.set({
+        show: false,
+        data: {
+          ...currentUserDetail.data,
+          isActive: true,
+          dateOfBlocking: null,
+        },
+      });
+
+      // Atualiza o estado do chat
+      const currentChatState = this.chatDataState.chatState();
+      this.chatDataState.chatState.set({
+        ...currentChatState,
+        isActive: true,
+      });
+
+      this.chatArrayState.chatsArrayState.update(chats => {
+        chats = chats.map(el => {
+          if (el.otherUserId == this.userDetailState.userDetailSignal().data.userId) {
+            el.isActive = true;
+            el.dateOfBlocking = null;
+          }
+          return el
+        })
+        return chats
+      })
+
       this.chatService.desblockChat(chatId, userId)
         .subscribe((result: ResponseHttp<any>) => {
           if (result.isSuccess) {
@@ -72,7 +135,7 @@ export class ChatFacade {
               [
                 this.chatService.addUsersInChat(chat.chatId, currentUserId),
                 this.chatService.addUsersInChat(chat.chatId, targetUser.userId)
-              ]).subscribe((results:[ResponseHttp<ChatData>, ResponseHttp<ChatData>]) => {
+              ]).subscribe((results: [ResponseHttp<ChatData>, ResponseHttp<ChatData>]) => {
                 const obj: ChatData = {
                   memberType: results[0].value.memberType,
                   lastClear: results[0].value.lastClear,
@@ -87,12 +150,12 @@ export class ChatFacade {
                   otherUserLastOnline: targetUser.lastOnline
                 }
                 const finalyResults = results.filter(el => el.isSuccess == true);
-                if(finalyResults.length > 0){
-                  this.chatArrayState.chatsArrayState.update((chats:ChatData[]) => {
+                if (finalyResults.length > 0) {
+                  this.chatArrayState.chatsArrayState.update((chats: ChatData[]) => {
                     chats.push(obj)
                     return chats
                   })
-                  this.warningState.warnigSignal.set({ IsSucess: true, data: {message:"Chat Criado com sucesso!"} })
+                  this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "Chat Criado com sucesso!" } })
                 }
               })
           } else {

@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren, effect, inject, viewChild } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -6,6 +6,7 @@ import { ChatState } from '../../../core/states/chat/chat-states.service';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
 import { UserState } from '../../../core/states/User/userState.service';
+import { ChatFacade } from '../../../facades/Chat/chat.service';
 
 @Component({
   selector: 'chat',
@@ -14,34 +15,32 @@ import { UserState } from '../../../core/states/User/userState.service';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
-export class ChatComponent extends DOMManipulation implements OnInit {
+export class ChatComponent extends DOMManipulation{
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected chatStateService = inject(ChatState);
-  protected userState = inject(UserState);
   protected imageSrc: any = ""
+  @ViewChild("dropdown") private dropdown: ElementRef
+  private userState = inject(UserState);
+  private chatFacade = inject(ChatFacade);
 
   constructor() {
     super();
   }
 
 
-  protected openUserDetail = (el: HTMLElement | null) => {
-    if(el != null){
-      el.style.display = "none"
+  protected openUserDetail = () => {
+    if (this.dropdown.nativeElement != null) {
+      this.dropdown.nativeElement.style.display = "none"
     }
-    
+
     this.userDetailState.userDetailSignal.update(data => {
       data.show = true;
       return data
     })
   }
 
-  async ngOnInit() {
-
-  }
-
-  chosenFile() {
+  protected chosenFile() {
     const inputFile = document.getElementById("file");
     inputFile.click()
 
@@ -51,12 +50,30 @@ export class ChatComponent extends DOMManipulation implements OnInit {
     this.chatStateService.chatState.set(null)
   }
 
-  protected toogleDroptDown(el: HTMLElement) {
-    if (el.style.display != "none") {
-      el.style.display = "none"
+  protected toogleDroptDown() {
+    if (this.dropdown.nativeElement.style.display != "none") {
+      this.dropdown.nativeElement.style.display = "none"
     } else {
-      el.style.display = "block"
+      this.dropdown.nativeElement.style.display = "block"
     }
+  }
+
+  protected blockChat() {
+    this.toogleDroptDown();
+    //Chama o método para bloquear o chat
+    this.chatFacade.blockChat(
+      this.userState.userSignal().userId,
+      this.userDetailState.userDetailSignal().data.chatId
+    );
+  }
+  
+  protected unlockedChat() {
+    this.toogleDroptDown();
+    // Chama o método para desbloquear o chat
+    this.chatFacade.deblockChat(
+      this.userState.userSignal().userId,
+      this.userDetailState.userDetailSignal().data.chatId
+    );
   }
 
 
