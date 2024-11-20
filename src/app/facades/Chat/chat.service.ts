@@ -89,7 +89,6 @@ export class ChatFacade {
                 const finalyResults = results.filter(el => el.isSuccess == true);
                 if(finalyResults.length > 0){
                   this.chatArrayState.chatsArrayState.update((chats:ChatData[]) => {
-                    console.log(obj);
                     chats.push(obj)
                     return chats
                   })

@@ -9,11 +9,11 @@ export interface UserDetail {
 
 interface UserDetailData{
   userName:string;
-  photo:string;
+  photo:string | Blob;
   description:string;
   dateOfBlocking:Date;
   userId:string;
-  isActive:boolean | string;
+  isActive:boolean;
   chatId:string;
 }
 

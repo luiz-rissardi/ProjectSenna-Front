@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './button-icon.component.scss'
 })
 export class ButtonIconComponent {
-  image: InputSignal<string | undefined> = input("");
+  image: InputSignal<string | Blob |  undefined> = input("");
   alt:InputSignal<string | undefined> = input("");
 
   @ViewChild("buttonImage") private buttonImage: ElementRef<any>

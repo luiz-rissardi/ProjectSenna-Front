@@ -10,6 +10,6 @@ export interface ChatData {
     otherUserId: string,
     otherUserName: string,
     otherUserDescription: string,
-    otherUserPhoto: Blob,
+    otherUserPhoto: Blob | string,
     otherUserLastOnline: Date
 }

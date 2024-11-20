@@ -14,9 +14,7 @@
 
         @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
 
-        <notification-chat [dateOfBlocking]="item.dateOfBlocking" [userDescription]="item.otherUserDescription"
-            [chatId]="item.chatId" [isActive]="item.isActive" [userId]="item.userId" [userName]="item.otherUserName"
-            [userPhoto]="item.otherUserPhoto"></notification-chat>
+        <notification-chat [chatData]="item"></notification-chat>
         }
         
         }@else {

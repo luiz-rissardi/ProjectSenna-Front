@@ -4,7 +4,7 @@ import { NotificationChatComponent } from '../shared/notification-chat/notificat
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [NotificationChatComponent],
+  // imports: [NotificationChatComponent],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })

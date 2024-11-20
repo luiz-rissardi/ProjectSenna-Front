@@ -1,8 +1,9 @@
-import { Component, effect, inject, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
 import { ChatFacade } from '../../facades/Chat/chat.service';
 import { ChatState } from '../../core/states/chat/chat-states.service';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
+import { ChatArrayState } from '../../core/states/Chats/chats.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,75 +14,89 @@ import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.
 })
 export class UserDetailComponent {
 
-  protected userDetailSignal: WritableSignal<UserDetail>;
-  private chatStateService = inject(ChatState)
-  private chatFacade = inject(ChatFacade)
-
-  constructor(userDetailState: UserDetailState) {
-    this.userDetailSignal = userDetailState.userDetailSignal
-  }
+  private chatFacade = inject(ChatFacade);
+  private chatStateService = inject(ChatState);
+  private chatsArrayState = inject(ChatArrayState)
+  protected userDetailState = inject(UserDetailState);
 
   protected closeDetails() {
-    this.userDetailSignal.update(el => {
+    this.userDetailState.userDetailSignal.update(el => {
       el.show = false;
-      return el;
+      return el
     })
   }
 
   protected blockChat() {
-    this.userDetailSignal.update(current => {
-      return {
-        ...current, // Gera uma nova referência
-        data: {
-          ...current.data,
-          isActive: false,
-          dateOfBlocking: new Date()
+    // Atualiza o estado do usuário
+    const currentUserDetail = this.userDetailState.userDetailSignal();
+    this.userDetailState.userDetailSignal.set({
+      show:true,
+      data: {
+        ...currentUserDetail.data,
+        isActive: false,
+        dateOfBlocking: new Date(),
+      },
+    });
+
+    // Atualiza o estado do chat
+    const currentChatState = this.chatStateService.chatState();
+    this.chatStateService.chatState.set({
+      ...currentChatState,
+      isActive: false,
+    });
+
+    this.chatsArrayState.chatsArrayState.update(chats => {
+      chats = chats.map(el => {
+        if(el.otherUserId == this.userDetailState.userDetailSignal().data.userId){
+          el.isActive = false;
+          el.dateOfBlocking = new Date();
         }
-      };
+        return el
+      })
+      return chats
     })
 
-    this.chatStateService.chatState.update(el => {
-      if (el !== undefined) {
-        return {
-          ...el, // Copia o objeto atual
-          isActive: false // Atualiza o valor de 'isActive'
-        };
-      } else {
-        return {
-          isActive: false
-        };
-      }
-    })
-
-    this.chatFacade.blockChat(this.userDetailSignal().data.userId, this.userDetailSignal().data.chatId);
+    // Chama o método para bloquear o chat
+    this.chatFacade.blockChat(
+      currentChatState?.userId,
+      currentUserDetail.data.chatId
+    );
   }
 
   protected unlockedChat() {
-    this.userDetailSignal.update(current => {
-      return {
-        ...current, // Gera uma nova referência
-        data: {
-          ...current.data,
-          isActive: true,
-          dateOfBlocking: null
+    // Atualiza o estado do usuário
+    const currentUserDetail = this.userDetailState.userDetailSignal();
+    this.userDetailState.userDetailSignal.set({
+      show:true,
+      data: {
+        ...currentUserDetail.data,
+        isActive: true,
+        dateOfBlocking: null,
+      },
+    });
+
+    // Atualiza o estado do chat
+    const currentChatState = this.chatStateService.chatState();
+    this.chatStateService.chatState.set({
+      ...currentChatState,
+      isActive: true,
+    });
+
+    this.chatsArrayState.chatsArrayState.update(chats => {
+      chats = chats.map(el => {
+        if (el.otherUserId == this.userDetailState.userDetailSignal().data.userId) {
+          el.isActive = true;
+          el.dateOfBlocking = null;
         }
-      };
+        return el
+      })
+      return chats
     })
 
-    this.chatStateService.chatState.update(el => {
-      if (el !== undefined) {
-        return {
-          ...el, // Copia o objeto atual
-          isActive: true // Atualiza o valor de 'isActive'
-        };
-      } else {
-        return {
-          isActive: true
-        };
-      }
-    })
-
-    this.chatFacade.deblockChat(this.userDetailSignal().data.userId, this.userDetailSignal().data.chatId);
+    // Chama o método para desbloquear o chat
+    this.chatFacade.deblockChat(
+      currentChatState?.userId,
+      currentUserDetail.data.chatId
+    );
   }
-
 }

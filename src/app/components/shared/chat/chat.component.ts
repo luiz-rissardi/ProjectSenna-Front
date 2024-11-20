@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -22,7 +22,6 @@ export class ChatComponent extends DOMManipulation implements OnInit {
   protected imageSrc: any = ""
 
   constructor() {
-
     super();
   }
 
