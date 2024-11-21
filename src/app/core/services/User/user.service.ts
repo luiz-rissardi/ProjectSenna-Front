@@ -36,9 +36,9 @@ export class UserService extends Service {
     return this.http.get(this.uri + `/user/contact/${contactId}`)
   }
 
-  getUsersByQuery(query: string) {
-    return this.http.get(this.uri + `/user/find/${query}`, { responseType: "text", observe: 'body' })
-      .pipe( StreamToJson )
+  getUsersByQuery(query: string, pagination: number) {
+    return this.http.get(this.uri + `/user/find/${query}/${pagination * 5}`, { responseType: "text", observe: 'body' })
+      .pipe(StreamToJson)
   }
 
 }

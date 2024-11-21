@@ -20,37 +20,36 @@
     <article class="my-3 d-flex flex-column">
         <h4 class="mx-auto"> Persons in Just Translate </h4>
 
-        @if(query.value != ""){
-        <div class="contacts py-3">
+        <div class="contacts py-3" #contacts>
+            @if(query.value != ""){
             @for (item of this.filtedListUsers; track $index) {
-                @defer (when item != undefined) {
-                    <app-contact-search 
-                        [user]="item">
-                    </app-contact-search>
-                }@loading(minimum 500ms){
-                <div class="d-flex">
-                    <ngx-skeleton-loader appearance="circle" [theme]="{ width: '80px', height: '80px' }">
-                    </ngx-skeleton-loader>
-                    <div class="my-3">
-                        <ngx-skeleton-loader [theme]="{
-                                            width: '200px',
-                                            'border-radius': '0',
-                                            height: '15px',
-                                            'margin-bottom': '10px'
-                                        }"></ngx-skeleton-loader>
+            @defer (when item.photo != undefined) {
+            <app-contact-search [user]="item">
+            </app-contact-search>
+            }@loading(minimum 500ms){
+            <div class="d-flex">
+                <ngx-skeleton-loader appearance="circle" [theme]="{ width: '80px', height: '80px' }">
+                </ngx-skeleton-loader>
+                <div class="my-3">
+                    <ngx-skeleton-loader [theme]="{
+                                                        width: '200px',
+                                                        'border-radius': '0',
+                                                        height: '15px',
+                                                        'margin-bottom': '10px'
+                                                    }"></ngx-skeleton-loader>
 
-                        <ngx-skeleton-loader [theme]="{
-                                            width: '150px',
-                                            'border-radius': '0',
-                                            height: '15px',
-                                            'margin-bottom': '10px'
-                                        }"></ngx-skeleton-loader>
-                    </div>
+                    <ngx-skeleton-loader [theme]="{
+                                                        width: '150px',
+                                                        'border-radius': '0',
+                                                        height: '15px',
+                                                        'margin-bottom': '10px'
+                                                    }"></ngx-skeleton-loader>
                 </div>
-                }
+            </div>
+            }
+            }
             }
         </div>
-        }
 
     </article>
 </section>

@@ -118,9 +118,9 @@ export class UserFacade {
     }
   }
 
-  findUsersByQuery(query: string) {
+  findUsersByQuery(query: string,pagination:number) {
     try {
-      this.userService.getUsersByQuery(query)
+      this.userService.getUsersByQuery(query,pagination)
     } catch (error) {
       this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "It was not possible find users" } })
     }

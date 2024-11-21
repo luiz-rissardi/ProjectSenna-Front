@@ -17,8 +17,6 @@ export class UserDetailComponent {
 
   private chatFacade = inject(ChatFacade);
   private userState = inject(UserState)
-  private chatStateService = inject(ChatState);
-  private chatsArrayState = inject(ChatArrayState)
   protected userDetailState = inject(UserDetailState);
 
   protected closeDetails() {
