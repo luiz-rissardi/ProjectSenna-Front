@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { WarningState } from '../../core/states/warning/warning.service';
-import { ChatService } from '../../core/services/Chat/chat.service';
+import { WarningState } from '../../core/states/warning/warning.state';
+import { ChatService } from '../../core/services/chat/chat.service';
 import { ResponseHttp } from '../../interfaces/ResponseType';
-import { ChatData } from '../../core/entity/chatData';
-import { ChatArrayState } from '../../core/states/Chats/chats.service';
-import { Chat } from '../../core/entity/chat';
+import { ChatData } from '../../interfaces/chatData';
+import { ChatArrayState } from '../../core/states/chats/chats.state';
+import { Chat } from '../../interfaces/chat';
 import { forkJoin } from 'rxjs';
-import { User } from '../../core/entity/user';
-import { ChatState } from '../../core/states/chat/chat-states.service';
-import { UserDetailState } from '../../core/states/userDetail/user-detail.service';
+import { User } from '../../interfaces/user';
+import { ChatState } from '../../core/states/chat/chat.state';
+import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
 
 @Injectable({
   providedIn: 'root'

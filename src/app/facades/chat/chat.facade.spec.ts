@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChatArrayState } from './chats.service';
+import { ChatFacade } from './chat.facade';
 
-describe('ChatArrayState', () => {
-  let service: ChatArrayState;
+describe('ChatFacade', () => {
+  let service: ChatFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChatArrayState);
+    service = TestBed.inject(ChatFacade);
   });
 
   it('should be created', () => {

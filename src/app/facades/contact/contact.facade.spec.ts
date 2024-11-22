@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChatFacade } from './chat.service';
+import { ContactFacade } from './contact.facade';
 
-describe('ChatFacade', () => {
-  let service: ChatFacade;
+describe('ContactFacade', () => {
+  let service: ContactFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChatFacade);
+    service = TestBed.inject(ContactFacade);
   });
 
   it('should be created', () => {

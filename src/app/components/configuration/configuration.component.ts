@@ -1,8 +1,6 @@
 import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
-import { ButtonIconComponent } from '../shared/button-icon/button-icon.component';
-import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
-import { UserState } from '../../core/states/User/userState.service';
+import { UserState } from '../../core/states/User/user.state';
 
 @Component({
   selector: 'app-configuration',

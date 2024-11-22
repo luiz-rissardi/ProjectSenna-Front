@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, TemplateRef, ViewChild
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { RouterLink, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmailService } from '../../../../core/services/Email/email.service';
+import { EmailService } from '../../../../core/services/email/email.service';
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
 
 @Component({

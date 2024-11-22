@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, inject, input, InputSignal, signal } from '@angular/core';
-import { LimitTextPipe } from '../../../pipes/limit-text.pipe';
-import { UserState } from '../../../core/states/User/userState.service';
-import { ChatFacade } from '../../../facades/Chat/chat.service';
-import { User } from '../../../core/entity/user';
+import { LimitTextPipe } from '../../../pipes/limitText/limit-text.pipe';
+import { UserState } from '../../../core/states/User/user.state';
+import { ChatFacade } from '../../../facades/chat/chat.facade';
+import { User } from '../../../interfaces/user';
 
 
 @Component({
@@ -37,13 +37,8 @@ export class ContactSearchComponent implements AfterViewInit {
     const currentUserId = this.userStateService.userSignal()?.userId;
 
     this.chatFacade.createNewChat(currentUserId, {
-      // memberType: "conversation",
-      // lastClear: Date,
       isActive: this.user().isActive,
       userId: this.user().userId,
-      // chatId: this.,
-      // dateOfBlocking: Date,
-      // otherUserId: string,
       userName: this.user().userName,
       userDescription: this.user().userDescription,
       photo: this.user().photo,

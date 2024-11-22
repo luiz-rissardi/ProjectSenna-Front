@@ -1,5 +1,5 @@
-import { Component, ElementRef, inject, input, signal, ViewChild } from '@angular/core';
-import { UserFacade } from '../../facades/User/user-facade.service';
+import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
+import { UserFacade } from '../../facades/user/user.facade';
 import { WarnigComponent } from "../../components/shared/warnig/warnig.component";
 import { RouterLink } from '@angular/router';
 

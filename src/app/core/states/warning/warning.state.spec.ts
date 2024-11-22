@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserFacade } from './user-facade.service';
+import { WarningState } from './warning.state';
 
-describe('UserFacade', () => {
-  let service: UserFacade;
+describe('WarningService', () => {
+  let service: WarningState;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserFacade);
+    service = TestBed.inject(WarningState);
   });
 
   it('should be created', () => {

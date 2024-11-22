@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
-import { debounceTime, fromEvent, map, Subject, takeUntil, throttleTime } from "rxjs"
-import { UserService } from '../../core/services/User/user.service';
-import { User } from '../../core/entity/user';
+import { debounceTime, fromEvent, map, Subject, takeUntil } from "rxjs"
+import { UserService } from '../../core/services/user/user.service';
+import { User } from '../../interfaces/user';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ContactSearchComponent } from '../shared/contact-search/contact-search.component';
 

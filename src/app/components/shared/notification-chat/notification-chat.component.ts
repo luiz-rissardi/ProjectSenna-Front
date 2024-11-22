@@ -1,11 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, effect, inject, input, signal } from '@angular/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { ChatState } from '../../../core/states/chat/chat-states.service';
+import { ChatState } from '../../../core/states/chat/chat.state';
 import { DOMManipulation } from '../../../shared/DomManipulation';
-import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
+import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { User } from '../../../core/entity/user';
-import { ChatData } from '../../../core/entity/chatData';
+import { ChatData } from '../../../interfaces/chatData';
 
 @Component({
   selector: 'notification-chat',

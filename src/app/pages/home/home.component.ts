@@ -1,7 +1,7 @@
 import { Component, inject,effect } from '@angular/core';
 import { ChatDataComponent } from '../../components/chat-data/chat-data.component';
 import { ChatComponent } from '../../components/shared/chat/chat.component';
-import { ChatState } from '../../core/states/chat/chat-states.service';
+import { ChatState } from '../../core/states/chat/chat.state';
 import { UserDetailComponent } from "../../components/user-detail/user-detail.component";
 import { WarnigComponent } from "../../components/shared/warnig/warnig.component";
 

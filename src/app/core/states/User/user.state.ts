@@ -1,5 +1,5 @@
-import { effect, Injectable, signal, WritableSignal } from '@angular/core';
-import { User } from '../../entity/user';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { User } from '../../../interfaces/user';
 
 @Injectable({
   providedIn: 'root'

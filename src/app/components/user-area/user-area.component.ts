@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DOMManipulation } from '../../shared/DomManipulation';
 import { ButtonIconComponent } from '../shared/button-icon/button-icon.component';
-import { UserState } from '../../core/states/User/userState.service';
+import { UserState } from '../../core/states/User/user.state';
 
 @Component({
   selector: 'app-user-area',

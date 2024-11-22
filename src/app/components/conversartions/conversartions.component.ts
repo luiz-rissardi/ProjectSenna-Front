@@ -1,8 +1,8 @@
 import { Component, inject, TemplateRef } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
-import { ChatFacade } from '../../facades/Chat/chat.service';
-import { UserState } from '../../core/states/User/userState.service';
-import { ChatArrayState } from '../../core/states/Chats/chats.service';
+import { ChatFacade } from '../../facades/chat/chat.facade';
+import { UserState } from '../../core/states/User/user.state';
+import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

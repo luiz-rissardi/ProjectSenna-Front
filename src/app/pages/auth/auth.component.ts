@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UserFacade } from '../../facades/User/user-facade.service';
+import { UserFacade } from '../../facades/user/user.facade';
 import { WarnigComponent } from "../../components/shared/warnig/warnig.component";
 
 @Component({

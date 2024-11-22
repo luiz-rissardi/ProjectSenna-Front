@@ -2,9 +2,9 @@ import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core'
 import { ButtonIconComponent } from '../../button-icon/button-icon.component';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
-import { UserFacade } from '../../../../facades/User/user-facade.service';
+import { UserFacade } from '../../../../facades/user/user.facade';
 import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
-import { UserState } from '../../../../core/states/User/userState.service';
+import { UserState } from '../../../../core/states/User/user.state';
 
 
 @Component({

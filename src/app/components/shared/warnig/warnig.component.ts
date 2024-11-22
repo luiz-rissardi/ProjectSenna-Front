@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild, ElementRef, ChangeDetectionStrategy, computed } from '@angular/core';
-import { WarningState } from '../../../core/states/warning/warning.service';
+import { WarningState } from '../../../core/states/warning/warning.state';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 
 @Component({

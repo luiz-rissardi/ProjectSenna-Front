@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { UserDetail, UserDetailState } from '../../core/states/userDetail/user-detail.service';
-import { ChatFacade } from '../../facades/Chat/chat.service';
-import { ChatState } from '../../core/states/chat/chat-states.service';
+import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
+import { ChatFacade } from '../../facades/chat/chat.facade';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
-import { ChatArrayState } from '../../core/states/Chats/chats.service';
-import { UserState } from '../../core/states/User/userState.service';
+import { UserState } from '../../core/states/User/user.state';
 
 @Component({
   selector: 'app-user-detail',

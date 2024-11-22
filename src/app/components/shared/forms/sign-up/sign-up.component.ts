@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { fromEvent, map, Subject, takeUntil } from "rxjs"
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserFacade } from '../../../../facades/User/user-facade.service';
-import { UserState } from '../../../../core/states/User/userState.service';
+import { UserFacade } from '../../../../facades/user/user.facade';
+import { UserState } from '../../../../core/states/User/user.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

@@ -1,14 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { UserService } from '../../core/services/User/user.service';
-import { UserState } from '../../core/states/User/userState.service';
+import { UserService } from '../../core/services/user/user.service';
+import { UserState } from '../../core/states/User/user.state';
 import { ResponseHttp } from '../../interfaces/ResponseType';
-import { WarningState } from '../../core/states/warning/warning.service';
-import { User } from '../../core/entity/user';
+import { WarningState } from '../../core/states/warning/warning.state';
+import { User } from '../../interfaces/user';
 import { Buffer } from 'buffer';
 import { HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { EmailService } from '../../core/services/Email/email.service';
+import { EmailService } from '../../core/services/email/email.service';
 
 @Injectable({
   providedIn: 'root'

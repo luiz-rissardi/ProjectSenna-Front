@@ -2,10 +2,10 @@ import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core'
 import { ButtonIconDirective } from '../../../../directives/buttonIcon/button-icon.directive';
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
-import { UserState } from '../../../../core/states/User/userState.service';
-import { User } from '../../../../core/entity/user';
+import { UserState } from '../../../../core/states/User/user.state';
+import { User } from '../../../../interfaces/user';
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
-import { UserFacade } from '../../../../facades/User/user-facade.service';
+import { UserFacade } from '../../../../facades/user/user.facade';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({

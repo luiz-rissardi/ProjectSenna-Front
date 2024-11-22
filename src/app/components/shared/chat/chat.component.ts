@@ -1,12 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewChildren, effect, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { ChatState } from '../../../core/states/chat/chat-states.service';
+import { ChatState } from '../../../core/states/chat/chat.state';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
-import { UserDetailState } from '../../../core/states/userDetail/user-detail.service';
-import { UserState } from '../../../core/states/User/userState.service';
-import { ChatFacade } from '../../../facades/Chat/chat.service';
+import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
+import { UserState } from '../../../core/states/User/user.state';
+import { ChatFacade } from '../../../facades/chat/chat.facade';
 
 @Component({
   selector: 'chat',
