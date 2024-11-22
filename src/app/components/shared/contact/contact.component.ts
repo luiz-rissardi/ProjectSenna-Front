@@ -6,11 +6,10 @@ import { UserDetailState } from '../../../core/states/userDetail/user-detail.sta
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-contact',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss'
+    selector: 'app-contact',
+    imports: [RouterLink],
+    templateUrl: './contact.component.html',
+    styleUrl: './contact.component.scss'
 })
 export class ContactComponent implements AfterViewInit {
 

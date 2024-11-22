@@ -2,11 +2,10 @@ import { Component, ElementRef, input, InputSignal, ViewChild } from '@angular/c
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'button-icon',
-  standalone: true,
-  imports: [RouterModule ],
-  templateUrl: './button-icon.component.html',
-  styleUrl: './button-icon.component.scss'
+    selector: 'button-icon',
+    imports: [RouterModule],
+    templateUrl: './button-icon.component.html',
+    styleUrl: './button-icon.component.scss'
 })
 export class ButtonIconComponent {
   image: InputSignal<string | Blob |  undefined> = input("");

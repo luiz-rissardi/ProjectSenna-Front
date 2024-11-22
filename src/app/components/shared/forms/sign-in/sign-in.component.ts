@@ -8,11 +8,10 @@ import { UserState } from '../../../../core/states/User/user.state';
 
 
 @Component({
-  selector: 'app-sign-in',
-  standalone: true,
-  imports: [ButtonIconComponent, RouterLink, ButtonStyleDirective, ReactiveFormsModule],
-  templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss'
+    selector: 'app-sign-in',
+    imports: [ButtonIconComponent, RouterLink, ButtonStyleDirective, ReactiveFormsModule],
+    templateUrl: './sign-in.component.html',
+    styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent{
 

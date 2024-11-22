@@ -3,12 +3,11 @@ import { WarningState } from '../../../core/states/warning/warning.state';
 import { DOMManipulation } from '../../../shared/DomManipulation';
 
 @Component({
-  selector: 'app-warnig',
-  standalone: true,
-  imports: [],
-  templateUrl: './warnig.component.html',
-  styleUrl: './warnig.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-warnig',
+    imports: [],
+    templateUrl: './warnig.component.html',
+    styleUrl: './warnig.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WarnigComponent extends DOMManipulation {
 

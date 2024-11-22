@@ -4,11 +4,10 @@ import { ButtonIconDirective } from '../../../../directives/buttonIcon/button-ic
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 
 @Component({
-  selector: 'app-edit-privacy-data',
-  standalone: true,
-  imports: [RouterLink,ButtonIconDirective,ButtonStyleDirective],
-  templateUrl: './edit-privacy-data.component.html',
-  styleUrl: './edit-privacy-data.component.scss'
+    selector: 'app-edit-privacy-data',
+    imports: [RouterLink, ButtonIconDirective, ButtonStyleDirective],
+    templateUrl: './edit-privacy-data.component.html',
+    styleUrl: './edit-privacy-data.component.scss'
 })
 export class EditPrivacyDataComponent {
 

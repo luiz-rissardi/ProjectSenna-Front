@@ -6,11 +6,10 @@ import { User } from '../../../interfaces/user';
 
 
 @Component({
-  selector: 'app-contact-search',
-  standalone: true,
-  imports: [LimitTextPipe],
-  templateUrl: './contact-search.component.html',
-  styleUrl: './contact-search.component.scss'
+    selector: 'app-contact-search',
+    imports: [LimitTextPipe],
+    templateUrl: './contact-search.component.html',
+    styleUrl: './contact-search.component.scss'
 })
 export class ContactSearchComponent implements AfterViewInit {
 

@@ -6,11 +6,10 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ContactSearchComponent } from '../shared/contact-search/contact-search.component';
 
 @Component({
-  selector: 'app-add',
-  standalone: true,
-  imports: [NgxSkeletonLoaderModule, ContactSearchComponent],
-  templateUrl: './add.component.html',
-  styleUrl: './add.component.scss'
+    selector: 'app-add',
+    imports: [NgxSkeletonLoaderModule, ContactSearchComponent],
+    templateUrl: './add.component.html',
+    styleUrl: './add.component.scss'
 })
 export class AddComponent implements AfterViewInit, OnDestroy {
 

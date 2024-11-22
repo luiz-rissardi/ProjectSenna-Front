@@ -6,12 +6,10 @@ import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-conversartions',
-  standalone: true,
-  imports: [NotificationChatComponent],
-  templateUrl: './conversartions.component.html',
-  styleUrl: './conversartions.component.scss',
-  
+    selector: 'app-conversartions',
+    imports: [NotificationChatComponent],
+    templateUrl: './conversartions.component.html',
+    styleUrl: './conversartions.component.scss'
 })
 export class ConversartionsComponent {
 

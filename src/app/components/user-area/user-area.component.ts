@@ -6,11 +6,10 @@ import { ButtonIconComponent } from '../shared/button-icon/button-icon.component
 import { UserState } from '../../core/states/User/user.state';
 
 @Component({
-  selector: 'app-user-area',
-  standalone: true,
-  imports: [RouterLink, NgbTooltipModule, ButtonIconComponent],
-  templateUrl: './user-area.component.html',
-  styleUrl: './user-area.component.scss',
+    selector: 'app-user-area',
+    imports: [RouterLink, NgbTooltipModule, ButtonIconComponent],
+    templateUrl: './user-area.component.html',
+    styleUrl: './user-area.component.scss'
 })
 export class UserAreaComponent extends DOMManipulation {
 

@@ -9,11 +9,10 @@ import { UserFacade } from '../../../../facades/user/user.facade';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-user',
-  standalone: true,
-  imports: [ButtonIconDirective, ButtonStyleDirective, RouterLink, ReactiveFormsModule],
-  templateUrl: './edit-user.component.html',
-  styleUrl: './edit-user.component.scss'
+    selector: 'app-edit-user',
+    imports: [ButtonIconDirective, ButtonStyleDirective, RouterLink, ReactiveFormsModule],
+    templateUrl: './edit-user.component.html',
+    styleUrl: './edit-user.component.scss'
 })
 export class EditUserComponent {
 

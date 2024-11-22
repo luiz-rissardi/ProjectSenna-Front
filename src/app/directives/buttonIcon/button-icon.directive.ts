@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[ButtonIcon]',
@@ -7,7 +7,9 @@ import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 export class ButtonIconDirective {
 
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  private el = inject(ElementRef)
+  private renderer = inject(Renderer2)
+  constructor() {
     this.setStyles();
   }
 

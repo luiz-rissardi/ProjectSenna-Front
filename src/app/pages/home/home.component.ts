@@ -8,11 +8,10 @@ import { ContactFacade } from '../../facades/contact/contact.facade';
 import { UserState } from '../../core/states/User/user.state';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 

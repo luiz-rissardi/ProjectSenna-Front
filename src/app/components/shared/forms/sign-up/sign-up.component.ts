@@ -9,12 +9,11 @@ import { UserState } from '../../../../core/states/User/user.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-sign-up',
-  standalone: true,
-  imports: [RouterLink, ButtonStyleDirective, ReactiveFormsModule],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-sign-up',
+    imports: [RouterLink, ButtonStyleDirective, ReactiveFormsModule],
+    templateUrl: './sign-up.component.html',
+    styleUrl: './sign-up.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnDestroy {
   private elRef = inject(ElementRef);

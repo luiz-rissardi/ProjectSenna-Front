@@ -10,11 +10,10 @@ import { ChatFacade } from '../../../facades/chat/chat.facade';
 import { ContactFacade } from '../../../facades/contact/contact.facade';
 
 @Component({
-  selector: 'chat',
-  standalone: true,
-  imports: [MessageComponent, ButtonIconComponent, ButtonIconDirective],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss',
+    selector: 'chat',
+    imports: [MessageComponent, ButtonIconComponent, ButtonIconDirective],
+    templateUrl: './chat.component.html',
+    styleUrl: './chat.component.scss'
 })
 export class ChatComponent extends DOMManipulation {
 

@@ -6,11 +6,10 @@ import { EmailService } from '../../../../core/services/email/email.service';
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-recover-password',
-  standalone: true,
-  imports: [ButtonStyleDirective, RouterLink, RouterModule],
-  templateUrl: './recover-password.component.html',
-  styleUrl: './recover-password.component.scss'
+    selector: 'app-recover-password',
+    imports: [ButtonStyleDirective, RouterLink, RouterModule],
+    templateUrl: './recover-password.component.html',
+    styleUrl: './recover-password.component.scss'
 })
 export class RecoverPasswordComponent implements AfterViewInit, OnDestroy {
   

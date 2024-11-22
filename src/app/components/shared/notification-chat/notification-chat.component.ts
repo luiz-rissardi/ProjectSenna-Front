@@ -7,12 +7,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ChatData } from '../../../interfaces/chatData';
 
 @Component({
-  selector: 'notification-chat',
-  standalone: true,
-  imports: [ButtonIconComponent, NgxSkeletonLoaderModule],
-  templateUrl: './notification-chat.component.html',
-  styleUrl: './notification-chat.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'notification-chat',
+    imports: [ButtonIconComponent, NgxSkeletonLoaderModule],
+    templateUrl: './notification-chat.component.html',
+    styleUrl: './notification-chat.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationChatComponent extends DOMManipulation implements AfterViewInit {
 

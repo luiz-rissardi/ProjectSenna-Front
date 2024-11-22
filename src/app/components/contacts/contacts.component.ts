@@ -6,11 +6,10 @@ import { ChatData } from '../../interfaces/chatData';
 import { Contact } from '../../interfaces/contact';
 
 @Component({
-  selector: 'app-contacts',
-  standalone: true,
-  imports: [ContactComponent],
-  templateUrl: './contacts.component.html',
-  styleUrl: './contacts.component.scss'
+    selector: 'app-contacts',
+    imports: [ContactComponent],
+    templateUrl: './contacts.component.html',
+    styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
 

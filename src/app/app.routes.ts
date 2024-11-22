@@ -9,7 +9,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 
 export const routes: Routes = [
     {
-        path:":email/recover/password",
+        path:":email/recover/password/",
         component:ChangePasswordComponent,
     },
     {
@@ -73,8 +73,4 @@ export const routes: Routes = [
             }
         ]
     },
-    {
-        path:"**",
-        redirectTo:"/home/conversation"
-    }
 ];

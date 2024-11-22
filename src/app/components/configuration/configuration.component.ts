@@ -3,11 +3,10 @@ import { RouterLink } from '@angular/router';
 import { UserState } from '../../core/states/User/user.state';
 
 @Component({
-  selector: 'app-configuration',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './configuration.component.html',
-  styleUrl: './configuration.component.scss'
+    selector: 'app-configuration',
+    imports: [RouterLink],
+    templateUrl: './configuration.component.html',
+    styleUrl: './configuration.component.scss'
 })
 export class ConfigurationComponent {
   
