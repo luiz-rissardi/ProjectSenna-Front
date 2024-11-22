@@ -11,17 +11,16 @@ export class ContactService extends Service {
   }
 
   getContactsByContactId(contactId: string) {
-    return this.http.get(`/contact/${contactId}`);
+    return this.http.get(this.uri + `/contact/${contactId}`);
   }
 
   addContact(contactId: string, userId: string) {
-    return this.http.post(`/contact/${contactId}`, {
-      userId
-    })
+    const body = this.toFormData({userId})
+    return this.http.post(this.uri + `/contact/${contactId}`, body)
   }
 
   removeContact(contactId: string, userId: string) {
-    return this.http.delete(`/contact/${contactId}/remove/${userId}`)
-  }
+    return this.http.delete(this.uri + `/contact/${contactId}/remove/${userId}`)
+  } 
 
 }

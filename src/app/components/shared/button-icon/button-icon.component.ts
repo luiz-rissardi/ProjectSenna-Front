@@ -1,10 +1,10 @@
-import { Component, ElementRef, input, Input, InputSignal, TemplateRef, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, input, InputSignal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'button-icon',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule ],
   templateUrl: './button-icon.component.html',
   styleUrl: './button-icon.component.scss'
 })

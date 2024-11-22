@@ -1,0 +1,50 @@
+@import "../../../../styles.scss";
+
+
+.contact {
+    &-box {
+        position: relative;
+        width: 100%;
+        min-height: 10vh;
+        height: auto;
+        background-color: $white;
+        box-shadow: 0px 1px 1px 1px $lightDark;
+        margin-top: 2%;
+        padding: 20px;
+        transition: 100ms ease-out;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            scale: (1.05);
+            transition: 100ms ease-out;
+        }
+
+        &-aux {
+            width: 90%;
+            height: 5vh;
+            background-color: $lightGreen;
+            color: $white;
+            border: none;
+            margin: auto;
+            margin-bottom: 20px;
+            transition: 100ms ease-out;
+
+            &:hover {
+                background-color: $white;
+                color: $lightGreen;
+                border: $lightGreen;
+                scale: (1.05);
+                transition: 100ms ease-out;
+            }
+
+        }
+    }
+
+    &-photo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        image-rendering: optimizeSpeed;
+    }
+}

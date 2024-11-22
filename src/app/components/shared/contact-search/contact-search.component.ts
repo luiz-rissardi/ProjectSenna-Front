@@ -35,7 +35,6 @@ export class ContactSearchComponent implements AfterViewInit {
 
   AddNewChat() {
     const currentUserId = this.userStateService.userSignal()?.userId;
-
     this.chatFacade.createNewChat(currentUserId, {
       isActive: this.user().isActive,
       userId: this.user().userId,

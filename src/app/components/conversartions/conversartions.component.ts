@@ -10,7 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   imports: [NotificationChatComponent],
   templateUrl: './conversartions.component.html',
-  styleUrl: './conversartions.component.scss'
+  styleUrl: './conversartions.component.scss',
+  
 })
 export class ConversartionsComponent {
 
@@ -22,6 +23,7 @@ export class ConversartionsComponent {
 
 
   constructor() {
+    
     if (this.chatsArrayState.chatsArrayState()?.length == undefined) {
       const userId = this.userState.userSignal()?.userId;
       if (userId) {

@@ -16,14 +16,12 @@ import { ChatData } from '../../../interfaces/chatData';
 })
 export class NotificationChatComponent extends DOMManipulation implements AfterViewInit {
 
-  @ViewChild('notification') notificationElement!: ElementRef;
-
   chatData = input<ChatData>();
-
   protected show = signal(false)
   private chatState = inject(ChatState);
   private userDetailState = inject(UserDetailState);
   private isSetted = false
+  @ViewChild('notification') notificationElement!: ElementRef;
 
   constructor() {
     super();
@@ -80,7 +78,6 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   }
 
   protected openUserDetail = () => {
-    // console.log(this.userDetailState.userDetailSignal());
     this.userDetailState.userDetailSignal.set({
       show: true,
       data: {

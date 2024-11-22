@@ -7,6 +7,7 @@ import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { UserState } from '../../../core/states/User/user.state';
 import { ChatFacade } from '../../../facades/chat/chat.facade';
+import { ContactFacade } from '../../../facades/contact/contact.facade';
 
 @Component({
   selector: 'chat',
@@ -15,7 +16,7 @@ import { ChatFacade } from '../../../facades/chat/chat.facade';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
-export class ChatComponent extends DOMManipulation{
+export class ChatComponent extends DOMManipulation {
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected chatStateService = inject(ChatState);
@@ -23,6 +24,7 @@ export class ChatComponent extends DOMManipulation{
   @ViewChild("dropdown") private dropdown: ElementRef
   private userState = inject(UserState);
   private chatFacade = inject(ChatFacade);
+  private contactFacade = inject(ContactFacade);
 
   constructor() {
     super();
@@ -66,7 +68,7 @@ export class ChatComponent extends DOMManipulation{
       this.userDetailState.userDetailSignal().data.chatId
     );
   }
-  
+
   protected unlockedChat() {
     this.toogleDroptDown();
     // Chama o método para desbloquear o chat
@@ -74,6 +76,12 @@ export class ChatComponent extends DOMManipulation{
       this.userState.userSignal().userId,
       this.userDetailState.userDetailSignal().data.chatId
     );
+  }
+
+  protected addContact() {
+    const { userName, userId, photo } = this.userDetailState.userDetailSignal().data;
+    const user = this.userState.userSignal()
+    this.contactFacade.addContact(user.contactId, userId, photo, userName);
   }
 
 
