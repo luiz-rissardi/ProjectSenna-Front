@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../base/baseService';
-import { User } from '../../../interfaces/user';
-import { StreamToJson } from '../../../shared/pipebleOperators';
+import { User } from '../../../shared/interfaces/user';
+import { StreamToJson } from '../../../shared/operators/pipebleOperators';
 
 @Injectable({
   providedIn: 'root'

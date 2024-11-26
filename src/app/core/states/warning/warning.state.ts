@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Warning } from '../../../interfaces/ResponseType';
+import { Warning } from '../../../shared/interfaces/ResponseType';
 
 @Injectable({
   providedIn: 'root'

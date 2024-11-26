@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { UserService } from '../../core/services/user/user.service';
 import { UserState } from '../../core/states/User/user.state';
-import { ResponseHttp } from '../../interfaces/ResponseType';
+import { ResponseHttp } from '../../shared/interfaces/ResponseType';
 import { WarningState } from '../../core/states/warning/warning.state';
-import { User } from '../../interfaces/user';
+import { User } from '../../shared/interfaces/user';
 import { Buffer } from 'buffer';
 import { HttpResponse } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth/auth.service';

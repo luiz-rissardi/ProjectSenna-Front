@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { ChatData } from '../../../interfaces/chatData';
+import { ChatData } from '../../../shared/interfaces/chatData';
 
 @Injectable({
   providedIn: 'root'

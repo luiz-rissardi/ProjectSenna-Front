@@ -3,7 +3,7 @@ import { ButtonIconDirective } from '../../../../directives/buttonIcon/button-ic
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { RouterLink } from '@angular/router';
 import { UserState } from '../../../../core/states/User/user.state';
-import { User } from '../../../../interfaces/user';
+import { User } from '../../../../shared/interfaces/user';
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
 import { UserFacade } from '../../../../facades/user/user.facade';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';

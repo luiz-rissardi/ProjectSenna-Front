@@ -1,5 +1,5 @@
 <section class="chat-user-data">
-    @if(this.chatStateService.chatState()?.chatId != undefined){
+    @if(this.chatState.chatState()?.chatId != undefined){
     <button ButtonIcon class="back" (click)="closeChat()">
         ←
     </button>
@@ -18,7 +18,7 @@
             <button type="button" ButtonIcon (click)="toogleDroptDown()">
                 <i class="fi fi-rr-menu-dots-vertical mt-5" style="font-size: 1.5rem;"></i>
             </button>
-            <div #dropdown class="position-absolute dropdown" style="display:none;" >
+            <div #dropdown class="position-absolute dropdown" style="display:none;">
                 <ul class="p-0">
                     <li>
                         <button type="button" class="dropdown-button" (click)="this.addContact()">
@@ -30,15 +30,15 @@
                             profile
                         </button>
                     </li>
-                    <li> 
-                        @if(this.chatStateService.chatState()?.isActive == true){
-                            <button type="button" class="dropdown-button" (click)="this.blockChat()">
-                                block
-                            </button>
+                    <li>
+                        @if(this.chatState.chatState()?.isActive == true){
+                        <button type="button" class="dropdown-button" (click)="this.blockChat()">
+                            block
+                        </button>
                         }@else{
-                            <button type="button" class="dropdown-button" (click)="this.unlockedChat()">
-                                unlock
-                            </button>
+                        <button type="button" class="dropdown-button" (click)="this.unlockedChat()">
+                            unlock
+                        </button>
                         }
                     </li>
                     <li>
@@ -53,19 +53,19 @@
     }
 </section>
 
-@if(this.chatStateService.chatState()?.chatId != undefined){
+@if(this.chatState.chatState()?.chatId != undefined){
 
 <section class="chat" id="chat">
-    @for (item of this.messages; track $index) {
-    <message [isGroup]="false" [sendAt]="item.sendAt" [isYourMessage]="item.username == 'eduardo'"
-        [message]="item.message" [userName]="item.username">
+    @for (item of this.messageState.messageSignal(); track $index) {
+    <message [isGroup]="false" [message]="item"
+        [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
     </message>
     }
 </section>
 
 
 <div class="chat-sender">
-    @if(this.chatStateService.chatState()?.isActive == true){
+    @if(this.chatState.chatState()?.isActive == true){
     <div class="d-flex ms-auto">
         <button type="button" ButtonIcon>
             <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
@@ -78,7 +78,8 @@
 
     <!-- <a href="#" id="img">dowload</a> -->
     <!-- <img [src]="this.userState.userSignal()?.photo" id="img" alt="" width="100" height="100"> -->
-    <input type="text" class="chat-input" placeholder="write your message">
+    <input type="text" #inputText class="chat-input" placeholder="write your message"
+        (keydown.Enter)="this.sendMessage()">
     <button type="button" class="chat-button-mic mx-2">
         <i class="fi fi-rr-circle-microphone"></i>
     </button>

@@ -1,6 +1,11 @@
 @import  "../../../../styles.scss";
 
 .message {
+
+    &-date{
+        color: $dark;
+    }
+
     &-card {
         width: 100%;
         max-width: 300px;
@@ -10,7 +15,9 @@
         margin-left: 10px;
         border-radius: 0 5px 5px 5px;
         padding: 10px;
-        font-family: monospace;
+        font-family: system-ui !important;
+        display: flex;
+        flex-direction: column;
 
         @include breakPoint(mobile-only){
             max-width: 200px;
@@ -62,4 +69,10 @@
         left: 96.5%;
         rotate: 180deg;
     }
+}
+
+.moreText{
+    border: none;
+    background-color: transparent;
+    color: blue;
 }

@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { DOMManipulation } from '../../../shared/DomManipulation';
+import { Component, ElementRef, ViewChild, effect, inject } from '@angular/core';
+import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatState } from '../../../core/states/chat/chat.state';
@@ -8,6 +8,9 @@ import { UserDetailState } from '../../../core/states/userDetail/user-detail.sta
 import { UserState } from '../../../core/states/User/user.state';
 import { ChatFacade } from '../../../facades/chat/chat.facade';
 import { ContactFacade } from '../../../facades/contact/contact.facade';
+import { MessageFacade } from '../../../facades/message/message.facade';
+import { MessagesState } from '../../../core/states/messages/messages.state';
+import { Message } from '../../../shared/interfaces/message';
 
 @Component({
     selector: 'chat',
@@ -17,16 +20,27 @@ import { ContactFacade } from '../../../facades/contact/contact.facade';
 })
 export class ChatComponent extends DOMManipulation {
 
-  protected userDetailState: UserDetailState = inject(UserDetailState);
-  protected chatStateService = inject(ChatState);
   protected imageSrc: any = ""
-  @ViewChild("dropdown") private dropdown: ElementRef
+  protected userDetailState: UserDetailState = inject(UserDetailState);
+  protected chatState = inject(ChatState);
   private userState = inject(UserState);
+  protected messageState = inject(MessagesState);
   private chatFacade = inject(ChatFacade);
+  private messageFacade = inject(MessageFacade);
   private contactFacade = inject(ContactFacade);
+  private skipMessagges = 0;
+  @ViewChild("dropdown") private dropdown: ElementRef
+  @ViewChild("inputText") private inputText: ElementRef
 
   constructor() {
     super();
+
+    effect(()=>{
+      const chatId = this.chatState.chatState()?.chatId;
+      if(chatId != undefined){
+        this.messageFacade.getMessagesByChatId(chatId,this.skipMessagges)
+      }
+    })
   }
 
 
@@ -48,7 +62,7 @@ export class ChatComponent extends DOMManipulation {
   }
 
   protected closeChat() {
-    this.chatStateService.chatState.set(null)
+    this.chatState.chatState.set(null)
   }
 
   protected toogleDroptDown() {
@@ -84,132 +98,19 @@ export class ChatComponent extends DOMManipulation {
   }
 
 
-  messages = [
-    {
-      message: "ola tudo beasdasdasdasd adasdasdasdasd as d asd as d as d as dasm ?",
-      username: "Luiz",
-      sendAt: "primeira"
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "eduardo",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "eduardo",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "eduardo",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "eduardo",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "eduardo",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: new Date()
-    },
-    {
-      message: "ola tudo bem ?",
-      username: "Luiz",
-      sendAt: "ultima"
-    },
-  ]
+  protected sendMessage(){
+    const messageText = this.inputText.nativeElement.value;
+    const message:Partial<Message> = {
+      message:messageText,
+      userId:this.userState.userSignal().userId,
+      chatId:this.chatState.chatState().chatId,
+      dateSender:new Date(),
+      language:this.userState.userSignal().languages,
+      messageType:"text"
+    }
+
+    // console.log(message);
+    this.messageFacade.sendMessage(message);
+  }
 
 }

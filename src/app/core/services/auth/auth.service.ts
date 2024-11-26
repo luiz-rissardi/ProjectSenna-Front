@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../base/baseService';
-import { ResponseHttp } from '../../../interfaces/ResponseType';
-import { User } from '../../../interfaces/user';
+import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
+import { User } from '../../../shared/interfaces/user';
 
 @Injectable({
   providedIn: 'root'

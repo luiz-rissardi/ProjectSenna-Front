@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ContactService } from '../../core/services/contact/contact.service';
-import { ResponseHttp } from '../../interfaces/ResponseType';
-import { Contact } from '../../interfaces/contact';
+import { ResponseHttp } from '../../shared/interfaces/ResponseType';
+import { Contact } from '../../shared/interfaces/contact';
 import { ContactsState } from '../../core/states/contacts/contacts.state';
 import { WarningState } from '../../core/states/warning/warning.state';
 

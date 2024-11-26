@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { WarningState } from '../../core/states/warning/warning.state';
 import { ChatService } from '../../core/services/chat/chat.service';
-import { ResponseHttp } from '../../interfaces/ResponseType';
-import { ChatData } from '../../interfaces/chatData';
+import { ResponseHttp } from '../../shared/interfaces/ResponseType';
+import { ChatData } from '../../shared/interfaces/chatData';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
-import { Chat } from '../../interfaces/chat';
+import { Chat } from '../../shared/interfaces/chat';
 import { forkJoin } from 'rxjs';
-import { User } from '../../interfaces/user';
+import { User } from '../../shared/interfaces/user';
 import { ChatState } from '../../core/states/chat/chat.state';
 import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
 

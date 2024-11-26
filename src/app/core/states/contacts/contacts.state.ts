@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Contact } from '../../../interfaces/contact';
+import { Contact } from '../../../shared/interfaces/contact';
 
 @Injectable({
   providedIn: 'root'

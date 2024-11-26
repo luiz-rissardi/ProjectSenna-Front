@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, HostListener, inject, input, InputSignal, signal, ViewChild } from '@angular/core';
-import { Contact } from '../../../interfaces/contact';
-import { ChatData } from '../../../interfaces/chatData';
+import { Contact } from '../../../shared/interfaces/contact';
+import { ChatData } from '../../../shared/interfaces/chatData';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { RouterLink } from '@angular/router';
-import { DOMManipulation } from '../../../shared/DomManipulation';
+import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { ContactFacade } from '../../../facades/contact/contact.facade';
 import { UserState } from '../../../core/states/User/user.state';
 

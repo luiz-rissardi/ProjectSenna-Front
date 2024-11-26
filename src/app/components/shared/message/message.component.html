@@ -2,8 +2,13 @@
     <div [className]="this.isYourMessage()?'setLeft setLeft-me':'setLeft'"></div>
     <article [className]="this.isYourMessage()?'message-card me':'message-card'">
         @if(this.isGroup() == true){
-        <span class="message-sender"> {{ userName() }} </span>
+        <span class="message-sender"> {{ message().userName }} </span>
         }
-        <p class="message-text"> {{ message() }} </p>
+        <p class="message-text"> {{ isExtend==true ? message().message : message().message | limitText:300 }}
+            @if(this.isExtend == false){
+            <button class="moreText" type="button" (click)="toggleExtend()"> leia mais </button>
+            }
+        </p>
+        <p class="message-date ms-auto"> {{message().dateSender | date:"HH:mm" }} </p>
     </article>
 </div>

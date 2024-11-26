@@ -2,8 +2,8 @@ import { Component, effect, inject, signal, WritableSignal } from '@angular/core
 import { ContactsState } from '../../core/states/contacts/contacts.state';
 import { ContactComponent } from '../shared/contact/contact.component';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
-import { ChatData } from '../../interfaces/chatData';
-import { Contact } from '../../interfaces/contact';
+import { ChatData } from '../../shared/interfaces/chatData';
+import { Contact } from '../../shared/interfaces/contact';
 
 @Component({
   selector: 'app-contacts',

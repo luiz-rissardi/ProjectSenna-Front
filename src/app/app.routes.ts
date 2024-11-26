@@ -3,7 +3,7 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { SignInComponent } from './components/shared/forms/sign-in/sign-in.component';
 import { SignUpComponent } from './components/shared/forms/sign-up/sign-up.component';
 import { RecoverPasswordComponent } from './components/shared/forms/recover-password/recover-password.component';
-import { authGuard } from './guards/auth/auth.guard';
+import { authGuard } from './shared/guards/auth/auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 

@@ -1,7 +1,7 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { DOMManipulation } from '../../shared/DomManipulation';
+import { DOMManipulation } from '../../shared/operators/DomManipulation';
 import { ButtonIconComponent } from '../shared/button-icon/button-icon.component';
 import { UserState } from '../../core/states/User/user.state';
 

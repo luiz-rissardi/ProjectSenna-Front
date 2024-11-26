@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, inject, input, InputSignal, signal } from '@angular/core';
-import { LimitTextPipe } from '../../../pipes/limitText/limit-text.pipe';
+import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
 import { UserState } from '../../../core/states/User/user.state';
 import { ChatFacade } from '../../../facades/chat/chat.facade';
-import { User } from '../../../interfaces/user';
+import { User } from '../../../shared/interfaces/user';
 
 
 @Component({
