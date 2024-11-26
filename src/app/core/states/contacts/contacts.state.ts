@@ -6,5 +6,5 @@ import { Contact } from '../../../interfaces/contact';
 })
 export class ContactsState {
 
-  public contactSignal: WritableSignal<Contact[]> = signal([]);
+  public contactSignal: WritableSignal<Contact[]> = signal(null);
 }

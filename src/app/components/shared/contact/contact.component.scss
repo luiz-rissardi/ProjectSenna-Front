@@ -1,11 +1,11 @@
-@import  "../../../../styles.scss";
+@import "../../../../styles.scss";
 
 
 .contact {
     &-box {
         position: relative;
         width: 100%;
-        min-height: 10vh;
+        min-height: 15vh;
         height: auto;
         background-color: $white;
         box-shadow: 0px 1px 1px 1px $lightDark;
@@ -47,4 +47,38 @@
         border-radius: 50%;
         image-rendering: optimizeSpeed;
     }
+}
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    width: 20%;
+    flex-direction: column;
+    top: 0;
+    left: 80%;
+    min-height: 15vh;
+    height: auto;
+    background-color: $lightblackCarbon;
+
+    &-btn {
+        position: relative;
+        top: 0;
+        left: 0;
+        border: 0;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        padding: 2px;
+        color: $dark;
+
+        &:hover {
+            background-color: $lightDark;
+            color: $white;
+        }
+    }
+}
+
+.dropdown.visible {
+    display: flex;
 }

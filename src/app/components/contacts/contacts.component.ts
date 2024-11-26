@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { ContactsState } from '../../core/states/contacts/contacts.state';
 import { ContactComponent } from '../shared/contact/contact.component';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
@@ -6,19 +6,25 @@ import { ChatData } from '../../interfaces/chatData';
 import { Contact } from '../../interfaces/contact';
 
 @Component({
-    selector: 'app-contacts',
-    imports: [ContactComponent],
-    templateUrl: './contacts.component.html',
-    styleUrl: './contacts.component.scss'
+  selector: 'app-contacts',
+  imports: [ContactComponent],
+  templateUrl: './contacts.component.html',
+  styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
 
   private contactState = inject(ContactsState);
   private chatsArrayState = inject(ChatArrayState);
-  protected data: { contact: Contact, chatData: ChatData }[] = [];
+  protected data: WritableSignal<{ contact: Contact, chatData: ChatData }[]> = signal([]);
 
   constructor() {
-    this.initializeData();
+
+    // refazer a lista quando um novo contato é add ou removido
+    effect(()=>{
+      if(this.contactState.contactSignal() != null ){
+        this.initializeData()
+      }
+    })
   }
 
   private initializeData() {
@@ -28,11 +34,12 @@ export class ContactsComponent {
     );
 
     // Associa `chatData` com `contact` correspondente
-    this.data = this.chatsArrayState.chatsArrayState()
+    const contacts = this.chatsArrayState.chatsArrayState()
       ?.map(chatData => {
         const contact = contactMap.get(chatData.otherUserId);
         return contact ? { chatData, contact } : null;
       })
       ?.filter(Boolean); // Remove valores nulos
+    this.data.set(contacts)
   }
 }

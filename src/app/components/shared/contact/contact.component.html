@@ -7,10 +7,24 @@
 
             <div class="flex flex-column ms-3 mb-3 my-auto">
                 <p class="text-dark"> {{ this.contact().userName }} </p>
-
-
             </div>
+            <i style="font-size: 1.5rem;" class="ms-auto my-auto fi fi-rr-menu-dots-vertical"
+                (click)="this.openDropDown($event)"></i>
         </div>
     </section>
+
+    <div #dropdown [attr.data-dropdown-id]="contact().userId" [class.visible]="isVisibleDropDown" class="dropdown">
+        <button class="dropdown-btn m-1 d-flex align-items-center justify-content-center"
+            (click)="this.isVisibleDropDown = false">
+            ←
+        </button>
+        <button class="dropdown-btn m-1" (click)="this.deleteContact()">
+            <i class="ms-auto my-auto fi fi-rr-trash"></i>
+        </button>
+        <button class="dropdown-btn m-1">
+            <i class="fi fi-rr-apps-add"></i>
+        </button>
+    </div>
+    
 
 </div>

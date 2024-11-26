@@ -7,7 +7,7 @@
         </fieldset>
     </form>
     <section class="data-chats-notifications">
-        @for (item of this.data; track $index) {
+        @for (item of this.data(); track $index) {
             <app-contact [contact]="item.contact" [chatData]="item.chatData"></app-contact>
         }
     </section>

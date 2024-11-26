@@ -1,23 +1,30 @@
-import { AfterViewInit, Component, inject, input, InputSignal, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, input, InputSignal, signal, ViewChild } from '@angular/core';
 import { Contact } from '../../../interfaces/contact';
 import { ChatData } from '../../../interfaces/chatData';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { RouterLink } from '@angular/router';
+import { DOMManipulation } from '../../../shared/DomManipulation';
+import { ContactFacade } from '../../../facades/contact/contact.facade';
+import { UserState } from '../../../core/states/User/user.state';
 
 @Component({
-    selector: 'app-contact',
-    imports: [RouterLink],
-    templateUrl: './contact.component.html',
-    styleUrl: './contact.component.scss'
+  selector: 'app-contact',
+  imports: [RouterLink],
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.scss'
 })
-export class ContactComponent implements AfterViewInit {
+export class ContactComponent extends DOMManipulation implements AfterViewInit {
 
-  contact: InputSignal<Contact> = input({photo:"../../../../assets/icons/do-utilizador.png",userId:"",userName:""});
+  contact: InputSignal<Contact> = input({ photo: "../../../../assets/icons/do-utilizador.png", userId: "", userName: "" });
   chatData: InputSignal<ChatData> = input();
+  protected isVisibleDropDown = false;
 
   private chatState = inject(ChatState);
-  private userDetailState = inject(UserDetailState)
+  private contactFacade = inject(ContactFacade);
+  private userDetailState = inject(UserDetailState);
+  private userState = inject(UserState);
+  @ViewChild("dropdown") private dropDown !: ElementRef
 
   protected loadAlternativeImage() {
     this.contact().photo = "../../../../assets/icons/do-utilizador.png"
@@ -38,7 +45,7 @@ export class ContactComponent implements AfterViewInit {
   protected openChat() {
 
     this.chatState.chatState.set({
-     ...this.chatData()
+      ...this.chatData()
     })
 
     this.userDetailState.userDetailSignal.set({
@@ -53,6 +60,40 @@ export class ContactComponent implements AfterViewInit {
         isActive: this.chatData().isActive
       }
     })
+  }
+
+  protected openDropDown(event: MouseEvent): void {
+    event.stopPropagation();
+
+    // Fecha todos os outros dropdowns
+    const parentElement = this.dropDown.nativeElement.parentElement.parentElement.parentElement; // Obtém o elemento pai
+    const allDropdowns = parentElement.querySelectorAll('.dropdown.visible');
+
+    allDropdowns.forEach((dropdown) => {
+      this.removeClassToElement(dropdown, 'visible');
+    });
+      // Alterna a visibilidade do dropdown atual
+      this.isVisibleDropDown = true;
+
+    // Aplica a classe 'visible' ao dropdown atual, se necessário
+    if (this.isVisibleDropDown) {
+      this.dropDown.nativeElement.classList.add('visible');
+    }
+  }
+
+  protected deleteContact(){
+    this.contactFacade.removeContact(this.userState.userSignal().contactId,this.contact().userId);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Fecha o dropdown se o clique não for nele ou em seus filhos
+    if (this.dropDown && !this.dropDown.nativeElement.contains(target)) {
+      this.isVisibleDropDown = false;
+      this.dropDown.nativeElement.classList.remove('visible');
+    }
   }
 
 }

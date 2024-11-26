@@ -26,7 +26,9 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
     super();
     effect(() => {
       if (this.chatState.chatState() != null && this.isSetted == false) {
-        this.removeClassToElement(this.notificationElement.nativeElement, "active")
+        if(this.notificationElement != undefined){
+          this.removeClassToElement(this.notificationElement?.nativeElement, "active")
+        }
       } else {
         this.isSetted = false;
       }
