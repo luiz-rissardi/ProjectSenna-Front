@@ -26,7 +26,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   private isSetted = false;
   protected notificationsCont = signal(0);
   @ViewChild('notification') notificationElement!: ElementRef;
-  
+
   constructor() {
     
     super();
@@ -42,9 +42,9 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
 
     this.socketService.on("message", (data: any) => {
       if(
-        (data?.chatId == this.chatData().chatId) && 
-        (data.userId != this.userState.userSignal().userId) &&
-        (this.chatState.chatState().chatId != data.chatId)
+        (data?.chatId == this.chatData()?.chatId) && 
+        (data.userId != this.userState.userSignal()?.userId) &&
+        (this.chatState.chatState()?.chatId != data?.chatId)
       ){
         this.notificationsCont.update(count => {
           return count + 1

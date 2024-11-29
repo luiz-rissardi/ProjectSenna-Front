@@ -20,48 +20,98 @@ import { SocketService } from '../../../core/services/socket/socket.service';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent extends DOMManipulation {
-
-  protected imageSrc: any = ""
+  protected imageSrc: any = '';
   protected userDetailState: UserDetailState = inject(UserDetailState);
-  protected messageState = inject(MessagesState);
+  protected messagesState = inject(MessagesState);
   protected chatState = inject(ChatState);
   private userState = inject(UserState);
   private chatFacade = inject(ChatFacade);
   private messageFacade = inject(MessageFacade);
   private contactFacade = inject(ContactFacade);
   private socketService = inject(SocketService);
-  private skipMessagges = 0;
-  @ViewChild("dropdown") private dropdown: ElementRef;
-  @ViewChild("inputText") private inputText: ElementRef;
+  private skipMessages = 0;
+  private lastChatId: string | null = null; // Armazena o estado anterior do chatId
+
+  @ViewChild('dropdown') private dropdown: ElementRef;
+  @ViewChild('inputText') private inputText: ElementRef;
   @ViewChild('chat') private chatContainer: ElementRef;
 
   constructor() {
     super();
 
+    // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
-      if (this.messageState.messageSignal().length >= 1) {
+      const currentChatId = this.chatState.chatState()?.chatId;
+      if (currentChatId && currentChatId !== this.lastChatId) {
+        this.lastChatId = currentChatId; // Atualiza o estado armazenado
+        this.skipMessages = 0; // Reseta o contador de mensagens carregadas
+        this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages);
+      }
+    });
+
+    // Atualizar mensagens no chat e marcar como lidas
+    effect(() => {
+      const messages = this.messagesState.messageSignal();
+      if (messages.length > 0) {
         this.scrollToBottom();
-        const messagesId = this.messageState.messageSignal()
-          .map(mesasge => mesasge.userId != this.userState.userSignal().userId ? mesasge.messageId:[]).flat(Infinity);
-        this.messageFacade.markReadInMessageStatus(messagesId)
-      }
-    })
 
-    effect(() => {
-      const chatId = this.chatState.chatState()?.chatId;
-      if (chatId != undefined) {
-        this.messageFacade.getMessagesByChatId(chatId, this.skipMessagges)
-      }
-    })
+        const unreadMessages = messages
+          .filter((msg) => msg.userId !== this.userState.userSignal().userId)
+          .map((msg) => msg.messageId);
 
-    this.socketService.on("message", (data: any) => {
-      this.messageState.messageSignal.update(messages => {
-        if ((messages.filter(message => message.messageId == data?.messageId).length == 0) && this.chatState.chatState().chatId == data.chatId ) {
-          messages?.push(data);
+        if (unreadMessages.length > 0) {
+          this.markRead(unreadMessages);
         }
-        return [...messages]
-      })
+      }
+    });
+
+    this.socketService.on("read-messages", (chatId: any) => {
+      if (this.chatState.chatState()?.chatId == chatId) {
+        this.messagesState.messageSignal.update(messages => {
+          return [...messages.map(message => {
+            if (message.userId == this.userState.userSignal().userId) {
+              message.status = "read";
+            }
+            return message
+          })]
+        })
+      }
     })
+
+    // Configuração de WebSockets para mensagens em tempo real
+    this.initializeSocketListeners();
+  }
+
+  private initializeSocketListeners() {
+    this.socketService.on('message', (data: any) => {
+      const chatId = this.chatState.chatState()?.chatId;
+
+      if (chatId && chatId === data.chatId) {
+        this.messagesState.messageSignal.update((messages) => {
+          if (!messages.some((msg) => msg.messageId === data.messageId)) {
+            return [...messages, data];
+          }
+          return messages;
+        });
+      }
+    });
+
+    this.socketService.on('read-messages', (chatId: string) => {
+      if (chatId === this.chatState.chatState()?.chatId) {
+        this.messagesState.messageSignal.update((messages) =>
+          messages.map((msg) => ({ ...msg, status: 'read' }))
+        );
+      }
+    });
+  }
+
+  private markRead(messagesId: string[]) {
+    const chatId = this.chatState.chatState()?.chatId;
+    const otherUserId = this.chatState.chatState()?.otherUserId;
+
+    if (chatId && otherUserId) {
+      this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
+    }
   }
 
   private scrollToBottom(): void {
@@ -74,37 +124,32 @@ export class ChatComponent extends DOMManipulation {
   }
 
   protected openUserDetail = () => {
-    if (this.dropdown.nativeElement != null) {
-      this.dropdown.nativeElement.style.display = "none"
+    if (this.dropdown.nativeElement) {
+      this.dropdown.nativeElement.style.display = 'none';
     }
 
-    this.userDetailState.userDetailSignal.update(data => {
+    this.userDetailState.userDetailSignal.update((data) => {
       data.show = true;
-      return data
-    })
-  }
+      return data;
+    });
+  };
 
   protected chosenFile() {
-    const inputFile = document.getElementById("file");
-    inputFile.click()
-
+    const inputFile = document.getElementById('file');
+    inputFile.click();
   }
 
   protected closeChat() {
-    this.chatState.chatState.set(null)
+    this.chatState.chatState.set(null);
   }
 
-  protected toogleDroptDown() {
-    if (this.dropdown.nativeElement.style.display != "none") {
-      this.dropdown.nativeElement.style.display = "none"
-    } else {
-      this.dropdown.nativeElement.style.display = "block"
-    }
+  protected toggleDropdown() {
+    const dropdownStyle = this.dropdown.nativeElement.style;
+    dropdownStyle.display = dropdownStyle.display === 'block' ? 'none' : 'block';
   }
 
   protected blockChat() {
-    this.toogleDroptDown();
-    //Chama o método para bloquear o chat
+    this.toggleDropdown();
     this.chatFacade.blockChat(
       this.userState.userSignal().userId,
       this.userDetailState.userDetailSignal().data.chatId
@@ -112,8 +157,7 @@ export class ChatComponent extends DOMManipulation {
   }
 
   protected unlockedChat() {
-    this.toogleDroptDown();
-    // Chama o método para desbloquear o chat
+    this.toggleDropdown();
     this.chatFacade.deblockChat(
       this.userState.userSignal().userId,
       this.userDetailState.userDetailSignal().data.chatId
@@ -122,22 +166,25 @@ export class ChatComponent extends DOMManipulation {
 
   protected addContact() {
     const { userName, userId, photo } = this.userDetailState.userDetailSignal().data;
-    const user = this.userState.userSignal()
+    const user = this.userState.userSignal();
     this.contactFacade.addContact(user.contactId, userId, photo, userName);
   }
 
   protected sendMessage() {
     const messageText = this.inputText.nativeElement.value;
+
+    if (messageText.trim() === '') return;
+
     const message: Partial<Message> = {
       message: messageText,
       userId: this.userState.userSignal().userId,
-      chatId: this.chatState.chatState().chatId,
+      chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
       language: this.userState.userSignal().languages,
-      messageType: "text"
-    }
+      messageType: 'text',
+    };
 
     this.messageFacade.sendMessage(message);
+    this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
   }
-
 }

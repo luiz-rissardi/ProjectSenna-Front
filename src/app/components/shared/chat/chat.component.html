@@ -15,7 +15,7 @@
         </button>
 
         <div class="d-block">
-            <button type="button" ButtonIcon (click)="toogleDroptDown()">
+            <button type="button" ButtonIcon (click)="toggleDropdown()">
                 <i class="fi fi-rr-menu-dots-vertical mt-5" style="font-size: 1.5rem;"></i>
             </button>
             <div #dropdown class="position-absolute dropdown" style="display:none;">
@@ -60,7 +60,7 @@
 </article>
 
 <section class="chat" id="chat" #chat>
-    @for (item of this.messageState.messageSignal(); track $index) {
+    @for (item of this.messagesState.messageSignal(); track $index) {
     <message [isGroup]="false" [message]="item"
         [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
     </message>

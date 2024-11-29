@@ -27,9 +27,13 @@
     }
 
     .badge{
-        margin-inline-start: 75%;
-        margin-top: -60px;
+        margin-inline-start: 8%;
+        width: 20px;
+        height: 20px;
+        margin-top: -50px;
         padding: 5px;
+        display: flex;
+        align-items: center;
 
         @include breakPoint(mobile-only){
             margin-top: -40px;

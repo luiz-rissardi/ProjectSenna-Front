@@ -56,12 +56,14 @@ export class MessageFacade {
     }
   }
 
-  markReadInMessageStatus(messagesId: string[]) {
+  markReadInMessageStatus(messagesId: string[],chatId:string,userId:string) {
     try {
       this.messageService.markReadInMessages(messagesId)
-        .subscribe((result:ResponseHttp<any>) => {
-          if(result.isSuccess){
-            // this.socketService.emit();
+        .subscribe((result: ResponseHttp<any>) => {
+          if (result.isSuccess) {
+            this.socketService.emit("read-messages", {
+              chatId, userId
+            });
           }
         })
     } catch (error) {

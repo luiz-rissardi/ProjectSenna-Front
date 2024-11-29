@@ -14,7 +14,7 @@ export class ChatService extends Service {
     return this.http.post(this.uri + `/chat`,{});
   }
 
-  addUsersInChat(chatId:string,userId:string,memberType:string = "conversation"){
+  addUsersInChat(chatId:string,userId:string,memberType:string = "member"){
     return this.http.post(this.uri + `/chat/${chatId}/participant/${userId}`,{
       memberType
     });
