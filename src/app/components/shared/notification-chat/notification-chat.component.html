@@ -1,10 +1,12 @@
 @defer (when this.show() == true) {
-<article #notification class="notification" (click)="openChat(notification)">
-    <button-icon 
-        [alt]="'user photo' + this.chatData().otherUserName" 
-        [image]="this.chatData().otherUserPhoto" 
-        (click)="this.stopPropagation($event)"
-        (click)="this.openUserDetail()">
+<article #notification class="notification " (click)="openChat(notification)">
+    @if(this.notificationsCont() > 0){
+    }
+    <span class="position-absolute ranslate-middle badge rounded-pill bg-danger">
+        {{ notificationsCont() }}
+    </span>
+    <button-icon [alt]="'user photo' + this.chatData().otherUserName" [image]="this.chatData().otherUserPhoto"
+        (click)="this.stopPropagation($event)" (click)="this.openUserDetail()">
     </button-icon>
     <p class="mt-3"> {{this.chatData().otherUserName }} </p>
 </article>

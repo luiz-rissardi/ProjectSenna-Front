@@ -5,32 +5,50 @@ import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ChatData } from '../../../shared/interfaces/chatData';
+import { UserState } from '../../../core/states/User/user.state';
+import { SocketService } from '../../../core/services/socket/socket.service';
 
 @Component({
-    selector: 'notification-chat',
-    imports: [ButtonIconComponent, NgxSkeletonLoaderModule],
-    templateUrl: './notification-chat.component.html',
-    styleUrl: './notification-chat.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'notification-chat',
+  imports: [ButtonIconComponent, NgxSkeletonLoaderModule],
+  templateUrl: './notification-chat.component.html',
+  styleUrl: './notification-chat.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationChatComponent extends DOMManipulation implements AfterViewInit {
 
   chatData = input<ChatData>();
   protected show = signal(false)
   private chatState = inject(ChatState);
+  private userState = inject(UserState);
   private userDetailState = inject(UserDetailState);
-  private isSetted = false
+  private socketService = inject(SocketService);
+  private isSetted = false;
+  protected notificationsCont = signal(0);
   @ViewChild('notification') notificationElement!: ElementRef;
-
+  
   constructor() {
+    
     super();
     effect(() => {
       if (this.chatState.chatState() != null && this.isSetted == false) {
-        if(this.notificationElement != undefined){
+        if (this.notificationElement != undefined) {
           this.removeClassToElement(this.notificationElement?.nativeElement, "active")
         }
       } else {
         this.isSetted = false;
+      }
+    })
+
+    this.socketService.on("message", (data: any) => {
+      if(
+        (data?.chatId == this.chatData().chatId) && 
+        (data.userId != this.userState.userSignal().userId) &&
+        (this.chatState.chatState().chatId != data.chatId)
+      ){
+        this.notificationsCont.update(count => {
+          return count + 1
+        })
       }
     })
   }
@@ -59,7 +77,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
     this.isSetted = true
 
     this.chatState.chatState.set({
-     ...this.chatData()
+      ...this.chatData()
     })
 
     this.userDetailState.userDetailSignal.set({
@@ -76,6 +94,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
     })
 
     this.addClassToElement(el, "active")
+    this.notificationsCont.set(0);
   }
 
   protected openUserDetail = () => {

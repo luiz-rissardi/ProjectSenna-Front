@@ -6,6 +6,16 @@
         color: $dark;
     }
 
+    &-status{
+        &-read{
+            color: blue;
+        }
+
+        &-unread{
+            color: $light;
+        }
+    }
+
     &-card {
         width: 100%;
         max-width: 300px;

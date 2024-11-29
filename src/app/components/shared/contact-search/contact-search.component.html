@@ -1,5 +1,5 @@
 <div class="position-relative">
-    <section class="contact-box d-flex flex-column" tabindex="0" (focus)="this.clicked = true" (blur)="this.clicked = false">
+    <section class="contact-box d-flex flex-column" tabindex="0" (focus)="this.clicked = true">
         <div class="d-flex">
             <img (error)="this.loadAlternativeImage()" class="contact-photo" [src]="this.photoImage()"
                 [alt]="'photo of'+this.user().userName">

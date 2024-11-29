@@ -152,7 +152,7 @@ export class ChatFacade {
                 const finalyResults = results.filter(el => el.isSuccess == true);
                 if (finalyResults.length > 0) {
                   this.chatArrayState.chatsArrayState.update((chats: ChatData[]) => {
-                    chats.push(obj)
+                    chats?.push(obj)
                     return chats
                   })
                   this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "Chat Criado com sucesso!" } })

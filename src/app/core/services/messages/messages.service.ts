@@ -17,13 +17,18 @@ export class MessagesService extends Service {
 
   sendMessageToChat(message: Partial<Message>) {
     const body = this.toFormData({
-      messageText:message.message,
-      userId:message.userId,
-      chatI:message.chatId,
-      language:message.language, 
-      messageType:"text"
+      messageText: message.message,
+      userId: message.userId,
+      chatI: message.chatId,
+      language: message.language,
+      messageType: "text"
     })
     return this.http.post(this.uri + `/chat/${message.chatId}/message/send`, body)
+  }
+
+  markReadInMessages(messagesId: string[]) {
+    const body = { messagesId }
+    return this.http.post(this.uri + `/chat/messages/read`,body);
   }
 
 }

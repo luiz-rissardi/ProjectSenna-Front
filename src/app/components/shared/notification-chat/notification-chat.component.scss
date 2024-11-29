@@ -11,6 +11,7 @@
     gap: 20px;
     transition: 200ms linear;
     background: $boldDark;
+    position: relative;
     
 
     &:hover {
@@ -23,6 +24,16 @@
     p {
         font-size: 1.2rem;
         font-family: monospace;
+    }
+
+    .badge{
+        margin-inline-start: 75%;
+        margin-top: -60px;
+        padding: 5px;
+
+        @include breakPoint(mobile-only){
+            margin-top: -40px;
+        }
     }
 }
 
