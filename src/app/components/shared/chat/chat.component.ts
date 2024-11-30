@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, effect, inject, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -30,7 +30,6 @@ export class ChatComponent extends DOMManipulation {
   private contactFacade = inject(ContactFacade);
   private socketService = inject(SocketService);
   private skipMessages = 0;
-  private lastChatId: string | null = null; // Armazena o estado anterior do chatId
 
   @ViewChild('dropdown') private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
@@ -42,11 +41,7 @@ export class ChatComponent extends DOMManipulation {
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
       const currentChatId = this.chatState.chatState()?.chatId;
-      if (currentChatId && currentChatId !== this.lastChatId) {
-        this.lastChatId = currentChatId; // Atualiza o estado armazenado
-        this.skipMessages = 0; // Reseta o contador de mensagens carregadas
-        this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages);
-      }
+      this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages);
     });
 
     // Atualizar mensagens no chat e marcar como lidas
@@ -106,11 +101,11 @@ export class ChatComponent extends DOMManipulation {
   }
 
   private markRead(messagesId: string[]) {
-    const chatId = this.chatState.chatState()?.chatId;
-    const otherUserId = this.chatState.chatState()?.otherUserId;
+    const chatId = untracked(() => this.chatState.chatState().chatId);
+    const otherUserId = untracked(()=> this.chatState.chatState()?.otherUserId);
 
     if (chatId && otherUserId) {
-      this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
+      // this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
     }
   }
 
