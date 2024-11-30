@@ -55,10 +55,6 @@
 
 @if(this.chatState.chatState()?.chatId != undefined){
 
-<article class="chat-date-message d-flex">
-    <p  class="p-1"> segunda feira </p>
-</article>
-
 <section class="chat" id="chat" #chat>
     @for (item of this.messagesState.messageSignal(); track $index) {
     <message [isGroup]="false" [message]="item"

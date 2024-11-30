@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, input, InputSignal } from '@angular/core';
 import { Message } from '../../../shared/interfaces/message';
-import { DatePipe } from '@angular/common';
+import { DatePipe, SlicePipe } from '@angular/common';
 import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
 
 @Component({
   selector: 'message',
-  imports: [DatePipe, LimitTextPipe],
+  imports: [DatePipe, LimitTextPipe,SlicePipe],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })

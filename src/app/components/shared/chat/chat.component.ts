@@ -105,7 +105,7 @@ export class ChatComponent extends DOMManipulation {
     const otherUserId = untracked(()=> this.chatState.chatState()?.otherUserId);
 
     if (chatId && otherUserId) {
-      // this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
+      this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
     }
   }
 
@@ -115,7 +115,7 @@ export class ChatComponent extends DOMManipulation {
       if (chat) {
         chat.scrollTop = chat.scrollHeight + 100;
       }
-    }, 0);
+    }, 50);
   }
 
   protected openUserDetail = () => {
@@ -179,6 +179,7 @@ export class ChatComponent extends DOMManipulation {
       messageType: 'text',
     };
 
+    this.scrollToBottom();
     this.messageFacade.sendMessage(message);
     this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
   }

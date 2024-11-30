@@ -10,7 +10,10 @@
             }
         </p>
         <div class="d-flex">
-            <p class="message-date ms-auto"> {{message().dateSender | date:"HH:mm" }} </p>
+            <p class="message-date ms-auto">
+                {{ message().dateSender | date: 'EEEE' | slice: 0:3 }} {{ message().dateSender | date: 'HH:mm' }}
+            </p>
+
 
             @if(this.message().status == "read" && this.isYourMessage()){
             <svg class="message-status-read mx-2 mt-2" viewBox="0 0 16 11" height="11" width="16"

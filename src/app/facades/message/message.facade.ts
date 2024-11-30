@@ -19,6 +19,9 @@ export class MessageFacade {
     try {
       this.messageService.getMessagesOfChat(chatId, skipMessages)
         .subscribe((result: ResponseHttp<Message[]>) => {
+          if (skipMessages == 0) {
+            this.messagesState.messageSignal.set([]);
+          }
           this.messagesState.messageSignal.update(messages => {
             messages.push(...result.value)
             return [...messages]
