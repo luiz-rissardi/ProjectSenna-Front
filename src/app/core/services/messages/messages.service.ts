@@ -21,7 +21,7 @@ export class MessagesService extends Service {
       userId: message.userId,
       chatI: message.chatId,
       language: message.language,
-      messageType: "text"
+      messageType: message.messageType
     })
     return this.http.post(this.uri + `/chat/${message.chatId}/message/send`, body)
   }

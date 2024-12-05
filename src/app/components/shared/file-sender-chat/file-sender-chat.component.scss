@@ -1,0 +1,71 @@
+@import "../../../../styles.scss";
+
+
+.chat-sender-image-container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    z-index: 500;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.493);
+
+    @include breakPoint(notebook-up) {
+        width: 70%;
+    }
+
+    .image-box {
+        width: 250px;
+        min-height: 200px;
+        height: auto;
+        position: relative;
+        margin: auto;
+        background-color: $white;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .image {
+            width: 200px;
+            min-height: 200px;
+            border: none;
+            object-fit: cover;
+            margin: auto;
+            overflow: hidden;
+            display: block;
+
+        }
+
+        @include breakPoint(notebook-up) {
+            width: 400px;
+        }
+    }
+}
+
+.file-input {
+    width: 70%;
+    height: 5vh;
+    padding-inline-start: 20px;
+    border: none;
+    background-color: rgb(222, 222, 222);
+    border-radius: 5px;
+}
+
+.btn-send {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(222, 222, 222);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+iframe {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    border: none;
+    overflow: hidden;
+}

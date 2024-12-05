@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, inject, untracked } from '@angular/core';
+import { Component, ElementRef, ViewChild, effect, inject, signal, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -10,17 +10,17 @@ import { ChatFacade } from '../../../facades/chat/chat.facade';
 import { ContactFacade } from '../../../facades/contact/contact.facade';
 import { MessageFacade } from '../../../facades/message/message.facade';
 import { MessagesState } from '../../../core/states/messages/messages.state';
-import { Message } from '../../../shared/interfaces/message';
 import { SocketService } from '../../../core/services/socket/socket.service';
+import { fromEvent } from 'rxjs';
+import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
 
 @Component({
   selector: 'chat',
-  imports: [MessageComponent, ButtonIconComponent, ButtonIconDirective],
+  imports: [MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent extends DOMManipulation {
-  protected imageSrc: any = '';
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected messagesState = inject(MessagesState);
   protected chatState = inject(ChatState);
@@ -30,6 +30,10 @@ export class ChatComponent extends DOMManipulation {
   private contactFacade = inject(ContactFacade);
   private socketService = inject(SocketService);
   private skipMessages = 0;
+  protected source = signal(null);
+  protected sourceName = signal(null);
+  protected sourceType = signal(null);
+  protected sourceBlob = signal(null);
 
   @ViewChild('dropdown') private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
@@ -49,29 +53,17 @@ export class ChatComponent extends DOMManipulation {
       const messages = this.messagesState.messageSignal();
       if (messages.length > 0) {
         this.scrollToBottom();
-
+        
         const unreadMessages = messages
-          .filter((msg) => msg.userId !== this.userState.userSignal().userId)
-          .map((msg) => msg.messageId);
-
+        .filter((msg) => msg.userId !== this.userState.userSignal().userId)
+        .filter(msg => msg.status == "unread")
+        .map((msg) => msg.messageId);
+        
         if (unreadMessages.length > 0) {
           this.markRead(unreadMessages);
         }
       }
     });
-
-    this.socketService.on("read-messages", (chatId: any) => {
-      if (this.chatState.chatState()?.chatId == chatId) {
-        this.messagesState.messageSignal.update(messages => {
-          return [...messages.map(message => {
-            if (message.userId == this.userState.userSignal().userId) {
-              message.status = "read";
-            }
-            return message
-          })]
-        })
-      }
-    })
 
     // Configuração de WebSockets para mensagens em tempo real
     this.initializeSocketListeners();
@@ -91,18 +83,23 @@ export class ChatComponent extends DOMManipulation {
       }
     });
 
-    this.socketService.on('read-messages', (chatId: string) => {
-      if (chatId === this.chatState.chatState()?.chatId) {
-        this.messagesState.messageSignal.update((messages) =>
-          messages.map((msg) => ({ ...msg, status: 'read' }))
-        );
+    this.socketService.on("read-messages", (chatId: any) => {
+      if (this.chatState.chatState()?.chatId == chatId) {
+        this.messagesState.messageSignal.update(messages => {
+          return [...messages.map(message => {
+            if (message.userId == this.userState.userSignal().userId) {
+              message.status = "read";
+            }
+            return message
+          })]
+        })
       }
-    });
+    })
   }
 
   private markRead(messagesId: string[]) {
     const chatId = untracked(() => this.chatState.chatState().chatId);
-    const otherUserId = untracked(()=> this.chatState.chatState()?.otherUserId);
+    const otherUserId = untracked(() => this.chatState.chatState()?.otherUserId);
 
     if (chatId && otherUserId) {
       this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
@@ -113,7 +110,7 @@ export class ChatComponent extends DOMManipulation {
     setTimeout(() => {
       const chat = this.chatContainer?.nativeElement as HTMLElement;
       if (chat) {
-        chat.scrollTop = chat.scrollHeight + 100;
+        chat.scrollTop = chat.scrollHeight + 10000;
       }
     }, 50);
   }
@@ -130,8 +127,22 @@ export class ChatComponent extends DOMManipulation {
   };
 
   protected chosenFile() {
-    const inputFile = document.getElementById('file');
+    const inputFile = this.getElementsByClass('file-sender')[0];
     inputFile.click();
+    const subescriber = fromEvent(inputFile, "input")
+      .subscribe((data: any) => {
+        const inputFile = data?.target as HTMLInputElement;
+        const file = inputFile.files[0];
+        const blob = new Blob([file], { type: file.type });
+        const url = URL.createObjectURL(blob)
+        this.source.set(url);
+        this.sourceBlob.set(blob);
+        this.sourceName.set(file.name);
+        this.sourceType.set(file.type);
+        inputFile.value = null;
+        subescriber.unsubscribe()
+      })
+
   }
 
   protected closeChat() {
@@ -169,18 +180,8 @@ export class ChatComponent extends DOMManipulation {
     const messageText = this.inputText.nativeElement.value;
 
     if (messageText.trim() === '') return;
-
-    const message: Partial<Message> = {
-      message: messageText,
-      userId: this.userState.userSignal().userId,
-      chatId: this.chatState.chatState()?.chatId,
-      dateSender: new Date(),
-      language: this.userState.userSignal().languages,
-      messageType: 'text',
-    };
-
     this.scrollToBottom();
-    this.messageFacade.sendMessage(message);
+    this.messageFacade.sendMessage(messageText);
     this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
   }
 }

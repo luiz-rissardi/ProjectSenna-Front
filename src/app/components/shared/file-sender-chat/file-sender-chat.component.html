@@ -1,0 +1,29 @@
+@if (show) {
+<section class="chat-sender-image-container">
+    <div class="image-box">
+        <button type="button" class="ms-auto m-3 btn-close" (click)="this.show = false"> </button>
+        <p class="mx-auto my-2"> {{ this.nameSource() }} </p>
+
+        @if(sourceType().includes("pdf")){
+        <strong class="mx-auto"> {{ this.text }} </strong>
+        <iframe scrolling="no" [src]="this.safeResource.bypassSecurityTrustResourceUrl(this.source())"
+            alt="app-image-sender-chat">
+        </iframe>
+        }@else if(sourceType().includes("image")){
+        <strong class="mx-auto"> {{ this.text }} </strong>
+        <img class="image" [src]="this.source()" (error)="this.loadAlternativeImage()" alt="app-image-sender-chat">
+        }
+        @else {
+        <strong class="mx-auto"> Visualização indisponível </strong>
+        }
+
+        <div class="d-flex my-3 justify-content-around">
+            <input type="text" #inputTextFile class="file-input" placeholder="take a description" (keydown.Enter)="sendMessageFile()">
+            <button type="button" class="btn-send" (click)="sendMessageFile()">
+                <i class="fi fi-rr-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+</section>
+}

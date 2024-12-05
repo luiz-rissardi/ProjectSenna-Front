@@ -4,6 +4,32 @@
         @if(this.isGroup() == true){
         <span class="message-sender"> {{ message().userName }} </span>
         }
+
+        <!-- image rendering mode -->
+        @if (this.message().messageType == "image") {
+            @defer (when typeof this.messageFileSignal()?.data == "string") {
+                <img [src]="this.messageFileSignal().data" [alt]="this.messageFileSignal().fileName">
+            }
+            @placeholder{
+                <ngx-skeleton-loader animation="pulse" [theme]="{ width: '100%', height: '200px' }">
+                </ngx-skeleton-loader>
+                }
+            }
+
+        <!-- any file rendering mode -->
+        @if (this.message().messageType == "file") {
+            @defer (when typeof this.messageFileSignal()?.data == "string") {
+                <div class="message-file-box">
+                    <p class="text-white text-center my-auto"> {{this.messageFileSignal().fileName}} </p>
+                    <a [download]="this.messageFileSignal().fileName" [href]="this.messageFileSignal().data"
+                        [hreflang]="this.locale" class="message-file">
+                        <i class="fi fi-rr-down-to-line"></i>
+                    </a>
+                </div>
+            }
+        }
+
+
         <p class="message-text"> {{ isExtend==true ? message().message : message().message | limitText:300 }}
             @if(this.isExtend == false){
             <button class="moreText" type="button" (click)="toggleExtend()"> leia mais </button>
@@ -13,7 +39,6 @@
             <p class="message-date ms-auto">
                 {{ message().dateSender | date: 'EEEE' | slice: 0:3 }} {{ message().dateSender | date: 'HH:mm' }}
             </p>
-
 
             @if(this.message().status == "read" && this.isYourMessage()){
             <svg class="message-status-read mx-2 mt-2" viewBox="0 0 16 11" height="11" width="16"
