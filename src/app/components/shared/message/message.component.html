@@ -5,28 +5,37 @@
         <span class="message-sender"> {{ message().userName }} </span>
         }
 
+        <!-- audio rendering mode -->
+        @if (this.message().messageType == "audio") {
+            @defer (when typeof this.messageFileSignal()?.data == "string") {
+                <audio #audioPlayer controls>
+                    <source [src]="this.messageFileSignal()?.data" type="audio/mp3">
+                </audio>
+            }
+        }
+
         <!-- image rendering mode -->
         @if (this.message().messageType == "image") {
-            @defer (when typeof this.messageFileSignal()?.data == "string") {
-                <img [src]="this.messageFileSignal().data" [alt]="this.messageFileSignal().fileName">
-            }
-            @placeholder{
-                <ngx-skeleton-loader animation="pulse" [theme]="{ width: '100%', height: '200px' }">
-                </ngx-skeleton-loader>
-                }
-            }
+        @defer (when typeof this.messageFileSignal()?.data == "string") {
+        <img [src]="this.messageFileSignal().data" [alt]="this.messageFileSignal().fileName">
+        }
+        @placeholder{
+        <ngx-skeleton-loader animation="pulse" [theme]="{ width: '100%', height: '200px' }">
+        </ngx-skeleton-loader>
+        }
+        }
 
         <!-- any file rendering mode -->
         @if (this.message().messageType == "file") {
-            @defer (when typeof this.messageFileSignal()?.data == "string") {
-                <div class="message-file-box">
-                    <p class="text-white text-center my-auto"> {{this.messageFileSignal().fileName}} </p>
-                    <a [download]="this.messageFileSignal().fileName" [href]="this.messageFileSignal().data"
-                        [hreflang]="this.locale" class="message-file">
-                        <i class="fi fi-rr-down-to-line"></i>
-                    </a>
-                </div>
-            }
+        @defer (when typeof this.messageFileSignal()?.data == "string") {
+        <div class="message-file-box">
+            <p class="text-white text-center my-auto"> {{this.messageFileSignal().fileName}} </p>
+            <a [download]="this.messageFileSignal().fileName" [href]="this.messageFileSignal().data"
+                [hreflang]="this.locale" class="message-file">
+                <i class="fi fi-rr-down-to-line"></i>
+            </a>
+        </div>
+        }
         }
 
 

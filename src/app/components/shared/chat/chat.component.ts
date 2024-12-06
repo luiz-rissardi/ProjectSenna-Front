@@ -13,14 +13,17 @@ import { MessagesState } from '../../../core/states/messages/messages.state';
 import { SocketService } from '../../../core/services/socket/socket.service';
 import { fromEvent } from 'rxjs';
 import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
+import { DatePipe } from '@angular/common';
+import { Buffer } from "buffer";
 
 @Component({
   selector: 'chat',
-  imports: [MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective],
+  imports: [MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent extends DOMManipulation {
+
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected messagesState = inject(MessagesState);
   protected chatState = inject(ChatState);
@@ -34,6 +37,12 @@ export class ChatComponent extends DOMManipulation {
   protected sourceName = signal(null);
   protected sourceType = signal(null);
   protected sourceBlob = signal(null);
+  protected isRecording = false;
+  protected isStoped = false;
+  protected timeAudio = 0;
+  private audioChunks = [];
+  private mediaRecorder!: MediaRecorder;
+  private recordingInterval: any = null;
 
   @ViewChild('dropdown') private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
@@ -53,12 +62,12 @@ export class ChatComponent extends DOMManipulation {
       const messages = this.messagesState.messageSignal();
       if (messages.length > 0) {
         this.scrollToBottom();
-        
+
         const unreadMessages = messages
-        .filter((msg) => msg.userId !== this.userState.userSignal().userId)
-        .filter(msg => msg.status == "unread")
-        .map((msg) => msg.messageId);
-        
+          .filter((msg) => msg.userId !== this.userState.userSignal().userId)
+          .filter(msg => msg.status == "unread")
+          .map((msg) => msg.messageId);
+
         if (unreadMessages.length > 0) {
           this.markRead(unreadMessages);
         }
@@ -183,5 +192,78 @@ export class ChatComponent extends DOMManipulation {
     this.scrollToBottom();
     this.messageFacade.sendMessage(messageText);
     this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
+  }
+
+  protected startRecording() {
+    try {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          this.isRecording = true;
+          this.startMediaRecording(stream);
+        });
+    } catch (err) {
+      console.error('Erro ao acessar o microfone:', err);
+    }
+  }
+
+  private async startMediaRecording(stream: any) {
+    this.mediaRecorder = new MediaRecorder(stream);
+    this.audioChunks = [];
+
+    // Inicia o contador de tempo
+    this.recordingInterval = setInterval(() => {
+      if (this.isRecording && !this.isStoped) {
+        this.timeAudio++;
+      }
+    }, 1000);
+
+    this.mediaRecorder.ondataavailable = (event) => {
+      this.audioChunks.push(event.data); // Armazena os pedaços de áudio
+    };
+
+    this.mediaRecorder.start();
+  }
+
+  protected pauseAudio() {
+    if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+      this.mediaRecorder.pause();
+      this.isStoped = true;
+    }
+  }
+
+  protected resumeAudio() {
+    if (this.mediaRecorder && this.mediaRecorder.state === 'paused') {
+      this.mediaRecorder.resume();
+      this.isStoped = false;
+    }
+  }
+
+  protected stopRecording() {
+    if (this.mediaRecorder) {
+      this.mediaRecorder.stop();
+      this.isRecording = false;
+    }
+  }
+
+  protected sendAudio() {
+    this.mediaRecorder.onstop = async () => {
+      const audioBlob = new Blob(this.audioChunks,{type:"audio/mp3"});
+      this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
+      const photoBuffer = Buffer.from(await audioBlob.arrayBuffer());
+      const t = new Blob([photoBuffer]);
+      console.log(photoBuffer);
+      const url = URL.createObjectURL(t);
+      const audio = new Audio(url);
+      audio.play().catch((error) => {
+        console.error("Erro ao reproduzir áudio:", error);
+      });
+
+
+    };
+    clearInterval(this.recordingInterval);
+    this.timeAudio = 0;  // Resetando o contador ao parar a gravação
+    this.mediaRecorder.stop()
+    this.isRecording = false;
+    this.isStoped = false
   }
 }

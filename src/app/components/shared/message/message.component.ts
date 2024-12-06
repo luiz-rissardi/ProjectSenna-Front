@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterRenderRef, AfterViewInit, Component, effect, ElementRef, inject, Injector, input, InputSignal, LOCALE_ID, OnDestroy, runInInjectionContext, signal, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, inject, Injector, input, InputSignal, LOCALE_ID, runInInjectionContext, signal, viewChild, ViewChild, WritableSignal } from '@angular/core';
 import { Message, MessageFile } from '../../../shared/interfaces/message';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
@@ -23,7 +23,9 @@ export class MessageComponent implements AfterViewInit {
   protected locale = inject(LOCALE_ID);
   private messageFacade = inject(MessageFacade);
   private destroyRef = new Subject();
-  private injector = inject(Injector)
+  private injector = inject(Injector);
+  protected teste = signal(false);
+  @ViewChild("audioPlayer") private audioPlayer:ElementRef;
 
   ngOnDestroy(): void {
     this.destroyRef.complete();
@@ -45,15 +47,12 @@ export class MessageComponent implements AfterViewInit {
 
                 function processBlob({ data }) {
                   // avoid memory leaks 
-                  this.messageFileSignal.update((el: any) => {
-                    el.data = data
-                    return { ...el }
-                  })
-                  worker.removeEventListener("message", processBlob.bind(this))
+                  this.messageFileSignal.set({ ...this.messageFileSignal(), data });
+                  worker.removeEventListener("message", processBlob.bind(this));
                   // worker.terminate()
                 }
                 worker.onmessage = processBlob.bind(this)
-                worker.postMessage(result.value.data);
+                worker.postMessage(result.value?.data);
               }
             })
         }

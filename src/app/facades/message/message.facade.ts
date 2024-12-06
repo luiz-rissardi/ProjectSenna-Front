@@ -89,9 +89,9 @@ export class MessageFacade {
             .subscribe((messageFileResult: ResponseHttp<MessageFile>) => {
               if (messageFileResult.isSuccess) {
                 this.messagesState.messageSignal.update((messages: Message[]) => {
-                  this.socketService.emit("send-message", {
-                    message: messageFileResult.value
-                  })
+                  // this.socketService.emit("send-message", {
+                  //   message: messageFileResult.value
+                  // })
                   messages.push(messageResult.value)
                   return messages
                 })

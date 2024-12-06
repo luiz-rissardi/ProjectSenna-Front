@@ -150,3 +150,57 @@
     margin-top: 30px;
     box-shadow: 2px 2px 3px 0px black;
 }
+
+.audio {
+
+    &-btn{
+        border: none;
+        background-color: transparent;
+        color: $white;
+
+        i{
+            font-size: 2rem;
+        }
+    }
+
+    &-wave {
+        width: 5px;
+        height: 40px;
+        background-color: $white;
+        margin: 5px;    
+        animation: audioWaveAnimation 2s infinite ease-out;
+        &:nth-child(3) {
+            animation: audioWaveAnimation 2.7s infinite ease-in;
+        }
+        &:nth-child(4) {
+            animation: audioWaveAnimation 1.7s infinite ease;
+        }
+    }
+}
+
+@keyframes audioWaveAnimation {
+    0% {
+        transform: scaleY(1);
+        /* Altura original */
+    }
+
+    25% {
+        transform: scaleY(0.5);
+        /* Reduz pela metade (ambos os lados) */
+    }
+
+    50% {
+        transform: scaleY(1.5);
+        /* Aumenta 50% (ambos os lados) */
+    }
+
+    75% {
+        transform: scaleY(0.8);
+        /* Reduz um pouco */
+    }
+
+    100% {
+        transform: scaleY(1);
+        /* Retorna à altura original */
+    }
+}
