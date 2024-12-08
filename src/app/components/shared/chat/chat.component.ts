@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, inject, signal, untracked } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -11,10 +11,11 @@ import { ContactFacade } from '../../../facades/contact/contact.facade';
 import { MessageFacade } from '../../../facades/message/message.facade';
 import { MessagesState } from '../../../core/states/messages/messages.state';
 import { SocketService } from '../../../core/services/socket/socket.service';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
 import { DatePipe } from '@angular/common';
 import { Buffer } from "buffer";
+import { Message } from '../../../shared/interfaces/message';
 
 @Component({
   selector: 'chat',
@@ -22,7 +23,7 @@ import { Buffer } from "buffer";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent extends DOMManipulation {
+export class ChatComponent extends DOMManipulation implements OnDestroy {
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected messagesState = inject(MessagesState);
@@ -42,14 +43,32 @@ export class ChatComponent extends DOMManipulation {
   protected timeAudio = 0;
   private audioChunks = [];
   private mediaRecorder!: MediaRecorder;
+  private destroy = new Subject();
   private recordingInterval: any = null;
+  protected showEditMessage = false;
+  protected messageTextOrigin = "";
+  private MessageToEdit!: Message;
 
   @ViewChild('dropdown') private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
   @ViewChild('chat') private chatContainer: ElementRef;
+  @ViewChild("editMessage", { static: false }) private editMessageBox: ElementRef;
+  @ViewChild("newMessageText", { static: false }) private newMessageText: ElementRef;
 
   constructor() {
     super();
+
+    fromEvent(document, "click")
+      .pipe(takeUntil(this.destroy))
+      .subscribe((event: Event) => {
+        const el = event.target as HTMLElement
+        if (
+          this.editMessageBox?.nativeElement.contains(el) == false &&
+          this.showEditMessage == true &&
+          el.id != "showEditModal") {
+          this.showEditMessage = false
+        }
+      })
 
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
@@ -66,7 +85,9 @@ export class ChatComponent extends DOMManipulation {
         const unreadMessages = messages
           .filter((msg) => msg.userId !== this.userState.userSignal().userId)
           .filter(msg => msg.status == "unread")
-          .map((msg) => msg.messageId);
+          .map((msg) => {
+            return msg.messageId
+          });
 
         if (unreadMessages.length > 0) {
           this.markRead(unreadMessages);
@@ -78,10 +99,21 @@ export class ChatComponent extends DOMManipulation {
     this.initializeSocketListeners();
   }
 
+  ngOnDestroy(): void {
+    this.destroy.complete()
+    this.destroy.next(null)
+  }
+
+
+  protected changeShowEdit(data: any) {
+    this.showEditMessage = data.show
+    this.messageTextOrigin = data.message.message;
+    this.MessageToEdit = data.message;
+  }
+
   private initializeSocketListeners() {
     this.socketService.on('message', (data: any) => {
       const chatId = this.chatState.chatState()?.chatId;
-
       if (chatId && chatId === data.chatId) {
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
@@ -104,11 +136,27 @@ export class ChatComponent extends DOMManipulation {
         })
       }
     })
+
+    this.socketService.on("update-message", (messageEdit: Message) => {
+      this.messagesState.messageSignal.update(messages => {
+        return messages.map((message) => {
+          if (messageEdit.messageId == message.messageId) {
+            return messageEdit
+          }
+          return message
+        })
+      })
+    })
   }
 
   private markRead(messagesId: string[]) {
     const chatId = untracked(() => this.chatState.chatState().chatId);
     const otherUserId = untracked(() => this.chatState.chatState()?.otherUserId);
+    const newMessages = this.messagesState.messageSignal().map(message => {
+      message.status = "read";
+      return message;
+    })
+    this.messagesState.messageSignal.set(newMessages)
 
     if (chatId && otherUserId) {
       this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
@@ -245,25 +293,30 @@ export class ChatComponent extends DOMManipulation {
     }
   }
 
+  protected cancelAudio() {
+    this.mediaRecorder.stop();
+    this.timeAudio = 0;  // Resetando o contador ao parar a gravação
+    this.isRecording = false;
+    this.isStoped = false
+  }
+
   protected sendAudio() {
     this.mediaRecorder.onstop = async () => {
-      const audioBlob = new Blob(this.audioChunks,{type:"audio/mp3"});
+      const audioBlob = new Blob(this.audioChunks, { type: "audio/mp3" });
       this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
-      const photoBuffer = Buffer.from(await audioBlob.arrayBuffer());
-      const t = new Blob([photoBuffer]);
-      console.log(photoBuffer);
-      const url = URL.createObjectURL(t);
-      const audio = new Audio(url);
-      audio.play().catch((error) => {
-        console.error("Erro ao reproduzir áudio:", error);
-      });
-
-
     };
     clearInterval(this.recordingInterval);
     this.timeAudio = 0;  // Resetando o contador ao parar a gravação
     this.mediaRecorder.stop()
     this.isRecording = false;
     this.isStoped = false
+  }
+
+  protected editMessage() {
+    const text = this.newMessageText?.nativeElement.value;
+    this.MessageToEdit.message = text;
+    this.MessageToEdit.status = "unread";
+    this.messageFacade.editMessage(this.MessageToEdit);
+    this.showEditMessage = false;
   }
 }

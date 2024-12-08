@@ -47,7 +47,7 @@ export class ContactFacade {
                 userId, photo, userName
               }
               contacts.push(contact);
-              return contacts
+              return [...contacts]
             })
             this.warnigState.warnigSignal.set({
               IsSucess: true,

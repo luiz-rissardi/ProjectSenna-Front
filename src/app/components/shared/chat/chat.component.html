@@ -56,11 +56,32 @@
 @if(this.chatState.chatState()?.chatId != undefined ){
 
 <section class="chat" id="chat" #chat>
+    
+    @if(this.showEditMessage){
+        <div class="message-edit-modal" #editMessageBox>
+            <div class="message-edit-modal-header d-flex">
+                <button class="btn-close my-auto mx-3" type="button" (click)="this.showEditMessage = false">  </button>
+                <h3 class="my-auto ms-5"> Edit Message </h3>
+            </div>
+            <section class="d-flex flex-column p-5">
+                <p> original message: "{{ messageTextOrigin }}"</p>
+            </section>
+            <div class="message-edit-modal-footer">
+                <input type="text" (keydown.Enter)="this.editMessage()" class="p-2" placeholder="type your new message" #newMessageText>
+                <button type="button" class="btn-send my-2 mx-3" (click)="this.editMessage()">
+                    <i class="fi fi-rr-paper-plane m-auto"></i>
+                </button>
+            </div>
+        </div>
+    }
+
     @for (item of this.messagesState.messageSignal(); track $index) {
-    <message [isGroup]="false" [message]="item"
+    <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
         [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
     </message>
     }
+
+
 </section>
 
 
@@ -68,7 +89,7 @@
     @if(isRecording){
     <section class="d-flex w-100 justify-content-end p-2">
         <div class="me-5 d-flex">
-            <button type="button" class="audio-btn">
+            <button type="button" class="audio-btn" (click)="this.cancelAudio()">
                 <i class="fi fi-rr-trash"></i>
             </button>
             <p class="text-white mx-3 my-auto"> {{ timeAudio * 1000 | date: 'mm:ss' }}</p>
@@ -108,6 +129,7 @@
     <!-- <a href="#" id="img">dowload</a> -->
     <input type="text" #inputText class="chat-input" placeholder="write your message"
         (keydown.Enter)="this.sendMessage()">
+
     <button type="button" class="chat-button-mic mx-2" (click)="startRecording()">
         <i class="fi fi-rr-circle-microphone"></i>
     </button>

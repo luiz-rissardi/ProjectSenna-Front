@@ -5,11 +5,10 @@ export interface Message {
     userName: string;
     userId: string;
     chatId: string;
-    language: string;
+    originLanguage: string;
     messageType: string;
     dateSender: Date;
     messageId: string;
-    originLangue: string;
     status: string;
     translatedMessageText?: string;
 }

@@ -3,7 +3,7 @@
 .data {
     &-area {
         &-session {
-            background-color: #a5d3fb;
+            background-color: $iceBlue;
             width: 60px;
             height: 100vh;
             display: flex;

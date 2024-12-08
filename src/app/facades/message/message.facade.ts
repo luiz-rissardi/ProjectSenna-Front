@@ -45,16 +45,16 @@ export class MessageFacade {
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      language: this.userState.userSignal().languages,
+      originLanguage: this.userState.userSignal().languages,
       messageType,
     };
     try {
       this.messageService.sendMessageToChat(message)
         .subscribe((result: ResponseHttp<Message>) => {
+          this.socketService.emit("send-message", {
+            message: result.value
+          })
           this.messagesState.messageSignal.update((messages: Message[]) => {
-            this.socketService.emit("send-message", {
-              message: result.value
-            })
             messages.push(result.value)
             return messages
           })
@@ -74,7 +74,7 @@ export class MessageFacade {
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      language: this.userState.userSignal().languages,
+      originLanguage: this.userState.userSignal().languages,
       messageType,
     };
     try {
@@ -89,9 +89,9 @@ export class MessageFacade {
             .subscribe((messageFileResult: ResponseHttp<MessageFile>) => {
               if (messageFileResult.isSuccess) {
                 this.messagesState.messageSignal.update((messages: Message[]) => {
-                  // this.socketService.emit("send-message", {
-                  //   message: messageFileResult.value
-                  // })
+                  this.socketService.emit("send-message", {
+                    message: messageResult.value,
+                  })
                   messages.push(messageResult.value)
                   return messages
                 })
@@ -106,8 +106,8 @@ export class MessageFacade {
       })
     }
   }
-  
-  getFileOfMesage(messageId:string):Observable<any> | null{
+
+  getFileOfMesage(messageId: string): Observable<any> | null {
     try {
       return this.messageFileService.getFileOfMessage(messageId)
     } catch (error) {
@@ -133,6 +133,30 @@ export class MessageFacade {
       this.warningState.warnigSignal.set({
         IsSucess: false,
         data: { message: "it´s not possible read the messages" }
+      })
+    }
+  }
+
+  editMessage(message: Message) {
+    try {
+      this.messageService.editMessage(message)
+        .subscribe((result: ResponseHttp<any>) => {
+          if (result.isSuccess) {
+            this.socketService.emit("update-message", {
+              message
+            });
+
+          } else {
+            this.warningState.warnigSignal.set({
+              IsSucess: false,
+              data: { message: "it´s not possible edit the message" }
+            })
+          }
+        })
+    } catch (error) {
+      this.warningState.warnigSignal.set({
+        IsSucess: false,
+        data: { message: "it´s not possible edit the message" }
       })
     }
   }

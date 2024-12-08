@@ -20,6 +20,8 @@ export class MessageFileService extends Service {
     return this.http.get(this.uri + `/chat/message/${messageId}`);
   }
 
-  // deleteMessage
+  deleteFileOfMessage(messageId:string){
+    return this.http.delete(this.uri + `/chat/message/${messageId}`);
+  }
 
 }

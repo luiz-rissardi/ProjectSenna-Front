@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, Injector, input, InputSignal, LOCALE_ID, runInInjectionContext, signal, viewChild, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, HostListener, inject, Injector, input, InputSignal, LOCALE_ID, output, runInInjectionContext, signal, viewChild, ViewChild, WritableSignal } from '@angular/core';
 import { Message, MessageFile } from '../../../shared/interfaces/message';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MessageFacade } from '../../../facades/message/message.facade';
 import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
-import { Subject, takeUntil } from 'rxjs';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'message',
@@ -22,24 +22,35 @@ export class MessageComponent implements AfterViewInit {
   protected isExtend = true;
   protected locale = inject(LOCALE_ID);
   private messageFacade = inject(MessageFacade);
-  private destroyRef = new Subject();
+  private destroy = new Subject();
   private injector = inject(Injector);
-  protected teste = signal(false);
-  @ViewChild("audioPlayer") private audioPlayer:ElementRef;
+  protected showOptions = false;
+  protected showEditMessage = output<any>();
 
-  ngOnDestroy(): void {
-    this.destroyRef.complete();
-    this.destroyRef.next(null);
+  @ViewChild("messageCard") private messageCard: ElementRef;
+
+  constructor() {
+    fromEvent(document, "click")
+      .pipe(takeUntil(this.destroy))
+      .subscribe((event: Event) => {
+        const clickedInside = this.messageCard?.nativeElement.contains(event.target);
+        if (!clickedInside) {
+          this.showOptions = false; // Fecha o menu se o clique for fora do componente
+        }
+      })
   }
 
-
+  ngOnDestroy(): void {
+    this.destroy.complete();
+    this.destroy.next(null);
+  }
 
   ngAfterViewInit() {
-    runInInjectionContext(this.injector,() => {
+    runInInjectionContext(this.injector, () => {
       effect(() => {
         if (this.message().messageType != "text") {
           this.messageFacade.getFileOfMesage(this.message().messageId)
-            .pipe(takeUntil(this.destroyRef))
+            .pipe(takeUntil(this.destroy))
             .subscribe((result: ResponseHttp<MessageFile>) => {
               if (result.isSuccess) {
                 this.messageFileSignal.set(result.value)

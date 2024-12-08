@@ -1,7 +1,6 @@
 import { Component, effect, ElementRef, inject, input, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageFacade } from '../../../facades/message/message.facade';
-import { MessageFileFacade } from '../../../facades/messageFile/message-file.facade';
 
 @Component({
   selector: 'app-file-sender-chat',
@@ -20,7 +19,6 @@ export class FileSenderChatComponent {
   protected safeResource = inject(DomSanitizer);
   @ViewChild("inputTextFile") private inputTextFile: ElementRef
   private messageFacade = inject(MessageFacade);
-  private messageFileFacade = inject(MessageFileFacade);
 
   constructor() {
     effect(() => {
