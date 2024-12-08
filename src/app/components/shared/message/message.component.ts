@@ -77,6 +77,10 @@ export class MessageComponent implements AfterViewInit {
     })
   }
 
+  deleteMessage(){
+    this.messageFacade.deleteMessage(this.message())
+    this.showOptions = false;
+  }
 
   toggleExtend(): void {
     this.isExtend = !this.isExtend;

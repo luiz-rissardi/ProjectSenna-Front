@@ -147,6 +147,14 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
         })
       })
     })
+
+    this.socketService.on("delete-message", (messageEdit: Message) => {
+      this.messagesState.messageSignal.update(messages => {
+        return messages.filter((message) => {
+          return messageEdit.messageId != message.messageId
+        })
+      })
+    })
   }
 
   private markRead(messagesId: string[]) {

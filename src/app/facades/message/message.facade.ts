@@ -160,4 +160,44 @@ export class MessageFacade {
       })
     }
   }
+
+  deleteMessage(message: Message) {
+    try {
+
+      const fn = () => {
+        this.messageService.removeMessage(message.messageId)
+          .subscribe((result: ResponseHttp<any>) => {
+            if (result.isSuccess) {
+              this.socketService.emit("delete-message", {
+                message
+              });
+
+            } else {
+              this.warningState.warnigSignal.set({
+                IsSucess: false,
+                data: { message: "it´s not possible delete the message" }
+              })
+            }
+          })
+      }
+
+      if (message.messageType != "text") {
+        this.messageFileService.deleteFileOfMessage(message.messageId)
+        .subscribe((result:ResponseHttp<any>)=>{
+          if(result.isSuccess){
+            fn()
+          }
+        })
+      }else{
+        fn()
+      }
+
+
+    } catch (error) {
+      this.warningState.warnigSignal.set({
+        IsSucess: false,
+        data: { message: "it´s not possible delete the message" }
+      })
+    }
+  }
 }
