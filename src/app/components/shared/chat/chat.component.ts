@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -14,14 +14,13 @@ import { SocketService } from '../../../core/services/socket/socket.service';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
 import { DatePipe } from '@angular/common';
-import { Buffer } from "buffer";
 import { Message } from '../../../shared/interfaces/message';
 
 @Component({
   selector: 'chat',
   imports: [MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+  styleUrl: './chat.component.scss',
 })
 export class ChatComponent extends DOMManipulation implements OnDestroy {
 
@@ -51,7 +50,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
 
   @ViewChild('dropdown') private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
-  @ViewChild('chat') private chatContainer: ElementRef;
+  @ViewChild('chat', { static: false }) private chatContainer: ElementRef;
   @ViewChild("editMessage", { static: false }) private editMessageBox: ElementRef;
   @ViewChild("newMessageText", { static: false }) private newMessageText: ElementRef;
 
@@ -72,15 +71,20 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
 
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
+      this.skipMessages = 0;
+      this.scrollToBottom();
       const currentChatId = this.chatState.chatState()?.chatId;
-      this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages);
+      this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages)
     });
 
     // Atualizar mensagens no chat e marcar como lidas
     effect(() => {
       const messages = this.messagesState.messageSignal();
       if (messages.length > 0) {
-        this.scrollToBottom();
+
+        if (this.skipMessages < 0) {
+          this.scrollToBottom();
+        }
 
         const unreadMessages = messages
           .filter((msg) => msg.userId !== this.userState.userSignal().userId)
@@ -104,6 +108,19 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     this.destroy.next(null)
   }
 
+  trackByMessageId(index: number, item: Message): string | number {
+    return item.messageId; // Use um identificador único, como o ID da mensagem
+  }
+
+  protected onScroll() {
+    const el = this.chatContainer?.nativeElement as HTMLElement;
+    const totalScroll = el.scrollHeight;
+    const currentScroll = el.scrollTop
+    if (totalScroll - (currentScroll * -1) <= 700) {
+      this.skipMessages += 50
+      this.messageFacade.getMessagesByChatId(this.chatState.chatState().chatId, this.skipMessages)
+    }
+  }
 
   protected changeShowEdit(data: any) {
     this.showEditMessage = data.show
@@ -117,7 +134,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       if (chatId && chatId === data.chatId) {
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
-            return [...messages, data];
+            return [data, ...messages];
           }
           return messages;
         });
@@ -263,6 +280,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   }
 
   private async startMediaRecording(stream: any) {
+    console.log("object");
     this.mediaRecorder = new MediaRecorder(stream);
     this.audioChunks = [];
 
@@ -295,10 +313,8 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   }
 
   protected stopRecording() {
-    if (this.mediaRecorder) {
-      this.mediaRecorder.stop();
-      this.isRecording = false;
-    }
+    this.mediaRecorder.stop();
+    this.isRecording = false;
   }
 
   protected cancelAudio() {
@@ -314,9 +330,8 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
     };
     clearInterval(this.recordingInterval);
+    this.stopRecording()
     this.timeAudio = 0;  // Resetando o contador ao parar a gravação
-    this.mediaRecorder.stop()
-    this.isRecording = false;
     this.isStoped = false
   }
 

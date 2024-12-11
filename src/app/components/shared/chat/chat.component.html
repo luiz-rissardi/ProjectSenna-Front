@@ -55,7 +55,7 @@
 
 @if(this.chatState.chatState()?.chatId != undefined ){
 
-<section class="chat" id="chat" #chat>
+<section class="chat" id="chat" #chat (scroll)="onScroll()">
     
     @if(this.showEditMessage){
         <div class="message-edit-modal" #editMessageBox>
@@ -75,7 +75,7 @@
         </div>
     }
 
-    @for (item of this.messagesState.messageSignal(); track $index) {
+    @for (item of this.messagesState.messageSignal(); track item.messageId) {
     <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
         [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
     </message>

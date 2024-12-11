@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
 import { ChatFacade } from '../../facades/chat/chat.facade';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
@@ -8,7 +8,7 @@ import { UserState } from '../../core/states/User/user.state';
     selector: 'app-user-detail',
     imports: [ButtonStyleDirective],
     templateUrl: './user-detail.component.html',
-    styleUrl: './user-detail.component.scss'
+    styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent {
 

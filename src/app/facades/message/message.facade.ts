@@ -24,12 +24,14 @@ export class MessageFacade {
 
   getMessagesByChatId(chatId: string, skipMessages: number) {
     try {
+      if (skipMessages == 0) {
+        this.messagesState.messageSignal.set([]);
+      }
       this.messageService.getMessagesOfChat(chatId, skipMessages)
         .subscribe((result: ResponseHttp<Message[]>) => {
-          if (skipMessages == 0) {
-            this.messagesState.messageSignal.set([]);
-          }
-          this.messagesState.messageSignal.set(result.value)
+          this.messagesState.messageSignal.update(messages => {
+            return [...messages,...result.value]
+          })
         })
     } catch (error) {
       this.warningState.warnigSignal.set({
@@ -55,7 +57,7 @@ export class MessageFacade {
             message: result.value
           })
           this.messagesState.messageSignal.update((messages: Message[]) => {
-            messages.push(result.value)
+            messages.unshift(result.value)
             return messages
           })
         })
@@ -88,12 +90,14 @@ export class MessageFacade {
           this.messageFileService.sendMessageFile(messageFile)
             .subscribe((messageFileResult: ResponseHttp<MessageFile>) => {
               if (messageFileResult.isSuccess) {
+                
+                this.socketService.emit("send-message", {
+                  message: messageResult.value,
+                })
+
                 this.messagesState.messageSignal.update((messages: Message[]) => {
-                  this.socketService.emit("send-message", {
-                    message: messageResult.value,
-                  })
-                  messages.push(messageResult.value)
-                  return messages
+                  messages.unshift(messageResult.value)
+                  return [...messages]
                 })
               }
             })

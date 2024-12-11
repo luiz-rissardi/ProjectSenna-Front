@@ -2,6 +2,8 @@
     <div [className]="isYourMessage() ? 'setLeft setLeft-me' : 'setLeft'"></div>
     <article [className]="isYourMessage() ? 'message-card me' : 'message-card'" #messageCard>
 
+
+
         @if(isYourMessage()){
         <button class="message-options ms-auto" (click)="showOptions = !showOptions" (click)="$event.preventDefault()">
             <i class="fi fi-rr-caret-down"></i>
@@ -14,11 +16,28 @@
 
         <!-- Audio rendering mode -->
         @if(message().messageType === 'audio') {
-        @defer(when typeof messageFileSignal()?.data === 'string') {
-        <audio #audioPlayer controls>
-            <source [src]="messageFileSignal()?.data" type="audio/mp3">
-        </audio>
-        }
+        <section class="player">
+            <div class="player-info m-2 mt-3">
+
+                @if(currentAudio() > 0){
+                <div class="d-flex ms-5">
+                    @for (item of waves; track $index) {
+                        <div class="audio-wave" [class.audio-wave-stop]="!audioPlayed"></div>
+                        }
+                </div>
+                <p> {{ currentAudio() * 1000 | date: 'mm:ss' }}</p>
+                }
+            </div>
+            @if (audioPlayed) {
+            <button type="button" class="player-btn m-auto" (click)="pauseSound()">
+                <i class="fi fi-rr-pause"></i>
+            </button>
+            }@else {
+            <button type="button" class="player-btn m-auto" (click)="getSound()">
+                <i class="fi fi-rr-play"></i>
+            </button>
+            }
+        </section>
         }
 
         <!-- Image rendering mode -->
@@ -34,14 +53,13 @@
         <!-- Any file rendering mode -->
         @if(message().messageType === 'file') {
         @defer(when typeof messageFileSignal()?.data === 'string') {
+        }
         <div class="message-file-box px-2">
-            <p class="text-center my-auto">{{ messageFileSignal().fileName }}</p>
-            <a [download]="messageFileSignal().fileName" [href]="messageFileSignal().data" [hreflang]="locale"
-                class="message-file">
+            <p class="text-center my-auto w-75 me-2">{{ messageFileSignal()?.fileName }}</p>
+            <a [download]="messageFileSignal()?.fileName" [href]="messageFileSignal()?.data" class="message-file">
                 <i class="fi fi-rr-down-to-line"></i>
             </a>
         </div>
-        }
         }
 
         <p class="message-text">
@@ -77,12 +95,13 @@
 
         @if(showOptions) {
         <section class="position-absolute options py-1" #options>
-            <button type="button" class="p-2" (click)="this.deleteMessage()" >Delete message</button>
+            <button type="button" class="btn-close ms-auto my-2" (click)="this.showOptions = false"></button>
+            <button type="button" class="p-2" (click)="this.deleteMessage()">Delete message</button>
             @if(this.message().messageType != "audio"){
             <button type="button" class="p-2" id="showEditModal" (click)="this.showEditMessage.emit({
                     show:true,
                     message:this.message()
-                })">Edit message </button>
+                });this.showOptions = false">Edit message </button>
             }
         </section>
         }

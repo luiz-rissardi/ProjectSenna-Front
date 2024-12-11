@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, TemplateRef } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
 import { ChatFacade } from '../../facades/chat/chat.facade';
 import { UserState } from '../../core/states/User/user.state';
@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'app-conversartions',
     imports: [NotificationChatComponent],
     templateUrl: './conversartions.component.html',
-    styleUrl: './conversartions.component.scss'
+    styleUrl: './conversartions.component.scss',
 })
 export class ConversartionsComponent {
 

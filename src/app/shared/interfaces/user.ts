@@ -10,4 +10,5 @@ export interface User {
     lastOnline: Date;
     passwordHash: any;
     userId: string;
+    readMessages: boolean;
 }

@@ -14,7 +14,7 @@ export interface Message {
 }
 
 export interface MessageFile {
-    data: Blob;
+    data: Blob | ArrayBuffer | string;
     fileName: string;
     messageId: string
 }
