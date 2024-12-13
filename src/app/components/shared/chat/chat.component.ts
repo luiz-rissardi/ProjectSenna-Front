@@ -32,6 +32,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   private messageFacade = inject(MessageFacade);
   private contactFacade = inject(ContactFacade);
   private socketService = inject(SocketService);
+  private prevChatId = "";
   private skipMessages = 0;
   protected source = signal(null);
   protected sourceName = signal(null);
@@ -71,10 +72,14 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
 
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
-      this.skipMessages = 0;
-      this.scrollToBottom();
-      const currentChatId = this.chatState.chatState()?.chatId;
-      this.messageFacade.getMessagesByChatId(currentChatId, this.skipMessages)
+
+      if(this.prevChatId != this.chatState.chatState()?.chatId){
+        this.skipMessages = 0;
+        this.scrollToBottom();
+        this.prevChatId = this.chatState.chatState()?.chatId
+        const currentChatId = this.chatState.chatState()?.chatId;
+        this.messageFacade.getMessagesByChatId(currentChatId,this.userState.userSignal().userId, this.skipMessages)
+      }
     });
 
     // Atualizar mensagens no chat e marcar como lidas
@@ -112,13 +117,21 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     return item.messageId; // Use um identificador único, como o ID da mensagem
   }
 
+  protected clearMessages(){
+    this.toggleDropdown()
+    this.chatFacade.clearMessagesOfChat(this.userState.userSignal()?.userId)
+  }
+
   protected onScroll() {
     const el = this.chatContainer?.nativeElement as HTMLElement;
     const totalScroll = el.scrollHeight;
     const currentScroll = el.scrollTop
     if (totalScroll - (currentScroll * -1) <= 700) {
       this.skipMessages += 50
-      this.messageFacade.getMessagesByChatId(this.chatState.chatState().chatId, this.skipMessages)
+      this.messageFacade.getMessagesByChatId(
+        this.chatState.chatState().chatId,
+        this.userState.userSignal().userId,
+        this.skipMessages)
     }
   }
 
@@ -132,6 +145,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     this.socketService.on('message', (data: any) => {
       const chatId = this.chatState.chatState()?.chatId;
       if (chatId && chatId === data.chatId) {
+        this.scrollToBottom();
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
             return [data, ...messages];

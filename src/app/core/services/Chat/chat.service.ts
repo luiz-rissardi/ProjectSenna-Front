@@ -29,6 +29,10 @@ export class ChatService extends Service {
     return this.http.post(this.uri + `/user/${userId}/chat/${chatId}/state`, body);
   }
 
+  clearMessages(chatId:string,userId:string){
+    return this.http.post(this.uri + `/chat/${chatId}/user/${userId}/messages/clear`,{})
+  }
+
   desblockChat(chatId: string, userId: string) {
     const body = this.toFormData({ isActive: true });
     return this.http.post(this.uri + `/user/${userId}/chat/${chatId}/state`, body);

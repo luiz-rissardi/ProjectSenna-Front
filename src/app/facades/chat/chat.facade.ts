@@ -9,6 +9,8 @@ import { forkJoin } from 'rxjs';
 import { User } from '../../shared/interfaces/user';
 import { ChatState } from '../../core/states/chat/chat.state';
 import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
+import { SocketService } from '../../core/services/socket/socket.service';
+import { MessagesState } from '../../core/states/messages/messages.state';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,11 @@ export class ChatFacade {
 
   private warningState = inject(WarningState);
   private chatService = inject(ChatService);
+  private socketService = inject(SocketService);
 
   private chatArrayState = inject(ChatArrayState);
-  private chatDataState = inject(ChatState);
+  private chatState = inject(ChatState);
+  private messageState = inject(MessagesState);
   private userDetailState = inject(UserDetailState)
 
   getChatsOfUser(userId: string) {
@@ -50,8 +54,8 @@ export class ChatFacade {
       });
 
       // Atualiza o estado do chat
-      const currentChatState = this.chatDataState.chatState();
-      this.chatDataState.chatState.set({
+      const currentChatState = this.chatState.chatState();
+      this.chatState.chatState.set({
         ...currentChatState,
         isActive: false,
       });
@@ -71,6 +75,7 @@ export class ChatFacade {
       this.chatService.blockChat(chatId, userId)
         .subscribe((result: ResponseHttp<any>) => {
           if (result.isSuccess) {
+            this.socketService.emit("leave-chat", chatId)
             this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "chat locking" } })
           } else {
             this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "error occurred locking the chat" } })
@@ -95,8 +100,8 @@ export class ChatFacade {
       });
 
       // Atualiza o estado do chat
-      const currentChatState = this.chatDataState.chatState();
-      this.chatDataState.chatState.set({
+      const currentChatState = this.chatState.chatState();
+      this.chatState.chatState.set({
         ...currentChatState,
         isActive: true,
       });
@@ -122,6 +127,22 @@ export class ChatFacade {
         })
     } catch (error) {
       this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "error occurred unlocking the chat" } })
+    }
+  }
+  
+  clearMessagesOfChat(userId: string) {
+    try {
+      this.chatService.clearMessages(this.chatState.chatState().chatId, userId)
+      .subscribe((result: ResponseHttp<any>) => {
+        if(result.isSuccess){
+          this.messageState.messageSignal.set([]);
+            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "clear messages successfully" } })
+          }
+        })
+    } catch (error) {
+      this.warningState.warnigSignal.set({ IsSucess: false, data: { message: "error occurred clear the messages of chat" } })
+
+
     }
   }
 

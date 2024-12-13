@@ -22,15 +22,15 @@ export class MessageFacade {
   private chatState = inject(ChatState);
   private warningState = inject(WarningState);
 
-  getMessagesByChatId(chatId: string, skipMessages: number) {
+  getMessagesByChatId(chatId: string, userId:string, skipMessages: number) {
     try {
       if (skipMessages == 0) {
         this.messagesState.messageSignal.set([]);
       }
-      this.messageService.getMessagesOfChat(chatId, skipMessages)
+      this.messageService.getMessagesOfChat(chatId,userId, skipMessages)
         .subscribe((result: ResponseHttp<Message[]>) => {
           this.messagesState.messageSignal.update(messages => {
-            return [...messages,...result.value]
+            return [...messages, ...result.value]
           })
         })
     } catch (error) {
@@ -90,7 +90,7 @@ export class MessageFacade {
           this.messageFileService.sendMessageFile(messageFile)
             .subscribe((messageFileResult: ResponseHttp<MessageFile>) => {
               if (messageFileResult.isSuccess) {
-                
+
                 this.socketService.emit("send-message", {
                   message: messageResult.value,
                 })
@@ -187,12 +187,12 @@ export class MessageFacade {
 
       if (message.messageType != "text") {
         this.messageFileService.deleteFileOfMessage(message.messageId)
-        .subscribe((result:ResponseHttp<any>)=>{
-          if(result.isSuccess){
-            fn()
-          }
-        })
-      }else{
+          .subscribe((result: ResponseHttp<any>) => {
+            if (result.isSuccess) {
+              fn()
+            }
+          })
+      } else {
         fn()
       }
 
