@@ -147,12 +147,14 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       if (chatId && chatId === data.chatId) {
         this.scrollToBottom();
 
-        this.translatorService.translateText(
-          [data.message],
-          this.userState.userSignal().languages
-        ).subscribe((result: any) => {
-          data.translatedMessageText = result.translates[0].translate
-        })
+        if (data.message != "") {
+          this.translatorService.translateText(
+            [data.message],
+            this.userState.userSignal().languages
+          ).subscribe((result: any) => {
+            data.translatedMessageText = result.translates[0].translate
+          })
+        }
 
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
@@ -163,13 +165,11 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       }
     });
 
-    this.socketService.on("read-messages", (chatId: any) => {
+    this.socketService.on("read-messages", ({ chatId }) => {
       if (this.chatState.chatState()?.chatId == chatId) {
         this.messagesState.messageSignal.update(messages => {
           return [...messages.map(message => {
-            if (message.userId == this.userState.userSignal().userId) {
-              message.status = "read";
-            }
+            message.status = "read";
             return message
           })]
         })
@@ -199,10 +199,18 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   private markRead(messagesId: string[]) {
     const chatId = untracked(() => this.chatState.chatState().chatId);
     const otherUserId = untracked(() => this.chatState.chatState()?.otherUserId);
-    const newMessages = this.messagesState.messageSignal().map(message => {
-      message.status = "read";
+
+    let newMessages = this.messagesState.messageSignal()
+
+    // if (this.userTargetMarkRead) {
+    newMessages = newMessages.map(message => {
+      if (message.userId != this.userState.userSignal().userId) {
+        message.status = "read";
+      }
       return message;
     })
+    // }
+
     this.messagesState.messageSignal.set(newMessages)
 
     if (chatId && otherUserId) {

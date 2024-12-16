@@ -40,16 +40,18 @@ export class MessageFacade {
         .subscribe((result: ResponseHttp<Message[]>) => {
           from(result.value)
             .subscribe((message: Message) => {
-              this.translatorService.translateText(
-                [message.message],
-                this.userState.userSignal().languages
-              ).subscribe((result: any) => {
-                message.translatedMessageText = result.translates[0].translate
-              })
+              if (message.message != "") {
+                this.translatorService.translateText(
+                  [message.message],
+                  this.userState.userSignal().languages
+                ).subscribe((result: any) => {
+                  message.translatedMessageText = result.translates[0].translate
+                })
+              }
             })
 
           this.messagesState.messageSignal.update(messages => {
-            return [...messages,...localMessages, ...result.value]
+            return [...messages, ...localMessages, ...result.value]
           })
         })
     } catch (error) {
@@ -69,7 +71,7 @@ export class MessageFacade {
       language: this.userState.userSignal()?.languages,
       messageType,
       userName: '',
-      messageId: Math.floor(Math.random()*1000).toString(), // random id
+      messageId: Math.floor(Math.random() * 1000).toString(), // random id
       status: ''
     };
 
@@ -159,14 +161,17 @@ export class MessageFacade {
 
   markReadInMessageStatus(messagesId: string[], chatId: string, userId: string) {
     try {
-      this.messageService.markReadInMessages(messagesId)
-        .subscribe((result: ResponseHttp<any>) => {
-          if (result.isSuccess) {
-            this.socketService.emit("read-messages", {
-              chatId, userId
-            });
-          }
-        })
+      if (this.userState.userSignal().readMessages) {
+        this.socketService.emit("read-messages", {
+          chatId, userId, readMessages: this.userState.userSignal().readMessages
+        });
+        
+        this.messageService.markReadInMessages(messagesId)
+          .subscribe((result: ResponseHttp<any>) => {
+            if (result.isSuccess) {
+            }
+          })
+      }
     } catch (error) {
       this.warningState.warnigSignal.set({
         IsSucess: false,

@@ -11,7 +11,7 @@
         <p class="text-center"> {{ this.userDetailState.userDetailSignal().data?.description }} </p>
     </article>
     <article class="user-detail-section p-4 d-grid gap-3">
-        <button buttonStyle>
+        <button buttonStyle (click)="this.deleteMessages()">
             delete messages
         </button>
 

@@ -72,7 +72,6 @@ export class UserFacade {
 
   updateUser(user: User) {
     try {
-      console.log(user);
       this.userService.updateUser(user)
         .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {

@@ -38,4 +38,10 @@ export class UserDetailComponent {
       this.userDetailState.userDetailSignal().data.chatId
     );
   }
+
+  protected deleteMessages(){
+    this.chatFacade.clearMessagesOfChat(
+      this.userState.userSignal()?.userId
+    )
+  }
 }

@@ -13,7 +13,7 @@
 
     <fieldset class="form-group px-4">
         <label class="custom-checkbox">
-            <input type="checkbox" id="markRead" (click)="changeMarkReadConfirmation()">
+            <input type="checkbox" id="markRead" [checked]="this.userState.userSignal().readMessages" (click)="changeMarkReadConfirmation()">
             <span class="checkmark mt-1"></span>
             <label for="markRead" class="ms-3"> confirmed read messages </label>
             <p class="m-3" style="font-size: 12px;"> 
