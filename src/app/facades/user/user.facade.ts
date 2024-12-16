@@ -72,6 +72,7 @@ export class UserFacade {
 
   updateUser(user: User) {
     try {
+      console.log(user);
       this.userService.updateUser(user)
         .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
@@ -89,7 +90,7 @@ export class UserFacade {
               })
               return value;
             })
-            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "usuário atualizado com sucesso" } })
+            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "update user successfully" } })
 
           } else {
             this.warningState.warnigSignal.set({ IsSucess: data.isSuccess, data: data.error })

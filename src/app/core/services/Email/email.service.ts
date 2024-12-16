@@ -8,7 +8,7 @@ import { User } from '../../../shared/interfaces/user';
 export class EmailService extends Service {
 
   constructor() {
-    super("http://localhost:8729");
+    super("http://localhost:8728");
   }
 
   sendConfirmationEmail(user: User) {

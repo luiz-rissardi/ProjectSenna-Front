@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
@@ -15,6 +15,8 @@ import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
 import { DatePipe } from '@angular/common';
 import { Message } from '../../../shared/interfaces/message';
+import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
+import { TranslateService } from '../../../core/services/translate/translate.service';
 
 @Component({
   selector: 'chat',
@@ -28,6 +30,8 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   protected messagesState = inject(MessagesState);
   protected chatState = inject(ChatState);
   private userState = inject(UserState);
+  protected switchTranslation = inject(SwitchTranslationState);
+  private translatorService = inject(TranslateService)
   private chatFacade = inject(ChatFacade);
   private messageFacade = inject(MessageFacade);
   private contactFacade = inject(ContactFacade);
@@ -73,12 +77,12 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
 
-      if(this.prevChatId != this.chatState.chatState()?.chatId){
+      if (this.prevChatId != this.chatState.chatState()?.chatId) {
         this.skipMessages = 0;
         this.scrollToBottom();
         this.prevChatId = this.chatState.chatState()?.chatId
         const currentChatId = this.chatState.chatState()?.chatId;
-        this.messageFacade.getMessagesByChatId(currentChatId,this.userState.userSignal().userId, this.skipMessages)
+        this.messageFacade.getMessagesByChatId(currentChatId, this.userState.userSignal().userId, this.skipMessages)
       }
     });
 
@@ -113,11 +117,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     this.destroy.next(null)
   }
 
-  trackByMessageId(index: number, item: Message): string | number {
-    return item.messageId; // Use um identificador único, como o ID da mensagem
-  }
-
-  protected clearMessages(){
+  protected deleteMessages() {
     this.toggleDropdown()
     this.chatFacade.clearMessagesOfChat(this.userState.userSignal()?.userId)
   }
@@ -146,6 +146,14 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       const chatId = this.chatState.chatState()?.chatId;
       if (chatId && chatId === data.chatId) {
         this.scrollToBottom();
+
+        this.translatorService.translateText(
+          [data.message],
+          this.userState.userSignal().languages
+        ).subscribe((result: any) => {
+          data.translatedMessageText = result.translates[0].translate
+        })
+
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
             return [data, ...messages];
@@ -267,6 +275,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   }
 
   protected addContact() {
+    this.toggleDropdown()
     const { userName, userId, photo } = this.userDetailState.userDetailSignal().data;
     const user = this.userState.userSignal();
     this.contactFacade.addContact(user.contactId, userId, photo, userName);
@@ -294,7 +303,6 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   }
 
   private async startMediaRecording(stream: any) {
-    console.log("object");
     this.mediaRecorder = new MediaRecorder(stream);
     this.audioChunks = [];
 

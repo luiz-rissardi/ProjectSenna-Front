@@ -34,7 +34,7 @@ export class EditUserComponent {
       userName: [],
       userDescription: [],
       photo: [],
-      languages: []
+      language: []
 
     })
 
@@ -50,7 +50,7 @@ export class EditUserComponent {
         }else{
           this.chosenImage = this.userAccount?.photo;
         }
-        this.formUserUpdate.get("languages").setValue(this.userAccount?.languages);
+        this.formUserUpdate.get("language").setValue(this.userAccount?.languages);
         this.formUserUpdate.get("userName").setValue(this.userAccount?.userName);
         this.formUserUpdate.get("userDescription").setValue(this.userAccount?.userDescription);
       }
@@ -81,7 +81,7 @@ export class EditUserComponent {
   }
 
   save() {
-    ["userName", "photo", "languages", "userDescription"].map((key, index) => {
+    ["userName", "photo", "language", "userDescription"].map((key, index) => {
       const value = this.formUserUpdate.get(key).value
       this.userAccount[key] = value;
     });

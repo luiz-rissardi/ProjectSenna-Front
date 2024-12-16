@@ -136,7 +136,7 @@ export class ChatFacade {
       .subscribe((result: ResponseHttp<any>) => {
         if(result.isSuccess){
           this.messageState.messageSignal.set([]);
-            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "clear messages successfully" } })
+            this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "delete messages successfully" } })
           }
         })
     } catch (error) {

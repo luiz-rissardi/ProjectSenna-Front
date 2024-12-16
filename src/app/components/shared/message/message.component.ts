@@ -7,6 +7,7 @@ import { MessageFacade } from '../../../facades/message/message.facade';
 import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
 import { concatMap, from, fromEvent, Subject, takeUntil, timeInterval, timer } from 'rxjs';
 import { Buffer } from 'buffer';
+import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
 
 @Component({
   selector: 'message',
@@ -21,12 +22,15 @@ export class MessageComponent implements AfterViewInit {
   message: InputSignal<Message> = input(null);
 
   protected messageFileSignal: WritableSignal<MessageFile> = signal(null);
+  protected switchTranslation = inject(SwitchTranslationState);
+  private injector = inject(Injector);
   protected isExtend = true;
   private destroy = new Subject();
+
   private messageFacade = inject(MessageFacade);
-  private injector = inject(Injector);
   protected showOptions = false;
   protected showEditMessage = output<any>();
+
   protected currentAudio = signal(0);
   protected totalAudio: number = 0;
   protected audio: HTMLAudioElement;
@@ -48,11 +52,20 @@ export class MessageComponent implements AfterViewInit {
           this.messageFacade.getFileOfMesage(this.message().messageId)
             .pipe(takeUntil(this.destroy))
             .subscribe((result: ResponseHttp<MessageFile>) => {
+
               if (result.isSuccess) {
                 this.messageFileSignal.set(result.value)
-                const photoBuffer = Buffer.from(result.value.data as ArrayBuffer);
-                const url = URL.createObjectURL(new Blob([photoBuffer]))
-                this.messageFileSignal.set({ ...this.messageFileSignal(), data: url });
+                const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
+
+                const processResult = ({ data }) => {
+                  this.messageFileSignal?.set({ ...this.messageFileSignal(), data });
+                  worker.removeEventListener("message",processResult);
+                };
+
+                worker.onmessage = processResult
+                worker.postMessage(result.value.data);
+                // const photoBuffer = Buffer.from(result.value.data as ArrayBuffer);
+                // const url = URL.createObjectURL(new Blob([photoBuffer]))
               }
             })
         }
@@ -67,7 +80,7 @@ export class MessageComponent implements AfterViewInit {
   }
 
   protected getSound() {
-    if(this.audio?.paused){
+    if (this.audio?.paused) {
       this.audio?.play();
       this.audioPlayed = true;
       return;
@@ -82,7 +95,7 @@ export class MessageComponent implements AfterViewInit {
         this.audioPlayed = true;
 
         fromEvent(this.audio, 'timeupdate')
-          .pipe(takeUntil(this.destroy)) 
+          .pipe(takeUntil(this.destroy))
           .subscribe(() => {
             this.currentAudio.set(this.audio.currentTime);
           });
@@ -95,8 +108,8 @@ export class MessageComponent implements AfterViewInit {
         this.audio.play()
       })
   }
-  
-  protected pauseSound(){
+
+  protected pauseSound() {
     this.audio.pause();
     this.audioPlayed = false;
   }

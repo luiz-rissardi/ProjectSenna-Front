@@ -93,6 +93,11 @@
         color: $dark;
         font-weight: 600;
         margin-top: 10px;
+
+        &-translate{
+            font-weight: 500;
+            color: $boldRed !important;
+        }
     }
 }
 

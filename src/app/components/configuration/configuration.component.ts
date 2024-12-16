@@ -23,7 +23,7 @@ export class ConfigurationComponent {
         this.photoState = photo
       } else {
         // pattern photo to load
-        // this.photoState = "../../../assets/icons/do-utilizador.png"
+        this.photoState = "../../../assets/icons/do-utilizador.png"
       }
     })
   }

@@ -5,7 +5,7 @@ export interface Message {
     userName: string;
     userId: string;
     chatId: string;
-    originLanguage: string;
+    language: string;
     messageType: string;
     dateSender: Date;
     messageId: string;

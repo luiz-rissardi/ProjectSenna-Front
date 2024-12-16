@@ -22,8 +22,8 @@
                 @if(currentAudio() > 0){
                 <div class="d-flex ms-5">
                     @for (item of waves; track $index) {
-                        <div class="audio-wave" [class.audio-wave-stop]="!audioPlayed"></div>
-                        }
+                    <div class="audio-wave" [class.audio-wave-stop]="!audioPlayed"></div>
+                    }
                 </div>
                 <p> {{ currentAudio() * 1000 | date: 'mm:ss' }}</p>
                 }
@@ -68,6 +68,12 @@
             <button class="moreText" type="button" (click)="toggleExtend()">Leia mais</button>
             }
         </p>
+
+        @if(this.switchTranslation.chatsArrayState() == true && this.isYourMessage() == false){
+         @defer(when message()?.translatedMessageText != undefined){
+            <p class="message-text-translate mt-2"> {{ message()?.translatedMessageText }} </p>
+         }
+        }
 
         <div class="d-flex">
             <p class="message-date ms-auto">

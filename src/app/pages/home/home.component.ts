@@ -8,6 +8,8 @@ import { ContactFacade } from '../../facades/contact/contact.facade';
 import { UserState } from '../../core/states/User/user.state';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { SocketService } from '../../core/services/socket/socket.service';
+import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-line-messages.service';
+import { MessageFacade } from '../../facades/message/message.facade';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,8 @@ export class HomeComponent {
   private contactFacade = inject(ContactFacade);
   private chatArrayState = inject(ChatArrayState);
   private socketService = inject(SocketService);
+  private messageFacade = inject(MessageFacade);
+  private offlineMessages = inject(OffLineMessagesService);
   private userState = inject(UserState)
   protected isMobile = window.innerWidth < 940;
   protected showChat = !this.isMobile;
@@ -31,6 +35,16 @@ export class HomeComponent {
       const chats = this.chatArrayState.chatsArrayState()?.map(el => el.chatId)
       if (chats != null) {
         this.socketService.emit("enter-rooms-chat", chats)
+
+        if(navigator.onLine == true){
+          this.offlineMessages.getLocalMesages()
+          .forEach(message => {
+            console.log(message);
+            // this.messageFacade.sendMessage(message.message,message.messageType)
+          })
+          // this.offlineMessages.removeAll()
+          
+        }
       }
     })
 
@@ -43,9 +57,7 @@ export class HomeComponent {
         }
       }
     })
-
     this.contactFacade.findContactsOfUser(this.userState.userSignal().contactId)
-
   }
 
 }

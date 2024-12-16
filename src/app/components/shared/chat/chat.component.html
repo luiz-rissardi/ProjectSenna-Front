@@ -7,9 +7,14 @@
         [image]="this.userDetailState.userDetailSignal().data.photo">
     </button-icon>
 
-    <p class="mt-3"> {{ this.userDetailState.userDetailSignal()?.data?.userName }} </p>
+    <p> {{ this.userDetailState.userDetailSignal()?.data?.userName }} </p>
 
     <div class="d-flex ms-auto">
+        <label class="switch m-auto">
+            <input type="checkbox" (change)="switchTranslation.chatsArrayState.set(!switchTranslation.chatsArrayState())">
+            <span class="slider"></span>
+        </label>
+
         <button type="button" ButtonIcon>
             <i class="fi fi-rr-phone-flip mt-2" style="font-size: 1.5rem;"></i>
         </button>
@@ -42,8 +47,8 @@
                         }
                     </li>
                     <li>
-                        <button type="button" class="dropdown-button" (click)="clearMessages()">
-                            clean messages
+                        <button type="button" class="dropdown-button" (click)="deleteMessages()">
+                            delete messages
                         </button>
                     </li>
                 </ul>
@@ -56,26 +61,27 @@
 @if(this.chatState.chatState()?.chatId != undefined ){
 
 <section class="chat" id="chat" #chat (scroll)="onScroll()">
-    
+
     @if(this.showEditMessage){
-        <div class="message-edit-modal" #editMessageBox>
-            <div class="message-edit-modal-header d-flex">
-                <button class="btn-close my-auto mx-3" type="button" (click)="this.showEditMessage = false">  </button>
-                <h3 class="my-auto ms-5"> Edit Message </h3>
-            </div>
-            <section class="d-flex flex-column p-5">
-                <p> original message: "{{ messageTextOrigin }}"</p>
-            </section>
-            <div class="message-edit-modal-footer">
-                <input type="text" (keydown.Enter)="this.editMessage()" class="p-2" placeholder="type your new message" #newMessageText>
-                <button type="button" class="btn-send my-2 mx-3" (click)="this.editMessage()">
-                    <i class="fi fi-rr-paper-plane m-auto"></i>
-                </button>
-            </div>
+    <div class="message-edit-modal" #editMessageBox>
+        <div class="message-edit-modal-header d-flex">
+            <button class="btn-close my-auto mx-3" type="button" (click)="this.showEditMessage = false"> </button>
+            <h3 class="my-auto ms-5"> Edit Message </h3>
         </div>
+        <section class="d-flex flex-column p-5">
+            <p> original message: "{{ messageTextOrigin }}"</p>
+        </section>
+        <div class="message-edit-modal-footer">
+            <input type="text" (keydown.Enter)="this.editMessage()" class="p-2" placeholder="type your new message"
+                #newMessageText>
+            <button type="button" class="btn-send my-2 mx-3" (click)="this.editMessage()">
+                <i class="fi fi-rr-paper-plane m-auto"></i>
+            </button>
+        </div>
+    </div>
     }
 
-    @for (item of this.messagesState.messageSignal(); track item.messageId) {
+    @for (item of this.messagesState.messageSignal(); track $index) {
     <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
         [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
     </message>

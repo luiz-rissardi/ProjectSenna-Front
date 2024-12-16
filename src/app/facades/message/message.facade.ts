@@ -8,7 +8,10 @@ import { SocketService } from '../../core/services/socket/socket.service';
 import { UserState } from '../../core/states/User/user.state';
 import { ChatState } from '../../core/states/chat/chat.state';
 import { MessageFileService } from '../../core/services/messageFile/message-file.service';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { TranslateService } from '../../core/services/translate/translate.service';
+import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-line-messages.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,21 +19,37 @@ import { Observable } from 'rxjs';
 export class MessageFacade {
   private messageService = inject(MessagesService);
   private messageFileService = inject(MessageFileService);
+  private translatorService = inject(TranslateService);
+  private offlineMessages = inject(OffLineMessagesService);
   private socketService = inject(SocketService);
   private messagesState = inject(MessagesState);
   private userState = inject(UserState);
   private chatState = inject(ChatState);
   private warningState = inject(WarningState);
 
-  getMessagesByChatId(chatId: string, userId:string, skipMessages: number) {
+  getMessagesByChatId(chatId: string, userId: string, skipMessages: number) {
     try {
+
+      const localMessages = this.offlineMessages.getLocalMesages().filter(el => el.chatId == chatId);
+
       if (skipMessages == 0) {
         this.messagesState.messageSignal.set([]);
       }
-      this.messageService.getMessagesOfChat(chatId,userId, skipMessages)
+
+      this.messageService.getMessagesOfChat(chatId, userId, skipMessages)
         .subscribe((result: ResponseHttp<Message[]>) => {
+          from(result.value)
+            .subscribe((message: Message) => {
+              this.translatorService.translateText(
+                [message.message],
+                this.userState.userSignal().languages
+              ).subscribe((result: any) => {
+                message.translatedMessageText = result.translates[0].translate
+              })
+            })
+
           this.messagesState.messageSignal.update(messages => {
-            return [...messages, ...result.value]
+            return [...messages,...localMessages, ...result.value]
           })
         })
     } catch (error) {
@@ -42,14 +61,28 @@ export class MessageFacade {
   }
 
   sendMessage(messageText: string, messageType: string = "text") {
-    const message: Partial<Message> = {
+    const message: Message = {
       message: messageText,
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      originLanguage: this.userState.userSignal().languages,
+      language: this.userState.userSignal()?.languages,
       messageType,
+      userName: '',
+      messageId: Math.floor(Math.random()*1000).toString(), // random id
+      status: ''
     };
+
+    // sem internet salvar localmente
+    if (navigator.onLine == false) {
+      this.offlineMessages.saveLocalMessages(message);
+      this.messagesState.messageSignal.update((messages: Message[]) => {
+        messages.unshift(message)
+        return messages
+      })
+      return;
+    }
+
     try {
       this.messageService.sendMessageToChat(message)
         .subscribe((result: ResponseHttp<Message>) => {
@@ -76,9 +109,10 @@ export class MessageFacade {
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      originLanguage: this.userState.userSignal().languages,
+      language: this.userState.userSignal().languages,
       messageType,
     };
+
     try {
       this.messageService.sendMessageToChat(message)
         .subscribe((messageResult: ResponseHttp<Message>) => {
