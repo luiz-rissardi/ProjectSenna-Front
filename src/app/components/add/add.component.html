@@ -20,8 +20,8 @@
     <article class="my-3 d-flex flex-column">
         <h4 class="mx-auto"> Persons in Just Translate </h4>
 
-        <div class="contacts py-3" #contacts>
-            @if(query.value != ""){
+        <div class="contacts py-3 d-flex flex-column" #contacts>
+            @if(query.value != "" && this.filtedListUsers.length > 0){
             @for (item of this.filtedListUsers; track $index) {
             @defer (when item.photo != undefined) {
             <app-contact-search [user]="item">
@@ -48,6 +48,8 @@
             </div>
             }
             }
+            }@else if(query.value != ""){
+                <h3 class="m-auto mb-auto"> no user found with that name </h3>
             }
         </div>
 

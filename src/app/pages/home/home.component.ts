@@ -10,6 +10,7 @@ import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { SocketService } from '../../core/services/socket/socket.service';
 import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-line-messages.service';
 import { MessageFacade } from '../../facades/message/message.facade';
+import { ChatFacade } from '../../facades/chat/chat.facade';
 
 @Component({
   selector: 'app-home',
@@ -19,17 +20,25 @@ import { MessageFacade } from '../../facades/message/message.facade';
 })
 export class HomeComponent {
 
-  private ChatState = inject(ChatState);
+  private chatState = inject(ChatState);
   private contactFacade = inject(ContactFacade);
   private chatArrayState = inject(ChatArrayState);
   private socketService = inject(SocketService);
   private messageFacade = inject(MessageFacade);
+  private chatFacade = inject(ChatFacade);
   private offlineMessages = inject(OffLineMessagesService);
   private userState = inject(UserState)
   protected isMobile = window.innerWidth < 940;
   protected showChat = !this.isMobile;
 
   constructor() {
+
+    if (this.chatArrayState.chatsArrayState()?.length == undefined) {
+      const userId = this.userState.userSignal()?.userId;
+      if (userId) {
+        this.chatFacade.getChatsOfUser(userId)
+      }
+    }
 
     effect(() => {
       const chats = this.chatArrayState.chatsArrayState()?.map(el => el.chatId)
@@ -38,11 +47,12 @@ export class HomeComponent {
 
         if(navigator.onLine == true){
           this.offlineMessages.getLocalMesages()
-          .forEach(message => {
-            console.log(message);
-            // this.messageFacade.sendMessage(message.message,message.messageType)
+          .forEach((message,i,array) => {
+            this.messageFacade.sendMessage(message.message,message.messageType)
+            if(i+1 >= array.length){
+              this.offlineMessages.removeAll()
+            }
           })
-          // this.offlineMessages.removeAll()
           
         }
       }
@@ -50,14 +60,17 @@ export class HomeComponent {
 
     effect(() => {
       if (this.isMobile) {
-        if (this.ChatState.chatState()?.chatId != null) {
+        if (this.chatState.chatState()?.chatId != null) {
           this.showChat = true
         } else {
           this.showChat = false
         }
       }
     })
-    this.contactFacade.findContactsOfUser(this.userState.userSignal().contactId)
+
+    effect(()=>{
+      this.contactFacade.findContactsOfUser(this.userState.userSignal().contactId)
+    })
   }
 
 }

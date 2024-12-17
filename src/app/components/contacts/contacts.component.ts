@@ -16,12 +16,13 @@ export class ContactsComponent {
   private contactState = inject(ContactsState);
   private chatsArrayState = inject(ChatArrayState);
   protected data: WritableSignal<{ contact: Contact, chatData: ChatData }[]> = signal([]);
+  private cache: WritableSignal<{ contact: Contact, chatData: ChatData }[]> = signal([])
 
   constructor() {
 
     // refazer a lista quando um novo contato é add ou removido
-    effect(()=>{
-      if(this.contactState.contactSignal() != null ){
+    effect(() => {
+      if (this.contactState.contactSignal()?.length > 0) {
         this.initializeData()
       }
     })
@@ -41,5 +42,19 @@ export class ContactsComponent {
       })
       ?.filter(Boolean); // Remove valores nulos
     this.data.set(contacts)
+    this.cache.set(contacts)
   }
+
+  protected filtercontacts(event: Event) {
+    const query = (event.target as HTMLInputElement).value;
+    if (query == "") {
+      this.data.set(this.cache());
+      return;
+    }
+
+    this.data.update(() => {
+      return this.cache().filter(chatData => chatData.contact.userName.toLowerCase().includes(query.toLowerCase()));
+    })
+  }
+
 }

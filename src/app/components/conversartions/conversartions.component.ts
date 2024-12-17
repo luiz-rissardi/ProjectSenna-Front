@@ -1,37 +1,45 @@
-import { ChangeDetectionStrategy, Component, inject, TemplateRef } from '@angular/core';
+import { Component, effect, inject, TemplateRef } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
-import { ChatFacade } from '../../facades/chat/chat.facade';
-import { UserState } from '../../core/states/User/user.state';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-conversartions',
-    imports: [NotificationChatComponent],
-    templateUrl: './conversartions.component.html',
-    styleUrl: './conversartions.component.scss',
+  selector: 'app-conversartions',
+  imports: [NotificationChatComponent],
+  templateUrl: './conversartions.component.html',
+  styleUrl: './conversartions.component.scss',
 })
 export class ConversartionsComponent {
 
-
-  private chatFacade = inject(ChatFacade)
-  private userState = inject(UserState);
   private modalService = inject(NgbModal);
   protected chatsArrayState = inject(ChatArrayState);
-
+  protected cache = [];
+  protected query = "";
 
   constructor() {
-    
-    if (this.chatsArrayState.chatsArrayState()?.length == undefined) {
-      const userId = this.userState.userSignal()?.userId;
-      if (userId) {
-        this.chatFacade.getChatsOfUser(userId)
+    effect(()=>{
+      if(this.cache.length == 0 && this.chatsArrayState.chatsArrayState() != undefined ){
+        this.cache = this.chatsArrayState.chatsArrayState();
       }
-    }
+    })
   }
 
   protected inviteFriends(el: TemplateRef<any>) {
     this.modalService.open(el);
+  }
+
+  protected filterConversations() {
+    this.query = (event.target as HTMLInputElement).value;
+
+    if (this.query == "") {
+      this.chatsArrayState.chatsArrayState.set(this.cache);
+      return;
+    }
+
+    this.chatsArrayState.chatsArrayState.update(() => {
+      return this.cache.filter(chat => chat.otherUserName.toLowerCase().includes(this.query.toLowerCase()));
+    })
+
   }
 
 }

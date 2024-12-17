@@ -1,7 +1,7 @@
 <section class="conversation">
     <h1 class="ms-3">Conversations</h1>
     <form>
-        <fieldset class="form-group m-auto w-100 my-3 px-3 position-relative">
+        <fieldset class="form-group m-auto w-100 my-3 px-3 position-relative" (keydown)="filterConversations()">
             <input type="text" class="control-search" id="userName" placeholder="Search conversation">
             <i class="fi fi-rr-search search-icon"></i>
         </fieldset>
@@ -16,8 +16,17 @@
 
         <notification-chat [chatData]="item"></notification-chat>
         }
-        
-        }@else {
+
+        }@else if(this.chatsArrayState.chatsArrayState()?.length == 0 && this.cache?.length > 0){
+        <h3> Chat not found </h3>
+        }
+
+        @if(
+        (this.chatsArrayState?.chatsArrayState()?.length == 0 ||
+        this.chatsArrayState?.chatsArrayState()?.length == undefined) &&
+        (this.cache?.length == undefined ||
+        this.cache?.length == 0)
+        ){
         <div class="flex flex-column text-center">
 
             <p class="text-secondary"> invite your friends ! </p>
