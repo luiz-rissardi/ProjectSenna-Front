@@ -8,8 +8,8 @@
         </fieldset>
     </form>
     <section class="data-chats-notifications">
-        @for (item of this.users; track $index) {
-        <!-- <notification-chat [chatData]="item"></notification-chat> -->
+        @for (item of this.groupArrayState.groupSignal(); track $index) {
+        <app-group-notification [chatData]="item"></app-group-notification>
         }
     </section>
 </div>

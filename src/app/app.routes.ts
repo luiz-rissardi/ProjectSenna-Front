@@ -5,6 +5,7 @@ import { SignUpComponent } from './components/shared/forms/sign-up/sign-up.compo
 import { RecoverPasswordComponent } from './components/shared/forms/recover-password/recover-password.component';
 import { authGuard } from './shared/guards/auth/auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { CreateGroupComponent } from './components/shared/forms/create-group/create-group.component';
 
 
 export const routes: Routes = [
@@ -69,8 +70,16 @@ export const routes: Routes = [
             },
             {
                 path: "add",
-                loadComponent: () => import('./components/add/add.component').then(c => c.AddComponent)
-            }
+                loadComponent: () => import('./components/add/add.component').then(c => c.AddComponent),
+            },
+            {
+                path:"add/group",
+                component:CreateGroupComponent
+            },
         ]
     },
+    {
+        path:"**",
+        redirectTo:"home/conversation"
+    }
 ];

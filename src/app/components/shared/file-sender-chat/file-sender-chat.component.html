@@ -2,7 +2,7 @@
 <section class="chat-sender-image-container">
     <div class="image-box">
         <button type="button" class="ms-auto m-3 btn-close" (click)="this.show = false"> </button>
-        <p class="mx-auto my-2"> {{ this.nameSource() }} </p>
+        <p class="mx-auto my-2 text-center"> {{ this.nameSource() }} </p>
 
         @if(sourceType().includes("pdf")){
         <strong class="mx-auto"> {{ this.text }} </strong>

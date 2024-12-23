@@ -4,10 +4,11 @@ import { UserService } from '../../core/services/user/user.service';
 import { User } from '../../shared/interfaces/user';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ContactSearchComponent } from '../shared/contact-search/contact-search.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-add',
-    imports: [NgxSkeletonLoaderModule, ContactSearchComponent],
+    imports: [NgxSkeletonLoaderModule, ContactSearchComponent,RouterLink],
     templateUrl: './add.component.html',
     styleUrl: './add.component.scss'
 })

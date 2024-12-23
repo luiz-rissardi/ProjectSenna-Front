@@ -1,46 +1,15 @@
-import { Component } from '@angular/core';
-import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
+import { Component, inject } from '@angular/core';
+import { GroupsState } from '../../core/states/groups/groups.state';
+import { GroupNotificationComponent } from '../shared/group-notification/group-notification.component';
 
 @Component({
   selector: 'app-groups',
   standalone: true,
-  // imports: [NotificationChatComponent],
+  imports: [GroupNotificationComponent],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })
 export class GroupsComponent {
-  protected users = [
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-    {
-      userName: "luiz gustavo rissardi",
-      photo: "../../../assets/icons/do-utilizador.png",
-    },
-  ]
+  
+  protected groupArrayState = inject(GroupsState)
 }

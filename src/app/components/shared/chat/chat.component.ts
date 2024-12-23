@@ -180,6 +180,13 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
       this.messagesState.messageSignal.update(messages => {
         return messages.map((message) => {
           if (messageEdit.messageId == message.messageId) {
+
+            this.translatorService.translateText(
+              [messageEdit.message],
+              this.userState.userSignal().languages
+            ).subscribe((result: any) => {
+              messageEdit.translatedMessageText = result.translates[0].translate
+            })
             return messageEdit
           }
           return message

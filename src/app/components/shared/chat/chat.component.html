@@ -26,9 +26,11 @@
             <div #dropdown class="position-absolute dropdown" style="display:none;">
                 <ul class="p-0">
                     <li>
+                       @if(this.chatState.chatState()?.chatType != "group"){
                         <button type="button" class="dropdown-button" (click)="this.addContact()">
                             add to contacts
                         </button>
+                       }
                     </li>
                     <li>
                         <button type="button" class="dropdown-button" (click)="this.openUserDetail()">
@@ -140,7 +142,7 @@
         <i class="fi fi-rr-circle-microphone"></i>
     </button>
     }@else if(isRecording == false){
-    <h4 class="m-auto text-white "> This chat is blocked ! </h4>
+    <h4 class="m-auto text-white"> This chat is blocked ! </h4>
     }
 </div>
 }

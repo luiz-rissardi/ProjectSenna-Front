@@ -11,4 +11,5 @@ export interface User {
     passwordHash: any;
     userId: string;
     readMessages: boolean;
+    password?:string;
 }

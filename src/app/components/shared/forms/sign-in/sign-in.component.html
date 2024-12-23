@@ -19,7 +19,7 @@
                     placeholder="type your password">
                 <div class="line"></div>
             </div>
-            <i [classList]="this.passwordIsVisible == false? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
+            <i [classList]="this.passwordIsVisible == true? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
                 (click)="this.toggleVisiblePassword()"></i>
         </div>
         @if(this.spans[1]){
@@ -28,7 +28,7 @@
         </span>
         }
     </fieldset>
-    <a class="ms-auto my-2 me-md-1 me-4 text-secondary recover-password" routerLink="/auth/recover-password"
+    <a class="ms-auto mb-4 me-md-1 me-4 text-secondary recover-password" routerLink="/auth/recover-password"
         style="text-decoration:none;"> Forgot password </a>
     <button type="button" buttonStyle (click)="this.login()"> Login </button>
 </form>

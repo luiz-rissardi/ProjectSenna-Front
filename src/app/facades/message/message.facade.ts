@@ -165,7 +165,7 @@ export class MessageFacade {
         this.socketService.emit("read-messages", {
           chatId, userId, readMessages: this.userState.userSignal().readMessages
         });
-        
+
         this.messageService.markReadInMessages(messagesId)
           .subscribe((result: ResponseHttp<any>) => {
             if (result.isSuccess) {
@@ -188,7 +188,6 @@ export class MessageFacade {
             this.socketService.emit("update-message", {
               message
             });
-
           } else {
             this.warningState.warnigSignal.set({
               IsSucess: false,

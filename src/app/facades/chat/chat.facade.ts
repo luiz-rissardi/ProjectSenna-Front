@@ -176,7 +176,7 @@ export class ChatFacade {
                     chats?.push(obj)
                     return chats
                   })
-                  this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "Chat Criado com sucesso!" } })
+                  this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "Chat created successfully!" } })
                 }
               })
           } else {

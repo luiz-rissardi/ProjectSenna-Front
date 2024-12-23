@@ -1,5 +1,4 @@
 import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
-import { ButtonIconComponent } from '../../button-icon/button-icon.component';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
 import { UserFacade } from '../../../../facades/user/user.facade';
@@ -9,7 +8,7 @@ import { UserState } from '../../../../core/states/User/user.state';
 
 @Component({
     selector: 'app-sign-in',
-    imports: [ButtonIconComponent, RouterLink, ButtonStyleDirective, ReactiveFormsModule],
+    imports: [RouterLink, ButtonStyleDirective, ReactiveFormsModule],
     templateUrl: './sign-in.component.html',
     styleUrl: './sign-in.component.scss'
 })

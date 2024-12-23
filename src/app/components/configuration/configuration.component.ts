@@ -29,7 +29,11 @@ export class ConfigurationComponent {
   }
 
 
-  loadAlternativeImage() {
+  protected loadAlternativeImage() {
     this.buttonImage.nativeElement.src = "../../../assets/icons/do-utilizador.png"
+  }
+
+  protected logout(){
+    localStorage.removeItem("XXX-token-auth");
   }
 }

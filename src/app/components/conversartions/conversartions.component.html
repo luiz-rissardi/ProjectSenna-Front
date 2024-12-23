@@ -6,7 +6,7 @@
             <i class="fi fi-rr-search search-icon"></i>
         </fieldset>
     </form>
-    <section class="data-chats-notifications">
+    <section class="data-chats-notifications d-flex flex-column">
         @if(
         this.chatsArrayState?.chatsArrayState()?.length != 0 &&
         this.chatsArrayState?.chatsArrayState()?.length !=undefined
@@ -18,7 +18,7 @@
         }
 
         }@else if(this.chatsArrayState.chatsArrayState()?.length == 0 && this.cache?.length > 0){
-        <h3> Chat not found </h3>
+        <h3 class="mx-auto"> Chat not found </h3>
         }
 
         @if(

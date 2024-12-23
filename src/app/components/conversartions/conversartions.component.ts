@@ -19,7 +19,7 @@ export class ConversartionsComponent {
   constructor() {
     effect(()=>{
       if(this.cache.length == 0 && this.chatsArrayState.chatsArrayState() != undefined ){
-        this.cache = this.chatsArrayState.chatsArrayState();
+        this.cache = this.chatsArrayState.chatsArrayState()
       }
     })
   }

@@ -64,8 +64,6 @@ export class MessageComponent implements AfterViewInit {
 
                 worker.onmessage = processResult
                 worker.postMessage(result.value.data);
-                // const photoBuffer = Buffer.from(result.value.data as ArrayBuffer);
-                // const url = URL.createObjectURL(new Blob([photoBuffer]))
               }
             })
         }

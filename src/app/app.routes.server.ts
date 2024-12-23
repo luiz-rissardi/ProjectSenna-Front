@@ -61,5 +61,13 @@ export const serverRoutes: ServerRoute[] = [
         path: 'home/add',
         renderMode: RenderMode.Prerender,
     },
+    {
+        path: 'home/add/group',
+        renderMode: RenderMode.Server,
+    },
+    {
+        path:"**",
+        renderMode:RenderMode.Prerender
+    }
 
 ];

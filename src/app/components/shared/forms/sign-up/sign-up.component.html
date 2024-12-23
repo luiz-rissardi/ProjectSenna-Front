@@ -29,7 +29,7 @@
                     placeholder="type your password">
                 <div class="line"></div>
             </div>
-            <i [classList]="this.passwordIsVisible == false? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
+            <i [classList]="this.passwordIsVisible == true? 'fi fi-rr-eye mt-2':'fi fi-rr-eye-crossed mt-2' "
                 (click)="this.toggleVisiblePassword()"></i>
         </div>
         @if(this.spans[2]){

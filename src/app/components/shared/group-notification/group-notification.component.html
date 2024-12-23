@@ -1,0 +1,35 @@
+@defer (when this.show() == true) {
+    <article #notification class="notification " (click)="openChat(notification)">
+        @if(this.notificationsCont() > 0){
+            <span class="position-absolute ranslate-middle badge rounded-pill bg-danger">
+                {{ notificationsCont() }}
+            </span>
+        }
+        <button-icon [alt]="'user photo' + this.chatData().groupPhoto" [image]="this.chatData().groupPhoto"
+            (click)="this.stopPropagation($event)" (click)="this.openUserDetail()">
+        </button-icon>
+        <p class="mt-3"> {{this.chatData().groupName }} </p>
+    </article>
+    }@placeholder {
+    
+    <div class="d-flex">
+        <ngx-skeleton-loader appearance="circle" [theme]="{ width: '80px', height: '80px' }">
+        </ngx-skeleton-loader>
+    
+        <div class="my-3">
+            <ngx-skeleton-loader [theme]="{
+                width: '100px',
+                'border-radius': '0',
+                height: '15px',
+                'margin-bottom': '10px'
+              }"></ngx-skeleton-loader>
+    
+            <ngx-skeleton-loader [theme]="{
+                width: '50px',
+                'border-radius': '0',
+                height: '15px',
+                'margin-bottom': '10px'
+              }"></ngx-skeleton-loader>
+        </div>
+    </div>
+    }

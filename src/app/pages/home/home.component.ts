@@ -11,6 +11,7 @@ import { SocketService } from '../../core/services/socket/socket.service';
 import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-line-messages.service';
 import { MessageFacade } from '../../facades/message/message.facade';
 import { ChatFacade } from '../../facades/chat/chat.facade';
+import { GroupFacade } from '../../facades/group/group.facade';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ export class HomeComponent {
   private messageFacade = inject(MessageFacade);
   private chatFacade = inject(ChatFacade);
   private offlineMessages = inject(OffLineMessagesService);
+  private groupFacade = inject(GroupFacade);
   private userState = inject(UserState)
   protected isMobile = window.innerWidth < 940;
   protected showChat = !this.isMobile;
@@ -70,6 +72,7 @@ export class HomeComponent {
 
     effect(()=>{
       this.contactFacade.findContactsOfUser(this.userState.userSignal().contactId)
+      this.groupFacade.getGroups(this.userState.userSignal().userId)
     })
   }
 
