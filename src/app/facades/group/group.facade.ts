@@ -25,6 +25,7 @@ export class GroupFacade {
     try {
       this.groupService.getGroupsOfUser(userId)
         .subscribe((result: ResponseHttp<Group[]>) => {
+          this.groupState.groupSignal.set(null);
           this.groupState.groupSignal.set(result.value);
         })
     } catch (error) {
@@ -40,18 +41,25 @@ export class GroupFacade {
       const group: Partial<Group> = {
         groupName,
         groupDescription,
-        groupPhoto
+        groupPhoto,
+        lastClear: null,
+        dateOfBlocking: null,
+        memberType: "master",
+        isActive: true
       }
 
       this.groupService.createGroup(group)
         .subscribe((resultGroup: ResponseHttp<Group>) => {
           if (resultGroup.isSuccess) {
-            this.chatService.addUsersInChat(resultGroup.value.chatId, this.userState.userSignal().userId)
+            this.chatService.addUsersInChat(resultGroup.value.chatId, this.userState.userSignal().userId, "master")
               .subscribe((result: ResponseHttp<ChatData>) => {
-
                 if (result.isSuccess) {
                   this.groupArrayState.groupSignal.update((groups: Group[]) => {
-                    groups?.push({...resultGroup.value, groupPhoto})
+                    groups?.push({
+                      ...resultGroup.value,
+                      groupPhoto,
+                      ...group
+                    })
                     return groups
                   })
                   this.warningState.warnigSignal.set({ IsSucess: true, data: { message: "Chat created successfully!" } })

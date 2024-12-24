@@ -11,11 +11,11 @@ import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-group-notification',
-  imports: [ButtonIconComponent,NgxSkeletonLoaderModule],
+  imports: [ButtonIconComponent, NgxSkeletonLoaderModule],
   templateUrl: './group-notification.component.html',
   styleUrl: './group-notification.component.scss'
 })
-export class GroupNotificationComponent extends DOMManipulation implements AfterViewInit{
+export class GroupNotificationComponent extends DOMManipulation implements AfterViewInit {
 
 
   chatData = input<Group>();
@@ -57,16 +57,15 @@ export class GroupNotificationComponent extends DOMManipulation implements After
   async ngAfterViewInit() {
     if (typeof Worker !== 'undefined') {
 
-      if (typeof this.chatData().groupPhoto == "string" || this.chatData().groupPhoto == null) {
+      if (typeof this.chatData().groupPhoto == "string") {
         this.show.set(true);
         return;
       }
 
-
-      if(this.chatData().groupPhoto instanceof Blob){
+      if (this.chatData().groupPhoto instanceof Blob) {
         this.show.set(true)
         this.chatData().groupPhoto = URL.createObjectURL(this.chatData().groupPhoto)
-      }else{
+      } else {
         const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
         worker.onmessage = ({ data }) => {
           this.chatData().groupPhoto = data

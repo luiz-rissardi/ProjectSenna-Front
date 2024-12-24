@@ -20,8 +20,8 @@
         </button>
 
         <div class="d-block">
-            <button type="button" ButtonIcon (click)="toggleDropdown()">
-                <i class="fi fi-rr-menu-dots-vertical mt-5" style="font-size: 1.5rem;"></i>
+            <button type="button" class="dropdownBtn" ButtonIcon (click)="toggleDropdown()">
+                <i class="fi fi-rr-menu-dots-vertical mt-5 dropdownBtn" style="font-size: 1.5rem;"></i>
             </button>
             <div #dropdown class="position-absolute dropdown" style="display:none;">
                 <ul class="p-0">
@@ -29,6 +29,13 @@
                        @if(this.chatState.chatState()?.chatType != "group"){
                         <button type="button" class="dropdown-button" (click)="this.addContact()">
                             add to contacts
+                        </button>
+                       }
+                    </li>
+                    <li>
+                       @if(this.chatState.chatState()?.chatType == "group" && this.chatState.chatState().memberType == "master"){
+                        <button type="button" class="dropdown-button" >
+                            edit group
                         </button>
                        }
                     </li>

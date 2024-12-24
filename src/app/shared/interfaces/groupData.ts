@@ -8,5 +8,6 @@ export interface Group {
     dateOfBlocking: Date | undefined;
     isActive: boolean;
     lastClear: Date | undefined;
+    memberType: string
 
 }

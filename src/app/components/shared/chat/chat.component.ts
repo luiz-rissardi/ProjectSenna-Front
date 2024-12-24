@@ -53,7 +53,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   protected messageTextOrigin = "";
   private MessageToEdit!: Message;
 
-  @ViewChild('dropdown') private dropdown: ElementRef;
+  @ViewChild('dropdown', { static: false }) private dropdown: ElementRef;
   @ViewChild('inputText') private inputText: ElementRef;
   @ViewChild('chat', { static: false }) private chatContainer: ElementRef;
   @ViewChild("editMessage", { static: false }) private editMessageBox: ElementRef;
@@ -72,11 +72,14 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
           el.id != "showEditModal") {
           this.showEditMessage = false
         }
+
+        if (this.dropdown?.nativeElement.contains(el) == false && el.classList.contains("dropdownBtn") == false) {
+          this.dropdown.nativeElement.style.display = "none";
+        }
       })
 
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
-
       if (this.prevChatId != this.chatState.chatState()?.chatId) {
         this.skipMessages = 0;
         this.scrollToBottom();
