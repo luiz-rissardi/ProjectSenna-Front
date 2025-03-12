@@ -62,6 +62,10 @@ export const serverRoutes: ServerRoute[] = [
         renderMode: RenderMode.Prerender,
     },
     {
+        path:"edit/group",
+        renderMode: RenderMode.Prerender,
+    },
+    {
         path: 'home/add/group',
         renderMode: RenderMode.Server,
     },

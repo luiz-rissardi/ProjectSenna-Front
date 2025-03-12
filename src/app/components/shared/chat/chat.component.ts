@@ -13,14 +13,15 @@ import { MessagesState } from '../../../core/states/messages/messages.state';
 import { SocketService } from '../../../core/services/socket/socket.service';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { FileSenderChatComponent } from '../file-sender-chat/file-sender-chat.component';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Message } from '../../../shared/interfaces/message';
 import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
 import { TranslateService } from '../../../core/services/translate/translate.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'chat',
-  imports: [MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe],
+  imports: [CommonModule,MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe,RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -81,8 +82,9 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     // Atualizar mensagens quando o `chatId` mudar
     effect(() => {
       if (this.prevChatId != this.chatState.chatState()?.chatId) {
-        this.skipMessages = 0;
         this.scrollToBottom();
+        this.messagesState.messageSignal.set([])
+        this.skipMessages = 0;
         this.prevChatId = this.chatState.chatState()?.chatId
         const currentChatId = this.chatState.chatState()?.chatId;
         this.messageFacade.getMessagesByChatId(currentChatId, this.userState.userSignal().userId, this.skipMessages)
@@ -129,7 +131,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     const el = this.chatContainer?.nativeElement as HTMLElement;
     const totalScroll = el.scrollHeight;
     const currentScroll = el.scrollTop
-    if (totalScroll - (currentScroll * -1) <= 700) {
+    if (totalScroll - (currentScroll * -1) <= 800 && this.messagesState.messageSignal().length % 50 == 0 ) {
       this.skipMessages += 50
       this.messageFacade.getMessagesByChatId(
         this.chatState.chatState().chatId,
@@ -198,7 +200,7 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     })
 
     this.socketService.on("delete-message", (messageEdit: Message) => {
-      this.messagesState.messageSignal.update(messages => {
+      this.messagesState.messageSignal.update((messages) => {
         return messages.filter((message) => {
           return messageEdit.messageId != message.messageId
         })
@@ -212,16 +214,13 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
 
     let newMessages = this.messagesState.messageSignal()
 
-    // if (this.userTargetMarkRead) {
     newMessages = newMessages.map(message => {
       if (message.userId != this.userState.userSignal().userId) {
         message.status = "read";
       }
       return message;
     })
-    // }
-
-    this.messagesState.messageSignal.set(newMessages)
+    // this.messagesState.messageSignal.set(newMessages)
 
     if (chatId && otherUserId) {
       this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
@@ -367,12 +366,13 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   protected sendAudio() {
     this.mediaRecorder.onstop = async () => {
       const audioBlob = new Blob(this.audioChunks, { type: "audio/mp3" });
+
       this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
     };
     clearInterval(this.recordingInterval);
     this.stopRecording()
     this.timeAudio = 0;  // Resetando o contador ao parar a gravação
-    this.isStoped = false
+    this.isStoped = false;
   }
 
   protected editMessage() {

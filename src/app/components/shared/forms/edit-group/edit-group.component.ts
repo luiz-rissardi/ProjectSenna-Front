@@ -1,33 +1,39 @@
-import { Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
-import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
-import { fromEvent, map, Subject, takeUntil } from 'rxjs';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Subject, map, fromEvent, takeUntil } from 'rxjs';
 import { GroupFacade } from '../../../../facades/group/group.facade';
+import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-style.directive';
+import { ChatState } from '../../../../core/states/chat/chat.state';
+import { GroupsState } from '../../../../core/states/groups/groups.state';
+import { Group } from '../../../../shared/interfaces/groupData';
 
 @Component({
-  selector: 'app-create-group',
+  selector: 'app-edit-group',
   imports: [ButtonStyleDirective, ReactiveFormsModule],
-  templateUrl: './create-group.component.html',
-  styleUrl: './create-group.component.scss'
+  templateUrl: './edit-group.component.html',
+  styleUrl: './edit-group.component.scss'
 })
-export class CreateGroupComponent implements OnDestroy {
-
+export class EditGroupComponent {
   private elRef = inject(ElementRef);
   private groupFacade = inject(GroupFacade);
+  private chatState = inject(ChatState);
+  private groupsState = inject(GroupsState);
   private inputPhoto: HTMLInputElement;
   private detroy = new Subject<void>();
   protected groupForm: FormGroup;
   protected groupNameInvalid = false;
   protected chosenImage: any = "../../../../assets/icons/do-utilizador.png";
-  protected chosenImageBlob:Blob;
-
-  @ViewChild("buttonImage") private buttonImage: ElementRef<any>;
+  protected chosenImageBlob: Blob;
 
   constructor(formBuilder: FormBuilder) {
     this.groupForm = formBuilder.group({
       groupDescription: [],
       groupName: []
     })
+
+    const group:Group = this.groupsState.groupSignal().filter(group => group.chatId == this.chatState.chatState().chatId)[0];
+    this.groupForm.get("groupDescription").setValue(group.groupDescription);
+    this.groupForm.get("groupName").setValue(group.groupName);
   }
 
   ngOnDestroy(): void {
@@ -51,20 +57,21 @@ export class CreateGroupComponent implements OnDestroy {
     ).subscribe()
   }
 
-  protected createGroup() {
-    const [groupDescription,groupName] = ["groupDescription","groupName"].map((el, index) => {
+  protected editGroup() {
+    const [groupDescription, groupName] = ["groupDescription", "groupName"].map((el, index) => {
       return this.groupForm.get(el).value;
     })
 
-    if(groupName?.trim() == ""){
+    if (groupName?.trim() == "") {
       this.groupNameInvalid = true;
-    }else{
+    } else {
       this.groupNameInvalid = false;
-      this.groupFacade.createGroup(groupName,groupDescription,this.chosenImageBlob)
+      this.groupFacade.updateGroup(this.chatState.chatState().chatId,groupName, groupDescription, this.chosenImageBlob)
     }
   }
 
   loadAlternativeImage() {
-    this.buttonImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"
+    this.chosenImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"
   }
 }
+

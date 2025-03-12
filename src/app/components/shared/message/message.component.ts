@@ -1,11 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, effect, inject, Injector, input, InputSignal, OnDestroy, output, runInInjectionContext, signal, viewChild, ViewChild, WritableSignal } from '@angular/core';
-import { Message, MessageFile } from '../../../shared/interfaces/message';
+import { AfterViewInit, Component, effect, inject, Injector, input, InputSignal, output, runInInjectionContext, signal, viewChild, ViewChild, WritableSignal } from '@angular/core';
+import { Message } from '../../../shared/interfaces/message';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MessageFacade } from '../../../facades/message/message.facade';
 import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
-import { concatMap, from, fromEvent, Subject, takeUntil, timeInterval, timer } from 'rxjs';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { Buffer } from 'buffer';
 import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
 
@@ -21,7 +21,7 @@ export class MessageComponent implements AfterViewInit {
   isGroup = input<boolean>();
   message: InputSignal<Message> = input(null);
 
-  protected messageFileSignal: WritableSignal<MessageFile> = signal(null);
+  protected messageFileSignal: WritableSignal<Message> = signal(null);
   protected switchTranslation = inject(SwitchTranslationState);
   private injector = inject(Injector);
   protected isExtend = true;
@@ -51,7 +51,7 @@ export class MessageComponent implements AfterViewInit {
         if (this.message().messageType == "image" || this.message().messageType == "file") {
           this.messageFacade.getFileOfMesage(this.message().messageId)
             .pipe(takeUntil(this.destroy))
-            .subscribe((result: ResponseHttp<MessageFile>) => {
+            .subscribe((result: ResponseHttp<Message>) => {
 
               if (result.isSuccess) {
                 this.messageFileSignal.set(result.value)
@@ -59,7 +59,7 @@ export class MessageComponent implements AfterViewInit {
 
                 const processResult = ({ data }) => {
                   this.messageFileSignal?.set({ ...this.messageFileSignal(), data });
-                  worker.removeEventListener("message",processResult);
+                  worker.removeEventListener("message", processResult);
                 };
 
                 worker.onmessage = processResult
@@ -78,17 +78,19 @@ export class MessageComponent implements AfterViewInit {
   }
 
   protected getSound() {
+
     if (this.audio?.paused) {
       this.audio?.play();
       this.audioPlayed = true;
       return;
     }
+
     this.messageFacade.getFileOfMesage(this.message().messageId)
-      .subscribe((result: ResponseHttp<MessageFile>) => {
+      .subscribe((result: ResponseHttp<Message>) => {
         const photoBuffer = Buffer.from(result.value.data as ArrayBuffer);
         const url = URL.createObjectURL(new Blob([photoBuffer]))
-
         this.audio = new Audio(url)
+
         this.messageFileSignal.set({ ...this.messageFileSignal(), data: url });
         this.audioPlayed = true;
 
@@ -102,6 +104,7 @@ export class MessageComponent implements AfterViewInit {
           .pipe(takeUntil(this.destroy))
           .subscribe(() => {
             this.currentAudio.set(0);
+            this.audioPlayed = false;
           })
         this.audio.play()
       })

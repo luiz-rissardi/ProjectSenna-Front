@@ -1,0 +1,31 @@
+<section class="group p-0">
+    <h1 class="ms-3"> Edit Group</h1>
+
+    <form class="d-flex flex-column p-0 mt-3" [formGroup]="this.groupForm">
+        <div class="edit-photo d-flex mb-5">
+            <img loading="lazy" id="chosenImage" (click)="changePhoto()"
+                [src]="this.chosenImage" (error)="loadAlternativeImage()" alt="file image chosen">
+            <input type="file" id="inputFoto" accept="image/*" hidden>
+        </div>
+
+        <fieldset class="form-group m-auto w-100 my-4 px-3">
+            <label for="groupName" class="label"> group name </label>
+            <input type="text" class="control" id="groupName" formControlName="groupName"
+                placeholder="type the group name">
+            <div class="line"></div>
+            @if (groupNameInvalid) {
+                <span>
+                    <p class="text-danger"> please insert an name for group </p>
+                </span>
+            }
+        </fieldset>
+        <fieldset class="form-group m-auto w-100 my-4 px-3">
+            <label for="groupDescription" class="label"> group description </label>
+            <input type="text" class="control" id="groupDescription" formControlName="groupDescription"
+                placeholder="type the group description">
+            <div class="line"></div>
+        </fieldset>
+
+    </form>
+    <button type="button" class="mt-3 w-75 m-auto" buttonStyle (click)="this.editGroup()"> Save </button>
+</section>

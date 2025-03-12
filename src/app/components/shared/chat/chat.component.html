@@ -34,7 +34,7 @@
                     </li>
                     <li>
                        @if(this.chatState.chatState()?.chatType == "group" && this.chatState.chatState().memberType == "master"){
-                        <button type="button" class="dropdown-button" >
+                        <button type="button" class="dropdown-button" [routerLink]="'edit/group'">
                             edit group
                         </button>
                        }
@@ -90,10 +90,10 @@
     </div>
     }
 
-    @for (item of this.messagesState.messageSignal(); track $index) {
-    <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
-        [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
-    </message>
+    @for (item of this.messagesState.messageSignal(); track item.messageId) {
+        <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
+            [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
+        </message>
     }
 
 

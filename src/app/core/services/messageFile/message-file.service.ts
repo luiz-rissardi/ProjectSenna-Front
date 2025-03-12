@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Service } from '../base/baseService';
-import { MessageFile } from '../../../shared/interfaces/message';
+import { Message } from '../../../shared/interfaces/message';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class MessageFileService extends Service {
     super("http://localhost:8729")
   }
 
-  sendMessageFile(message: MessageFile) {
+  sendMessageFile(message: Message) {
     const body = this.toFormData(message)
     return this.http.post(`http://localhost:8729/chat/message/${message.messageId}/file`, body)
   }

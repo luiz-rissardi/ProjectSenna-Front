@@ -3,7 +3,7 @@ import { MessagesService } from '../../core/services/messages/messages.service';
 import { MessagesState } from '../../core/states/messages/messages.state';
 import { WarningState } from '../../core/states/warning/warning.state';
 import { ResponseHttp } from '../../shared/interfaces/ResponseType';
-import { Message, MessageFile } from '../../shared/interfaces/message';
+import { Message } from '../../shared/interfaces/message';
 import { SocketService } from '../../core/services/socket/socket.service';
 import { UserState } from '../../core/states/User/user.state';
 import { ChatState } from '../../core/states/chat/chat.state';
@@ -118,13 +118,15 @@ export class MessageFacade {
     try {
       this.messageService.sendMessageToChat(message)
         .subscribe((messageResult: ResponseHttp<Message>) => {
-          const messageFile: MessageFile = {
+
+          const messageFile: Partial<Message> = {
             data: messageBlob,
             fileName,
             messageId: messageResult.value.messageId
           }
-          this.messageFileService.sendMessageFile(messageFile)
-            .subscribe((messageFileResult: ResponseHttp<MessageFile>) => {
+
+          this.messageFileService.sendMessageFile(messageFile as any)
+            .subscribe((messageFileResult: ResponseHttp<Message>) => {
               if (messageFileResult.isSuccess) {
 
                 this.socketService.emit("send-message", {
@@ -132,9 +134,8 @@ export class MessageFacade {
                 })
 
                 this.messagesState.messageSignal.update((messages: Message[]) => {
-                  messages.unshift(messageResult.value)
-                  return [...messages]
-                })
+                  return [{ ...messageResult.value, data: messageBlob }, ...messages];
+                });
               }
             })
         })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Message, MessageFile } from '../../../shared/interfaces/message';
+import { Message } from '../../../shared/interfaces/message';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { Message, MessageFile } from '../../../shared/interfaces/message';
 export class OffLineMessagesService {
 
   
-  saveLocalMessages(message:Message | Partial<Message & MessageFile>){
+  saveLocalMessages(message:Message | Partial<Message>){
     const messagesLocal = JSON.parse(localStorage.getItem("messages")) || [];
     messagesLocal?.push(message)
     localStorage.setItem("messages",JSON.stringify(messagesLocal));

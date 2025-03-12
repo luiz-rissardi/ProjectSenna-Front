@@ -6,6 +6,7 @@ import { RecoverPasswordComponent } from './components/shared/forms/recover-pass
 import { authGuard } from './shared/guards/auth/auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { CreateGroupComponent } from './components/shared/forms/create-group/create-group.component';
+import { EditGroupComponent } from './components/shared/forms/edit-group/edit-group.component';
 
 
 export const routes: Routes = [
@@ -75,6 +76,10 @@ export const routes: Routes = [
             {
                 path:"add/group",
                 component:CreateGroupComponent
+            },
+            {
+                path:"edit/group",
+                component:EditGroupComponent
             },
         ]
     },

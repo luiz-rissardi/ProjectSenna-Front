@@ -24,8 +24,13 @@ export class GroupService extends Service {
     return this.http.post(this.uri + `/group`,body);
   }
 
-  // updateGroup(userId:string){
-  //   return this.http.get(this.uri + `/user/${userId}/group`)
-  // }
+  updateGroup(group:Partial<Group>){
+    const body = this.toFormData({
+      groupDescription:group.groupDescription,
+      groupName:group.groupName,
+      arrayBuffer:group.groupPhoto
+    })
 
+    return this.http.post(this.uri + `/group/${group.chatId}`,body)
+  }
 }

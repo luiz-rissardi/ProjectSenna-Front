@@ -11,10 +11,6 @@ export interface Message {
     messageId: string;
     status: string;
     translatedMessageText?: string;
-}
-
-export interface MessageFile {
-    data: Blob | ArrayBuffer | string;
-    fileName: string;
-    messageId: string
+    data?: Blob | ArrayBuffer | string;
+    fileName?: string;
 }

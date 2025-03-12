@@ -81,4 +81,42 @@ export class GroupFacade {
     }
   }
 
+  updateGroup(chatId: string, groupName: string, groupDescription: string, groupPhoto: Blob | string) {
+    try {
+      this.groupService.updateGroup({ chatId, groupName, groupDescription, groupPhoto })
+        .subscribe((resultGroup: ResponseHttp<Group>) => {
+          if (resultGroup.isSuccess) {
+            this.groupArrayState.groupSignal.update((groups: Group[]) => {
+              const updatedGroups = groups.map(el => {
+                if (el.chatId == chatId) {
+                  el.groupPhoto = groupPhoto;
+                  el.groupName = groupName;
+                  el.groupDescription = groupDescription;
+                }
+                return el
+              })
+              return updatedGroups
+            })
+
+            this.warningState.warnigSignal.set({
+              IsSucess: true,
+              data: { message: "group updated successfully" }
+            })
+
+          } else {
+            this.warningState.warnigSignal.set({
+              IsSucess: false,
+              data: { message: "an error occurred while update the group" }
+            })
+          }
+        })
+
+    } catch (error) {
+      this.warningState.warnigSignal.set({
+        IsSucess: false,
+        data: { message: "an error occurred while creating a group" }
+      })
+    }
+  }
+
 }
