@@ -69,7 +69,7 @@
             }
         </p>
 
-        @if(this.switchTranslation.chatsArrayState() == true && this.isYourMessage() == false){
+        @if(this.switchTranslation.translationState() == true && this.isYourMessage() == false){
          @defer(when message()?.translatedMessageText != undefined){
             <p class="message-text-translate mt-2"> {{ message()?.translatedMessageText }} </p>
          }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Service } from '../base/baseService';
 import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
 import { User } from '../../../shared/interfaces/user';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,23 +19,13 @@ export class AuthService extends Service {
     return this.http.post(this.uri + "/user/login", body, this.options)
   }
 
-  async verifyAuthenticate(token: string): Promise<User | any> {
+  verifyAuthenticate(token: string):Observable< User| any> {
 
     const body = this.toFormData({
       token
     })
 
-
-    return new Promise((resolve, reject) => {
-      try {
-        this.http.post(this.uri + "/user/auth", body).subscribe((data: ResponseHttp<User>) => {
-          const user = data.value;
-          resolve(user);
-        })
-      } catch (error) {
-        reject(error);
-      }
-    })
+    return this.http.post(this.uri + "/user/auth", body)
   }
 
 }

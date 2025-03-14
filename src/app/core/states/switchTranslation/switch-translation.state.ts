@@ -5,7 +5,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 })
 export class SwitchTranslationState {
 
-  chatsArrayState: WritableSignal<boolean> = signal(false);
+  translationState: WritableSignal<boolean> = signal(false);
 
 
 }

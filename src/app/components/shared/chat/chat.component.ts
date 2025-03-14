@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'chat',
-  imports: [CommonModule,MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe,RouterLink],
+  imports: [CommonModule, MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe, RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -130,14 +130,18 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   protected onScroll() {
     const el = this.chatContainer?.nativeElement as HTMLElement;
     const totalScroll = el.scrollHeight;
-    const currentScroll = el.scrollTop
-    if (totalScroll - (currentScroll * -1) <= 800 && this.messagesState.messageSignal().length % 50 == 0 ) {
+    const currentScroll = el.scrollTop;
+
+    if (totalScroll - (currentScroll * -1) <= 800) {
       this.skipMessages += 50
-      this.messageFacade.getMessagesByChatId(
-        this.chatState.chatState().chatId,
-        this.userState.userSignal().userId,
-        this.skipMessages)
+      if (this.messagesState.messageSignal().length % 50 == 0) {
+        this.messageFacade.getMessagesByChatId(
+          this.chatState.chatState().chatId,
+          this.userState.userSignal().userId,
+          this.skipMessages)
+      }
     }
+
   }
 
   protected changeShowEdit(data: any) {

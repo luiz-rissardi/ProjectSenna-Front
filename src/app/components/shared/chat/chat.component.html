@@ -11,7 +11,7 @@
 
     <div class="d-flex ms-auto">
         <label class="switch m-auto">
-            <input type="checkbox" (change)="switchTranslation.chatsArrayState.set(!switchTranslation.chatsArrayState())">
+            <input type="checkbox" (change)="switchTranslation.translationState.set(!switchTranslation.translationState())">
             <span class="slider"></span>
         </label>
 
@@ -69,7 +69,7 @@
 
 @if(this.chatState.chatState()?.chatId != undefined ){
 
-<section class="chat" id="chat" #chat (scroll)="onScroll()">
+<section class="chat py-4" id="chat" #chat (scroll)="onScroll()">
 
     @if(this.showEditMessage){
     <div class="message-edit-modal" #editMessageBox>
