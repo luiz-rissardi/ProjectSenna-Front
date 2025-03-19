@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal, untracked } from '@angular/core';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { MessageComponent } from '../message/message.component';
-import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
@@ -17,11 +16,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Message } from '../../../shared/interfaces/message';
 import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
 import { TranslateService } from '../../../core/services/translate/translate.service';
-import { RouterLink } from '@angular/router';
+import { ChatUserDataComponent } from '../../chat-component/chat-user-data/chat-user-data.component';
+import { ChatMessagesComponent } from "../../chat-component/chat-messages/chat-messages.component";
+import { ChatSenderComponent } from "../../chat-component/chat-sender/chat-sender.component";
 
 @Component({
   selector: 'chat',
-  imports: [CommonModule, MessageComponent, FileSenderChatComponent, ButtonIconComponent, ButtonIconDirective, DatePipe, RouterLink],
+  imports: [ChatUserDataComponent, CommonModule, ChatMessagesComponent, ChatMessagesComponent, ChatSenderComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -63,56 +64,6 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
   constructor() {
     super();
 
-    fromEvent(document, "click")
-      .pipe(takeUntil(this.destroy))
-      .subscribe((event: Event) => {
-        const el = event.target as HTMLElement
-        if (
-          this.editMessageBox?.nativeElement.contains(el) == false &&
-          this.showEditMessage == true &&
-          el.id != "showEditModal") {
-          this.showEditMessage = false
-        }
-
-        if (this.dropdown?.nativeElement.contains(el) == false && el.classList.contains("dropdownBtn") == false) {
-          this.dropdown.nativeElement.style.display = "none";
-        }
-      })
-
-    // Atualizar mensagens quando o `chatId` mudar
-    effect(() => {
-      if (this.prevChatId != this.chatState.chatState()?.chatId) {
-        this.scrollToBottom();
-        this.messagesState.messageSignal.set([])
-        this.skipMessages = 0;
-        this.prevChatId = this.chatState.chatState()?.chatId
-        const currentChatId = this.chatState.chatState()?.chatId;
-        this.messageFacade.getMessagesByChatId(currentChatId, this.userState.userSignal().userId, this.skipMessages)
-      }
-    });
-
-    // Atualizar mensagens no chat e marcar como lidas
-    effect(() => {
-      const messages = this.messagesState.messageSignal();
-      if (messages.length > 0) {
-
-        if (this.skipMessages < 0) {
-          this.scrollToBottom();
-        }
-
-        const unreadMessages = messages
-          .filter((msg) => msg.userId !== this.userState.userSignal().userId)
-          .filter(msg => msg.status == "unread")
-          .map((msg) => {
-            return msg.messageId
-          });
-
-        if (unreadMessages.length > 0) {
-          this.markRead(unreadMessages);
-        }
-      }
-    });
-
     // Configuração de WebSockets para mensagens em tempo real
     this.initializeSocketListeners();
   }
@@ -122,33 +73,33 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     this.destroy.next(null)
   }
 
-  protected deleteMessages() {
-    this.toggleDropdown()
-    this.chatFacade.clearMessagesOfChat(this.userState.userSignal()?.userId)
-  }
+  // protected deleteMessages() {
+  //   this.toggleDropdown()
+  //   this.chatFacade.clearMessagesOfChat(this.userState.userSignal()?.userId)
+  // }
 
-  protected onScroll() {
-    const el = this.chatContainer?.nativeElement as HTMLElement;
-    const totalScroll = el.scrollHeight;
-    const currentScroll = el.scrollTop;
+  // protected onScroll() {
+  //   const el = this.chatContainer?.nativeElement as HTMLElement;
+  //   const totalScroll = el.scrollHeight;
+  //   const currentScroll = el.scrollTop;
 
-    if (totalScroll - (currentScroll * -1) <= 800) {
-      this.skipMessages += 50
-      if (this.messagesState.messageSignal().length % 50 == 0) {
-        this.messageFacade.getMessagesByChatId(
-          this.chatState.chatState().chatId,
-          this.userState.userSignal().userId,
-          this.skipMessages)
-      }
-    }
+  //   if (totalScroll - (currentScroll * -1) <= 800) {
+  //     this.skipMessages += 50
+  //     if (this.messagesState.messageSignal().length % 50 == 0) {
+  //       this.messageFacade.getMessagesByChatId(
+  //         this.chatState.chatState().chatId,
+  //         this.userState.userSignal().userId,
+  //         this.skipMessages)
+  //     }
+  //   }
 
-  }
+  // }
 
-  protected changeShowEdit(data: any) {
-    this.showEditMessage = data.show
-    this.messageTextOrigin = data.message.message;
-    this.MessageToEdit = data.message;
-  }
+  // protected changeShowEdit(data: any) {
+  //   this.showEditMessage = data.show
+  //   this.messageTextOrigin = data.message.message;
+  //   this.MessageToEdit = data.message;
+  // }
 
   private initializeSocketListeners() {
     this.socketService.on('message', (data: any) => {
@@ -212,24 +163,24 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     })
   }
 
-  private markRead(messagesId: string[]) {
-    const chatId = untracked(() => this.chatState.chatState().chatId);
-    const otherUserId = untracked(() => this.chatState.chatState()?.otherUserId);
+  // private markRead(messagesId: string[]) {
+  //   const chatId = untracked(() => this.chatState.chatState().chatId);
+  //   const otherUserId = untracked(() => this.chatState.chatState()?.otherUserId);
 
-    let newMessages = this.messagesState.messageSignal()
+  //   let newMessages = this.messagesState.messageSignal()
 
-    newMessages = newMessages.map(message => {
-      if (message.userId != this.userState.userSignal().userId) {
-        message.status = "read";
-      }
-      return message;
-    })
-    // this.messagesState.messageSignal.set(newMessages)
+  //   newMessages = newMessages.map(message => {
+  //     if (message.userId != this.userState.userSignal().userId) {
+  //       message.status = "read";
+  //     }
+  //     return message;
+  //   })
+  //   // this.messagesState.messageSignal.set(newMessages)
 
-    if (chatId && otherUserId) {
-      this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
-    }
-  }
+  //   if (chatId && otherUserId) {
+  //     this.messageFacade.markReadInMessageStatus(messagesId, chatId, otherUserId);
+  //   }
+  // }
 
   private scrollToBottom(): void {
     setTimeout(() => {
@@ -240,150 +191,149 @@ export class ChatComponent extends DOMManipulation implements OnDestroy {
     }, 50);
   }
 
-  protected openUserDetail = () => {
-    if (this.dropdown.nativeElement) {
-      this.dropdown.nativeElement.style.display = 'none';
-    }
+  // protected openUserDetail = () => {
+  //   if (this.dropdown.nativeElement) {
+  //     this.dropdown.nativeElement.style.display = 'none';
+  //   }
 
-    this.userDetailState.userDetailSignal.update((data) => {
-      data.show = true;
-      return data;
-    });
-  };
+  //   this.userDetailState.userDetailSignal.update((data) => {
+  //     data.show = true;
+  //     return data;
+  //   });
+  // };
 
-  protected chosenFile() {
-    const inputFile = this.getElementsByClass('file-sender')[0];
-    inputFile.click();
-    const subescriber = fromEvent(inputFile, "input")
-      .subscribe((data: any) => {
-        const inputFile = data?.target as HTMLInputElement;
-        const file = inputFile.files[0];
-        const blob = new Blob([file], { type: file.type });
-        const url = URL.createObjectURL(blob)
-        this.source.set(url);
-        this.sourceBlob.set(blob);
-        this.sourceName.set(file.name);
-        this.sourceType.set(file.type);
-        inputFile.value = null;
-        subescriber.unsubscribe()
-      })
+  // protected chosenFile() {
+  //   const inputFile = this.getElementsByClass('file-sender')[0];
+  //   inputFile.click();
+  //   const subescriber = fromEvent(inputFile, "input")
+  //     .subscribe((data: any) => {
+  //       const inputFile = data?.target as HTMLInputElement;
+  //       const file = inputFile.files[0];
+  //       const blob = new Blob([file], { type: file.type });
+  //       const url = URL.createObjectURL(blob)
+  //       this.source.set(url);
+  //       this.sourceBlob.set(blob);
+  //       this.sourceName.set(file.name);
+  //       this.sourceType.set(file.type);
+  //       inputFile.value = null;
+  //       subescriber.unsubscribe()
+  //     })
+  // }
 
-  }
+  // protected closeChat() {
+  //   this.chatState.chatState.set(null);
+  // }
 
-  protected closeChat() {
-    this.chatState.chatState.set(null);
-  }
+  // protected toggleDropdown() {
+  //   const dropdownStyle = this.dropdown.nativeElement.style;
+  //   dropdownStyle.display = dropdownStyle.display === 'block' ? 'none' : 'block';
+  // }
 
-  protected toggleDropdown() {
-    const dropdownStyle = this.dropdown.nativeElement.style;
-    dropdownStyle.display = dropdownStyle.display === 'block' ? 'none' : 'block';
-  }
+  // protected blockChat() {
+  //   this.toggleDropdown();
+  //   this.chatFacade.blockChat(
+  //     this.userState.userSignal().userId,
+  //     this.userDetailState.userDetailSignal().data.chatId
+  //   );
+  // }
 
-  protected blockChat() {
-    this.toggleDropdown();
-    this.chatFacade.blockChat(
-      this.userState.userSignal().userId,
-      this.userDetailState.userDetailSignal().data.chatId
-    );
-  }
+  // protected unlockedChat() {
+  //   this.toggleDropdown();
+  //   this.chatFacade.deblockChat(
+  //     this.userState.userSignal().userId,
+  //     this.userDetailState.userDetailSignal().data.chatId
+  //   );
+  // }
 
-  protected unlockedChat() {
-    this.toggleDropdown();
-    this.chatFacade.deblockChat(
-      this.userState.userSignal().userId,
-      this.userDetailState.userDetailSignal().data.chatId
-    );
-  }
+  // protected addContact() {
+  //   this.toggleDropdown()
+  //   const { userName, userId, photo } = this.userDetailState.userDetailSignal().data;
+  //   const user = this.userState.userSignal();
+  //   this.contactFacade.addContact(user.contactId, userId, photo, userName);
+  // }
 
-  protected addContact() {
-    this.toggleDropdown()
-    const { userName, userId, photo } = this.userDetailState.userDetailSignal().data;
-    const user = this.userState.userSignal();
-    this.contactFacade.addContact(user.contactId, userId, photo, userName);
-  }
+  // protected sendMessage() {
+  //   const messageText = this.inputText.nativeElement.value;
 
-  protected sendMessage() {
-    const messageText = this.inputText.nativeElement.value;
+  //   if (messageText.trim() === '') return;
+  //   this.scrollToBottom();
+  //   this.messageFacade.sendMessage(messageText);
+  //   this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
+  // }
 
-    if (messageText.trim() === '') return;
-    this.scrollToBottom();
-    this.messageFacade.sendMessage(messageText);
-    this.inputText.nativeElement.value = ''; // Limpa o campo após enviar
-  }
+  // protected startRecording() {
+  //   try {
+  //     navigator.mediaDevices.getUserMedia({ audio: true })
+  //       .then(stream => {
+  //         this.isRecording = true;
+  //         this.startMediaRecording(stream);
+  //       });
+  //   } catch (err) {
+  //     console.error('Erro ao acessar o microfone:', err);
+  //   }
+  // }
 
-  protected startRecording() {
-    try {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-          this.isRecording = true;
-          this.startMediaRecording(stream);
-        });
-    } catch (err) {
-      console.error('Erro ao acessar o microfone:', err);
-    }
-  }
+  // private async startMediaRecording(stream: any) {
+  //   this.mediaRecorder = new MediaRecorder(stream);
+  //   this.audioChunks = [];
 
-  private async startMediaRecording(stream: any) {
-    this.mediaRecorder = new MediaRecorder(stream);
-    this.audioChunks = [];
+  //   // Inicia o contador de tempo
+  //   this.recordingInterval = setInterval(() => {
+  //     if (this.isRecording && !this.isStoped) {
+  //       this.timeAudio++;
+  //     }
+  //   }, 1000);
 
-    // Inicia o contador de tempo
-    this.recordingInterval = setInterval(() => {
-      if (this.isRecording && !this.isStoped) {
-        this.timeAudio++;
-      }
-    }, 1000);
+  //   this.mediaRecorder.ondataavailable = (event) => {
+  //     this.audioChunks.push(event.data); // Armazena os pedaços de áudio
+  //   };
 
-    this.mediaRecorder.ondataavailable = (event) => {
-      this.audioChunks.push(event.data); // Armazena os pedaços de áudio
-    };
+  //   this.mediaRecorder.start();
+  // }
 
-    this.mediaRecorder.start();
-  }
+  // protected pauseAudio() {
+  //   if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+  //     this.mediaRecorder.pause();
+  //     this.isStoped = true;
+  //   }
+  // }
 
-  protected pauseAudio() {
-    if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
-      this.mediaRecorder.pause();
-      this.isStoped = true;
-    }
-  }
+  // protected resumeAudio() {
+  //   if (this.mediaRecorder && this.mediaRecorder.state === 'paused') {
+  //     this.mediaRecorder.resume();
+  //     this.isStoped = false;
+  //   }
+  // }
 
-  protected resumeAudio() {
-    if (this.mediaRecorder && this.mediaRecorder.state === 'paused') {
-      this.mediaRecorder.resume();
-      this.isStoped = false;
-    }
-  }
+  // protected stopRecording() {
+  //   this.mediaRecorder.stop();
+  //   this.isRecording = false;
+  // }
 
-  protected stopRecording() {
-    this.mediaRecorder.stop();
-    this.isRecording = false;
-  }
+  // protected cancelAudio() {
+  //   this.mediaRecorder.stop();
+  //   this.timeAudio = 0;  // Resetando o contador ao parar a gravação
+  //   this.isRecording = false;
+  //   this.isStoped = false
+  // }
 
-  protected cancelAudio() {
-    this.mediaRecorder.stop();
-    this.timeAudio = 0;  // Resetando o contador ao parar a gravação
-    this.isRecording = false;
-    this.isStoped = false
-  }
+  // protected sendAudio() {
+  //   this.mediaRecorder.onstop = async () => {
+  //     const audioBlob = new Blob(this.audioChunks, { type: "audio/mp3" });
 
-  protected sendAudio() {
-    this.mediaRecorder.onstop = async () => {
-      const audioBlob = new Blob(this.audioChunks, { type: "audio/mp3" });
+  //     this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
+  //   };
+  //   clearInterval(this.recordingInterval);
+  //   this.stopRecording()
+  //   this.timeAudio = 0;  // Resetando o contador ao parar a gravação
+  //   this.isStoped = false;
+  // }
 
-      this.messageFacade.sendMessageFile(audioBlob, "audio", "", "audio");
-    };
-    clearInterval(this.recordingInterval);
-    this.stopRecording()
-    this.timeAudio = 0;  // Resetando o contador ao parar a gravação
-    this.isStoped = false;
-  }
-
-  protected editMessage() {
-    const text = this.newMessageText?.nativeElement.value;
-    this.MessageToEdit.message = text;
-    this.MessageToEdit.status = "unread";
-    this.messageFacade.editMessage(this.MessageToEdit);
-    this.showEditMessage = false;
-  }
+  // protected editMessage() {
+  //   const text = this.newMessageText?.nativeElement.value;
+  //   this.MessageToEdit.message = text;
+  //   this.MessageToEdit.status = "unread";
+  //   this.messageFacade.editMessage(this.MessageToEdit);
+  //   this.showEditMessage = false;
+  // }
 }

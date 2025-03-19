@@ -55,6 +55,7 @@ $warning: rgb(255, 165, 0);
     display: block;
     margin: inherit !important;
     font-size: 1.5rem;
+    color: $dark !important;
 
     @include breakPoint(notebook-up) {
         display: none;

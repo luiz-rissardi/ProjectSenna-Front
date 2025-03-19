@@ -20,22 +20,20 @@ export class MessageComponent implements AfterViewInit {
   isYourMessage = input<boolean>();
   isGroup = input<boolean>();
   message: InputSignal<Message> = input(null);
-
-  protected messageFileSignal: WritableSignal<Message> = signal(null);
+  protected showEditMessage = output<any>();
+  
   protected switchTranslation = inject(SwitchTranslationState);
+  private messageFacade = inject(MessageFacade);
   private injector = inject(Injector);
   protected isExtend = true;
   private destroy = new Subject();
-
-  private messageFacade = inject(MessageFacade);
-  protected showOptions = false;
-  protected showEditMessage = output<any>();
-
+  protected messageFileSignal: WritableSignal<Message> = signal(null);
   protected currentAudio = signal(0);
   protected totalAudio: number = 0;
   protected audio: HTMLAudioElement;
   protected audioPlayed = false;
   protected waves = new Array(6);
+  protected showOptions = false;
 
 
   ngOnDestroy(): void {

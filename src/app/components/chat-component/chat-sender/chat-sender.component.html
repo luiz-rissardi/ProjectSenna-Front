@@ -1,0 +1,56 @@
+<div class="chat-sender">
+    @if(isRecording){
+    <section class="d-flex w-100 justify-content-end p-2">
+        <div class="me-5 d-flex">
+            <button type="button" class="audio-btn" (click)="this.cancelAudio()">
+                <i class="fi fi-rr-trash"></i>
+            </button>
+            <p class="text-white mx-3 my-auto"> {{ timeAudio * 1000 | date: 'mm:ss' }}</p>
+
+            <div class="audio-wave"></div>
+            <div class="audio-wave"></div>
+            <div class="audio-wave me-5"></div>
+
+            @if(isStoped == false){
+            <button type="button" class="audio-btn" (click)="pauseAudio()">
+                <i class="fi fi-rr-pause"></i>
+            </button>
+            }@else {
+            <button type="button" class="audio-btn" (click)="resumeAudio()">
+                <i class="fi fi-rr-play"></i>
+            </button>
+            }
+
+            <button type="button" class="audio-btn mx-5" (click)="sendAudio()">
+                <i class="fi fi-rr-paper-plane"></i>
+            </button>
+
+        </div>
+    </section>
+    }
+    @if(this.chatState.chatState()?.isActive == true && this.isRecording == false){
+    <div class="d-flex ms-auto">
+        <button type="button" ButtonIcon>
+            <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
+        </button>
+        <button type="button" ButtonIcon (click)="chosenFile()">
+            <i class="fi fi-rr-menu-dots-vertical" style="font-size: 1.3rem;"></i>
+        </button>
+        <input type="file" hidden class="file-sender">
+    </div>
+
+    <input type="text" #inputText class="chat-input" placeholder="write your message"
+        (keydown.Enter)="this.sendMessage()">
+
+    <button type="button" class="chat-button-mic mx-2" (click)="startRecording()">
+        <i class="fi fi-rr-circle-microphone"></i>
+    </button>
+    }@else if(isRecording == false){
+    <h4 class="m-auto text-white"> This chat is blocked ! </h4>
+    }
+</div>
+
+@if(this.source() != null){
+<app-file-sender-chat [source]="this.source()" [nameSource]="this.sourceName()" [sourceType]="this.sourceType()"
+    [sourceBlob]="this.sourceBlob()"></app-file-sender-chat>
+}
