@@ -38,5 +38,4 @@ export class SocketService {
     this.socket.io.opts.reconnection = false;
   }
 
-
 }

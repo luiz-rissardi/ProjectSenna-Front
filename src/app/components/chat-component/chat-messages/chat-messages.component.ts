@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, untracked, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, OnDestroy, untracked, ViewChild } from '@angular/core';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { MessagesState } from '../../../core/states/messages/messages.state';
@@ -8,6 +8,8 @@ import { UserDetailState } from '../../../core/states/userDetail/user-detail.sta
 import { MessageFacade } from '../../../facades/message/message.facade';
 import { Message } from '../../../shared/interfaces/message';
 import { MessageComponent } from '../../shared/message/message.component';
+import { SocketService } from '../../../core/services/socket/socket.service';
+import { TranslateService } from '../../../core/services/translate/translate.service';
 
 @Component({
   selector: 'app-chat-messages',
@@ -15,13 +17,15 @@ import { MessageComponent } from '../../shared/message/message.component';
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss'
 })
-export class ChatMessagesComponent {
+export class ChatMessagesComponent implements OnDestroy{
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected messagesState = inject(MessagesState);
   protected chatState = inject(ChatState);
   private userState = inject(UserState);
   protected switchTranslation = inject(SwitchTranslationState);
+  private socketService = inject(SocketService);
+  private translatorService = inject(TranslateService);
   private messageFacade = inject(MessageFacade);
   private skipMessages = 0;
   private destroy = new Subject();
@@ -34,7 +38,14 @@ export class ChatMessagesComponent {
   @ViewChild("editMessage", { static: false }) private editMessageBox: ElementRef;
   @ViewChild("newMessageText", { static: false }) private newMessageText: ElementRef;
 
+  ngOnDestroy(): void {
+    this.destroy.complete()
+    this.destroy.next(null)
+  }
+  
   constructor() {
+    this.initializeSocketListeners();
+
     fromEvent(document, "click")
       .pipe(takeUntil(this.destroy))
       .subscribe((event: Event) => {
@@ -79,6 +90,69 @@ export class ChatMessagesComponent {
         }
       }
     });
+  }
+
+  private initializeSocketListeners() {
+
+    this.socketService.on('message', (data: any) => {
+      const chatId = this.chatState.chatState()?.chatId;
+      if (chatId && chatId === data.chatId) {
+        this.scrollToBottom();
+
+        if (data.message != "") {
+          this.translatorService.translateText(
+            [data.message],
+            this.userState.userSignal().languages
+          ).subscribe((result: any) => {
+            data.translatedMessageText = result.translates[0].translate
+          })
+        }
+
+        this.messagesState.messageSignal.update((messages) => {
+          if (!messages.some((msg) => msg.messageId === data.messageId)) {
+            return [data, ...messages];
+          }
+          return messages;
+        });
+      }
+    });
+
+    this.socketService.on("read-messages", ({ chatId }) => {
+      if (this.chatState.chatState()?.chatId == chatId) {
+        this.messagesState.messageSignal.update(messages => {
+          return [...messages.map(message => {
+            message.status = "read";
+            return message
+          })]
+        })
+      }
+    })
+
+    this.socketService.on("update-message", (messageEdit: Message) => {
+      this.messagesState.messageSignal.update(messages => {
+        return messages.map((message) => {
+          if (messageEdit.messageId == message.messageId) {
+
+            this.translatorService.translateText(
+              [messageEdit.message],
+              this.userState.userSignal().languages
+            ).subscribe((result: any) => {
+              messageEdit.translatedMessageText = result.translates[0].translate
+            })
+            return messageEdit
+          }
+          return message
+        })
+      })
+    })
+
+    this.socketService.on("delete-message", (messageEdit: Message) => {
+      this.messagesState.messageSignal.update((messages) => {
+        return messages.filter((message) => {
+          return messageEdit.messageId != message.messageId
+        })
+      })
+    })
   }
 
   private markRead(messagesId: string[]) {

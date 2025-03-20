@@ -5,7 +5,7 @@ import { MessageFacade } from '../../../facades/message/message.facade';
 import { DatePipe } from '@angular/common';
 import { ButtonIconDirective } from '../../../directives/buttonIcon/button-icon.directive';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
-import { FileSenderChatComponent } from "../../shared/file-sender-chat/file-sender-chat.component";
+import { FileSenderChatComponent } from "../file-sender-chat/file-sender-chat.component";
 
 @Component({
   selector: 'app-chat-sender',
@@ -56,7 +56,6 @@ export class ChatSenderComponent extends DOMManipulation {
       }
     }, 50);
   }
-
 
   protected sendMessage() {
     const messageText = this.inputText.nativeElement.value;

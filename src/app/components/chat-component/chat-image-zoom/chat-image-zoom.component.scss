@@ -1,0 +1,52 @@
+@import "../../../../styles.scss";
+
+.chat-image-zoom {
+
+    &-container {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        z-index: 600;
+        display: flex;
+        background-color: rgba(0, 0, 0, 0.7);
+
+        @include breakPoint(notebook-up) {
+            width: 70%;
+        }
+    }
+
+    &-box {
+        width: 350px;
+        min-height: 200px;
+        height: auto;
+        margin: auto;
+        background-color: $white;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .image {
+            width: 200px;
+            min-height: 200px;
+            border: none;
+            object-fit: cover;
+            margin: auto;
+            overflow: hidden;
+            display: block;
+
+            @include breakPoint(tablet-up) {
+                width: 350px;
+            }
+        }
+
+        @include breakPoint(notebook-up) {
+            width: 400px;
+        }
+
+        @include breakPoint(tablet-up) {
+            width: 600px;
+            height: 600px;
+        }
+    }
+}

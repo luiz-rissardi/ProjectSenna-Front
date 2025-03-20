@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, signal, ViewChild } from '@angular/core';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { MessagesState } from '../../../core/states/messages/messages.state';
 import { ChatState } from '../../../core/states/chat/chat.state';
@@ -17,7 +17,7 @@ import { ContactFacade } from '../../../facades/contact/contact.facade';
   templateUrl: './chat-user-data.component.html',
   styleUrl: './chat-user-data.component.scss'
 })
-export class ChatUserDataComponent {
+export class ChatUserDataComponent implements OnDestroy{
 
   private chatFacade = inject(ChatFacade);
   private contactFacade = inject(ContactFacade);
@@ -38,6 +38,11 @@ export class ChatUserDataComponent {
   private destroy = new Subject();
 
   @ViewChild('dropdown', { static: false }) private dropdown: ElementRef;
+
+  ngOnDestroy(): void {
+    this.destroy.complete()
+    this.destroy.next(null)
+  }
 
   constructor() {
     fromEvent(document, "click")

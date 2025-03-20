@@ -1,6 +1,7 @@
 <div class="chat-sender">
     @if(isRecording){
     <section class="d-flex w-100 justify-content-end p-2">
+        <!--audio sender-->
         <div class="me-5 d-flex">
             <button type="button" class="audio-btn" (click)="this.cancelAudio()">
                 <i class="fi fi-rr-trash"></i>
@@ -29,6 +30,7 @@
     </section>
     }
     @if(this.chatState.chatState()?.isActive == true && this.isRecording == false){
+    <!--file sender-->
     <div class="d-flex ms-auto">
         <button type="button" ButtonIcon>
             <i class="fi fi-rr-comment-smile" style="font-size: 1.3rem;"></i>
@@ -39,6 +41,7 @@
         <input type="file" hidden class="file-sender">
     </div>
 
+    <!--text sender-->
     <input type="text" #inputText class="chat-input" placeholder="write your message"
         (keydown.Enter)="this.sendMessage()">
 

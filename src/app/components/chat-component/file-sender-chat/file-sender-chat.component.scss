@@ -8,14 +8,14 @@
     top: 0;
     z-index: 500;
     display: flex;
-    background-color: rgba(0, 0, 0, 0.493);
+    background-color: rgba(0, 0, 0, 0.7);
 
     @include breakPoint(notebook-up) {
         width: 70%;
     }
 
     .image-box {
-        width: 250px;
+        width: 350px;
         min-height: 200px;
         height: auto;
         position: relative;
@@ -34,10 +34,18 @@
             overflow: hidden;
             display: block;
 
+            @include breakPoint(tablet-up) {
+                width: 350px;
+            }
         }
 
         @include breakPoint(notebook-up) {
             width: 400px;
+        }
+
+        @include breakPoint(tablet-up) {
+            width: 600px;
+            height: 600px;
         }
     }
 }
