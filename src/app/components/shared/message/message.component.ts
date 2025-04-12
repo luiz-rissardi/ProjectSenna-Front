@@ -8,6 +8,7 @@ import { ResponseHttp } from '../../../shared/interfaces/ResponseType';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { Buffer } from 'buffer';
 import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
+import { ChatImageZoomState } from '../../../core/states/chatImageZoom/chat-image-zoom';
 
 @Component({
   selector: 'message',
@@ -24,6 +25,7 @@ export class MessageComponent implements AfterViewInit {
   
   protected switchTranslation = inject(SwitchTranslationState);
   private messageFacade = inject(MessageFacade);
+  private messageZoomImageState = inject(ChatImageZoomState);
   private injector = inject(Injector);
   protected isExtend = true;
   private destroy = new Subject();
@@ -121,5 +123,9 @@ export class MessageComponent implements AfterViewInit {
   protected toggleExtend(): void {
     this.isExtend = !this.isExtend;
   }
+
+    protected openZoomImage(){
+      this.messageZoomImageState.zoomImageSignal.set(this.messageFileSignal().data.toString())
+    }
 
 }

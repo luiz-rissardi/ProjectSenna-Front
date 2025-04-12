@@ -44,7 +44,7 @@
         width: 100%;
         padding: 5px;
         background-color: $dark;
-        color: $white;
+        color: $white !important;
         border: none;
 
         &:hover {

@@ -2,7 +2,7 @@ import { ApplicationConfig, provideExperimentalZonelessChangeDetection, provideZ
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { responseInterceptor } from './shared/interceptors/response.interceptor';
 import { requestInterceptor } from './shared/interceptors/request.interceptor';
@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     // provideExperimentalZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(),withIncrementalHydration()),
     provideHttpClient(
       withFetch(),
       withInterceptors([responseInterceptor, requestInterceptor])

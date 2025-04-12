@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ChatImageZoomState } from '../../../core/states/chatImageZoom/chat-image-zoom';
 
 @Component({
   selector: 'app-chat-image-zoom',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './chat-image-zoom.component.scss'
 })
 export class ChatImageZoomComponent {
+
+  protected messageZoomImagetate = inject(ChatImageZoomState);
+
+  closeZoomImage(){
+    this.messageZoomImagetate.zoomImageSignal.set(null)
+  }
 
 }

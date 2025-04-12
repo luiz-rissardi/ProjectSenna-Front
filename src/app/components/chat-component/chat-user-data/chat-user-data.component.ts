@@ -42,6 +42,7 @@ export class ChatUserDataComponent implements OnDestroy{
   ngOnDestroy(): void {
     this.destroy.complete()
     this.destroy.next(null)
+    
   }
 
   constructor() {

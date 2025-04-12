@@ -1,7 +1,12 @@
+@if(this.messageZoomImagetate.zoomImageSignal() != null){
 <div class="chat-image-zoom-container">
 
     <section class="chat-image-zoom-box">
-        <h1>Teste</h1>
+        <button class="btn-close ms-auto my-1" (click)="this.closeZoomImage()"></button>
+        <div class="box-wrapper">
+            <img class="image" [src]="messageZoomImagetate.zoomImageSignal()" alt="image with zoom">
+        </div>
     </section>
 
 </div>
+}

@@ -10,6 +10,7 @@
         z-index: 600;
         display: flex;
         background-color: rgba(0, 0, 0, 0.7);
+        padding-top: 20px;
 
         @include breakPoint(notebook-up) {
             width: 70%;
@@ -17,36 +18,35 @@
     }
 
     &-box {
-        width: 350px;
-        min-height: 200px;
-        height: auto;
+        width: 90%;
+        height: 95%;
         margin: auto;
         background-color: $white;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
-
+        align-items: center;
+        padding: 20px;
+        overflow-y: scroll;
+        
         .image {
-            width: 200px;
-            min-height: 200px;
+            width: 100%;
+            overflow: hidden;
+            overflow-y: scroll;
             border: none;
             object-fit: cover;
             margin: auto;
-            overflow: hidden;
             display: block;
 
-            @include breakPoint(tablet-up) {
-                width: 350px;
+            @include breakPoint(mobile-only){
+                width: 90%;
             }
         }
-
-        @include breakPoint(notebook-up) {
-            width: 400px;
-        }
-
-        @include breakPoint(tablet-up) {
-            width: 600px;
-            height: 600px;
-        }
     }
+}
+
+
+.btn-close{
+    font-size: 1rem !important;
+    padding: inherit !important;
 }
