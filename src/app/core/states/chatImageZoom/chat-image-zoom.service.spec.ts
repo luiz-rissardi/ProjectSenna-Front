@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChatImageZoomService } from './chat-image-zoom.service';
+import { ChatImageZoomState } from './chat-image-zoom';
 
-describe('ChatImageZoomService', () => {
-  let service: ChatImageZoomService;
+describe('ChatImageZoomState', () => {
+  let service: ChatImageZoomState;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChatImageZoomService);
+    service = TestBed.inject(ChatImageZoomState);
   });
 
   it('should be created', () => {

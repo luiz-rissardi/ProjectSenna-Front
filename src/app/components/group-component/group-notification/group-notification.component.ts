@@ -5,7 +5,7 @@ import { UserState } from '../../../core/states/User/user.state';
 import { UserDetailState } from '../../../core/states/userDetail/user-detail.state';
 import { Group } from '../../../shared/interfaces/groupData';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
-import { ButtonIconComponent } from '../button-icon/button-icon.component';
+import { ButtonIconComponent } from '../../shared/button-icon/button-icon.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Buffer } from 'buffer';
 

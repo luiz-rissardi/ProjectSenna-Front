@@ -43,7 +43,7 @@ export const routes: Routes = [
             },
             {
                 path: "group",
-                loadComponent: () => import('./components/groups/groups.component').then(c => c.GroupsComponent)
+                loadComponent: () => import('./components/group-component/groups/groups.component').then(c => c.GroupsComponent)
             },
             {
                 path: "contact",

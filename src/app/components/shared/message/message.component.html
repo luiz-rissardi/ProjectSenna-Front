@@ -43,7 +43,7 @@
         <!-- Image rendering mode -->
         @if(message().messageType === 'image') {
         @defer(when typeof messageFileSignal()?.data === 'string') {
-        <img [src]="messageFileSignal().data" [alt]="messageFileSignal().fileName" (click)="openZoomImage()">
+        <img class="img-message" [src]="messageFileSignal().data" [alt]="messageFileSignal().fileName" (click)="openZoomImage()">
         }
         @placeholder {
         <ngx-skeleton-loader animation="pulse" [theme]="{ width: '100%', height: '200px' }"></ngx-skeleton-loader>
