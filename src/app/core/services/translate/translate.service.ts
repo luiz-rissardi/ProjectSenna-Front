@@ -13,7 +13,7 @@ export class TranslateService extends Service {
   translateText(texts:string[],destLanguage:string){
     return this.http.post(this.uri + "/translate",{
       texts,
-      dest_language:destLanguage
+      target_language:destLanguage
     })
   }
 }

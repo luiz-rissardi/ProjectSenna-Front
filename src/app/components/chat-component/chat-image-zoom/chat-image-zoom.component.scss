@@ -18,8 +18,8 @@
     }
 
     &-box {
-        width: 90%;
-        height: 95%;
+        max-width: 90%;
+        max-height: 95%;
         margin: auto;
         background-color: $white;
         border-radius: 10px;

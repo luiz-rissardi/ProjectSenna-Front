@@ -40,12 +40,13 @@ export class MessageFacade {
         .subscribe((result: ResponseHttp<Message[]>) => {
           from(result.value)
             .subscribe((message: Message) => {
-              if (message.message != "") {
+              if (message.message != "" && message.userId != this.userState.userSignal().userId) {
+
                 this.translatorService.translateText(
                   [message.message],
                   this.userState.userSignal().languages
                 ).subscribe((result: any) => {
-                  message.translatedMessageText = result.translates[0].translate
+                  message.translatedMessageText = result.value.translation
                 })
               }
             })
