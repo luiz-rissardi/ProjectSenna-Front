@@ -104,7 +104,7 @@ export class ChatMessagesComponent implements OnDestroy{
             [data.message],
             this.userState.userSignal().languages
           ).subscribe((result: any) => {
-            data.translatedMessageText = result.translation
+            data.translatedMessageText = result.value.translation
           })
         }
 
@@ -137,7 +137,7 @@ export class ChatMessagesComponent implements OnDestroy{
               [messageEdit.message],
               this.userState.userSignal().languages
             ).subscribe((result: any) => {
-              messageEdit.translatedMessageText = result.translation
+              messageEdit.translatedMessageText = result.value.translation
             })
             return messageEdit
           }
