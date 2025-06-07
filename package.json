@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "ssr": "npx nodemon dist/meta-blue/server/server.mjs",
+    "ssr-aot": "npx nodemon dist/meta-blue/server/main-server.mjs --metaBlue",
     "serve:ssr:metaBlue": "node dist/meta-blue/server/server.mjs"
   },
   "private": true,

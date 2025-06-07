@@ -57,12 +57,21 @@
                 }
               ],
               "outputHashing": "all",
-              "serviceWorker": "ngsw-config.json"
+              "serviceWorker": "ngsw-config.json",
+              "optimization": true,
+              "extractLicenses": true,
+              "sourceMap": true,
+              "aot": true,
+              "prerender":true
+              
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "optimization": true,
+              "extractLicenses": true,
+              "sourceMap": true,
+              "aot": true,
+              "ssr": true,
+              "prerender":true
             }
           },
           "defaultConfiguration": "production"

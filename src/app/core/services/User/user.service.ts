@@ -12,9 +12,9 @@ export class UserService extends Service {
     super();
   }
 
-  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), language: string, password: string) {
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob = new Blob(), languages: string, password: string) {
 
-    const object = { userDescription, userName, email, arrayBuffer, language, password }
+    const object = { userDescription, userName, email, arrayBuffer, languages, password }
     const body = this.toFormData(object)
 
     return this.http.post(this.uri + "/user", body);

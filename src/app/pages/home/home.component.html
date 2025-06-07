@@ -1,3 +1,4 @@
+@defer (hydrate on hover) {
 <div class="container-fluid p-0 h-100 d-flex bg-white">
     @if (this.showChat == false || this.isMobile == false) {
     <section class="data-area">
@@ -11,5 +12,6 @@
     }
     <app-user-detail></app-user-detail>
     <app-warnig></app-warnig>
-    
+
 </div>
+}
