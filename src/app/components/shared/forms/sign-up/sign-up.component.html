@@ -66,9 +66,9 @@
         <div class="line"></div>
     </fieldset>
     <fieldset class="form-group m-auto mt-3">
-        <label for="language" class="label"> Select your language: </label>
-        <select class="control" id="language" formControlName="lang" placeholder="type your language" size="1">
-            <option value=""> select your language </option>
+        <label for="languages" class="label"> Select your languages: </label>
+        <select class="control" id="languages" formControlName="lang" placeholder="type your languages" size="1">
+            <option value=""> select your languages </option>
             <option value="pt-br"> portuguese (Brasil)</option>
             <option value="en"> English </option>
             <!-- <option value="deutch"> German </option>
@@ -76,7 +76,7 @@
         </select>
         @if(this.spans[4]){
         <span>
-            <p class="text-danger"> please select your language </p>
+            <p class="text-danger"> please select your languages </p>
         </span>
         }
         <div class="line"></div>

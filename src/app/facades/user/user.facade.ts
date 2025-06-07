@@ -46,9 +46,9 @@ export class UserFacade {
     }
   }
 
-  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, language: string, password: string) {
+  createUser(userName: string, userDescription: string, email: string, arrayBuffer: null | Blob, languages: string, password: string) {
     try {
-      this.userService.createUser(userName, userDescription, email, arrayBuffer, language, password)
+      this.userService.createUser(userName, userDescription, email, arrayBuffer, languages, password)
         .subscribe((data: ResponseHttp<User>) => {
           if (data.isSuccess == true) {
 

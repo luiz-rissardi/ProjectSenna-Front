@@ -54,7 +54,6 @@ export class ContactFacade {
               data: { message: "contact added successfully" }
             })
           } else {
-            console.log(result);
             this.warnigState.warnigSignal.set({
               IsSucess: false,
               data: result.error
@@ -75,7 +74,6 @@ export class ContactFacade {
     try {
       this.contactService.removeContact(contactId, userId)
         .subscribe((result: ResponseHttp<Contact[]>) => {
-          console.log(result);
           if (result.isSuccess) {
             const teste = this.contactsState.contactSignal().filter(el => el.userId != userId);
             this.contactsState.contactSignal.set(teste)

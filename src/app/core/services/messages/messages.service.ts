@@ -22,7 +22,7 @@ export class MessagesService extends Service {
   editMessage(message: Message) {
     return this.http.post(this.uri + `/chat/message/${message.messageId}`, {
       messageText: message.message,
-      language: message.language
+      languages: message.languages
     })
   }
 

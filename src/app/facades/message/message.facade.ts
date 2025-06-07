@@ -69,7 +69,7 @@ export class MessageFacade {
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      language: this.userState.userSignal()?.languages,
+      languages: this.userState.userSignal()?.languages,
       messageType,
       userName: '',
       messageId: Math.floor(Math.random() * 1000).toString(), // random id
@@ -112,7 +112,7 @@ export class MessageFacade {
       userId: this.userState.userSignal().userId,
       chatId: this.chatState.chatState()?.chatId,
       dateSender: new Date(),
-      language: this.userState.userSignal().languages,
+      languages: this.userState.userSignal().languages,
       messageType,
     };
 

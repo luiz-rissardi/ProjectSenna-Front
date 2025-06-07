@@ -30,9 +30,9 @@
             </fieldset>
 
             <fieldset class="form-group m-auto mt-3">
-                <label for="userlanguage" class="label"> language: </label>
-                <select class="control" formControlName="language" id="userlanguage"
-                    placeholder="change language of system" size="1">
+                <label for="userlanguages" class="label"> languages: </label>
+                <select class="control" formControlName="languages" id="userlanguages"
+                    placeholder="change languages of system" size="1">
                     <option value="pt-br" [selected]="this.userAccount?.languages == 'pt-br'"> portuguese (Brasil)</option>
                     <option value="en" [selected]="this.userAccount?.languages == 'en'"> English </option>
                     <!-- <option value="deutch"> German </option> -->
