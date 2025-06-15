@@ -62,6 +62,31 @@ $warning: rgb(255, 165, 0);
     }
 }
 
+#buttonImage{
+    object-fit: cover;
+    cursor: pointer;
+    transition: 200ms linear;
+
+    &:hover {
+        opacity: 0.7;
+        transition: 200ms linear;
+    }
+
+    &:hover~.overlay {
+        opacity: 1;
+        transition: 200ms linear;
+    }
+}
+
+.overlay{
+    opacity: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    position: absolute;
+    color: $dark;
+    pointer-events: none;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -85,3 +110,4 @@ html {
 ::-webkit-scrollbar-thumb {
     background-color: black;
 }
+

@@ -3,6 +3,10 @@ import { ButtonStyleDirective } from '../../../../directives/buttonStyle/button-
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { GroupFacade } from '../../../../facades/group/group.facade';
+import { Router } from '@angular/router';
+import { ChatState } from '../../../../core/states/chat/chat.state';
+import { UserDetailState } from '../../../../core/states/userDetail/user-detail.state';
+import { Group } from '../../../../shared/interfaces/groupData';
 
 @Component({
   selector: 'app-create-group',
@@ -14,12 +18,15 @@ export class CreateGroupComponent implements OnDestroy {
 
   private elRef = inject(ElementRef);
   private groupFacade = inject(GroupFacade);
+  private chatState = inject(ChatState);
   private inputPhoto: HTMLInputElement;
   private detroy = new Subject<void>();
+  private userDetailState = inject(UserDetailState);
+  private router = inject(Router);
   protected groupForm: FormGroup;
   protected groupNameInvalid = false;
   protected chosenImage: any = "../../../../assets/icons/do-utilizador.png";
-  protected chosenImageBlob:Blob;
+  protected chosenImageBlob: Blob;
 
   @ViewChild("buttonImage") private buttonImage: ElementRef<any>;
 
@@ -52,17 +59,19 @@ export class CreateGroupComponent implements OnDestroy {
   }
 
   protected createGroup() {
-    const [groupDescription,groupName] = ["groupDescription","groupName"].map((el, index) => {
+    const [groupDescription, groupName] = ["groupDescription", "groupName"].map((el, index) => {
       return this.groupForm.get(el).value;
     })
 
-    if(groupName?.trim() == ""){
+    if (groupName?.trim() == "") {
       this.groupNameInvalid = true;
-    }else{
+    } else {
       this.groupNameInvalid = false;
-      this.groupFacade.createGroup(groupName,groupDescription,this.chosenImageBlob)
+      this.groupFacade.createGroup(groupName, groupDescription, this.chosenImageBlob)
+      this.router.navigate(["/home/group"])
     }
   }
+
 
   loadAlternativeImage() {
     this.buttonImage.nativeElement.src = "../../../../assets/icons/do-utilizador.png"

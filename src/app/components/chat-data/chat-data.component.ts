@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserAreaComponent } from "../user-area/user-area.component";
 
@@ -9,5 +9,5 @@ import { UserAreaComponent } from "../user-area/user-area.component";
     styleUrl: './chat-data.component.scss',
 })
 export class ChatDataComponent {
-
+    
 }

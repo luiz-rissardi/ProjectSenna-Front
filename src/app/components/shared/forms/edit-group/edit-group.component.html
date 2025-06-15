@@ -2,10 +2,16 @@
     <h1 class="ms-3"> Edit Group</h1>
 
     <form class="d-flex flex-column p-0 mt-3" [formGroup]="this.groupForm">
+
         <div class="edit-photo d-flex mb-5">
-            <img loading="lazy" id="chosenImage" (click)="changePhoto()"
-                [src]="this.chosenImage" (error)="loadAlternativeImage()" alt="file image chosen">
-            <input type="file" id="inputFoto" accept="image/*" hidden>
+            <button ButtonIcon class="m-auto">
+                <div class="d-flex justify-content-center align-items-center">
+                    <img #buttonImage id="buttonImage" (error)="this.loadAlternativeImage()" loading="lazy" alt="user photo"
+                        (click)="changePhoto()" [src]="this.chosenImage">
+                    <p class="overlay"> edit image </p>
+                </div>
+                <input type="file" id="inputFoto" formControlName="photo" accept="image/*" hidden>
+            </button>
         </div>
 
         <fieldset class="form-group m-auto w-100 my-4 px-3">
@@ -14,9 +20,9 @@
                 placeholder="type the group name">
             <div class="line"></div>
             @if (groupNameInvalid) {
-                <span>
-                    <p class="text-danger"> please insert an name for group </p>
-                </span>
+            <span>
+                <p class="text-danger"> please insert an name for group </p>
+            </span>
             }
         </fieldset>
         <fieldset class="form-group m-auto w-100 my-4 px-3">

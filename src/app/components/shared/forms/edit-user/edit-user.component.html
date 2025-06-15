@@ -10,8 +10,13 @@
     <form [formGroup]="this.formUserUpdate">
         <div class="edit-photo d-flex">
             <button ButtonIcon class="m-auto">
-                <img #buttonImage (error)="this.loadAlternativeImage()" loading="lazy" alt="user photo" (click)="changePhoto()" 
-                    [src]="this.chosenImage">
+
+                <div class="d-flex justify-content-center align-items-center">
+                    <img #buttonImage id="buttonImage" (error)="this.loadAlternativeImage()" loading="lazy"
+                        alt="user photo" (click)="changePhoto()" [src]="this.chosenImage">
+                    <p class="overlay"> edit image </p>
+                </div>
+
                 <input type="file" id="inputFoto" formControlName="photo" accept="image/*" hidden>
             </button>
         </div>
@@ -24,7 +29,7 @@
             </fieldset>
             <fieldset class="form-group m-auto w-100">
                 <label for="userDescription" class="label"> User description: </label>
-                <input type="text"  formControlName="userDescription" [value]="this.userAccount?.userDescription"
+                <input type="text" formControlName="userDescription" [value]="this.userAccount?.userDescription"
                     class="control" id="userDescription" placeholder=" change your user description">
                 <div class="line"></div>
             </fieldset>
@@ -33,7 +38,8 @@
                 <label for="userlanguages" class="label"> languages: </label>
                 <select class="control" formControlName="languages" id="userlanguages"
                     placeholder="change languages of system" size="1">
-                    <option value="pt-br" [selected]="this.userAccount?.languages == 'pt-br'"> portuguese (Brasil)</option>
+                    <option value="pt-br" [selected]="this.userAccount?.languages == 'pt-br'"> portuguese (Brasil)
+                    </option>
                     <option value="en" [selected]="this.userAccount?.languages == 'en'"> English </option>
                     <!-- <option value="deutch"> German </option> -->
                     <!-- <option value="spa"> Spanish </option> -->

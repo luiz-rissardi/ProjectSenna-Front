@@ -1,3 +1,5 @@
+@defer (hydrate never){
+
 <section class="conversation">
     <h1 class="ms-3">Conversations</h1>
     <form>
@@ -13,8 +15,9 @@
         ){
 
         @for (item of this.chatsArrayState?.chatsArrayState(); track $index) {
-
+        @defer (hydrate on hover){
         <notification-chat [chatData]="item"></notification-chat>
+        }
         }
 
         }@else if(this.chatsArrayState.chatsArrayState()?.length == 0 && this.cache?.length > 0){
@@ -22,7 +25,8 @@
         }
 
         @if(
-        (this.chatsArrayState?.chatsArrayState()?.length == 0 || this.chatsArrayState?.chatsArrayState()?.length == undefined) &&
+        (this.chatsArrayState?.chatsArrayState()?.length == 0 || this.chatsArrayState?.chatsArrayState()?.length ==
+        undefined) &&
         (this.cache?.length == undefined || this.cache?.length == 0)
         ){
         <div class="flex flex-column text-center">
@@ -35,6 +39,8 @@
         }
     </section>
 </section>
+
+}
 
 <ng-template #content let-modal>
     <div class="modal-body mt-5">

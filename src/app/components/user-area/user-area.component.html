@@ -16,7 +16,7 @@
 
         <div class="mt-auto d-flex flex-column align-items-center" style="margin-bottom:4rem">
             <button (click)="this.selectSection($event)" class="session mb-2" [routerLink]="'/home/configuration'" placement="right" ngbTooltip="configuração">
-                <i class="fi fi-rs-settings m-auto"></i>
+                <i class="fi fi-rr-settings m-auto"></i>
             </button>
 
             <button-icon class="userIcon" alt="user photo" (click)="this.selectSection($event)" [image]="this.userState.userSignal()?.photo" [routerLink]="'/home/edit-user'" ></button-icon>

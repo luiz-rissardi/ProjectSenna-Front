@@ -1,4 +1,4 @@
-import { Component, effect, inject, TemplateRef } from '@angular/core';
+import { Component, effect, inject, OnInit, TemplateRef } from '@angular/core';
 import { NotificationChatComponent } from '../shared/notification-chat/notification-chat.component';
 import { ChatArrayState } from '../../core/states/chats/chats.state';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

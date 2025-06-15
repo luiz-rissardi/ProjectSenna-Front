@@ -7,7 +7,6 @@ import { GroupsState } from '../../core/states/groups/groups.state';
 import { ChatService } from '../../core/services/chat/chat.service';
 import { UserState } from '../../core/states/User/user.state';
 import { ChatData } from '../../shared/interfaces/chatData';
-import { ChatArrayState } from '../../core/states/chats/chats.state';
 
 @Injectable({
   providedIn: 'root'

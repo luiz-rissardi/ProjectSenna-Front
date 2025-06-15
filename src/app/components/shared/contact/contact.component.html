@@ -1,3 +1,5 @@
+
+@defer (hydrate on interaction){
 <div class="position-relative">
     <section class="contact-box d-flex flex-column" tabindex="0" [routerLink]="'/home/conversation'"
         (click)="this.openChat()">
@@ -21,10 +23,12 @@
         <button class="dropdown-btn m-1" (click)="this.deleteContact()">
             <i class="ms-auto my-auto fi fi-rr-trash"></i>
         </button>
-        <button class="dropdown-btn m-1" >
+        <button class="dropdown-btn m-1" routerLink="/home/add-user-to-group">
             <i class="fi fi-rr-apps-add"></i>
         </button>
     </div>
     
 
 </div>
+
+}

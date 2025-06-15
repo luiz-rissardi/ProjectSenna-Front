@@ -1,0 +1,16 @@
+<div class="h-100">
+    <div class="d-flex">
+        <button class="back" ButtonIcon [routerLink]="'/home/group'">
+            ←
+        </button>
+        <h1 class="my-3">Add Users in groups</h1>
+    </div>
+    <section class="container-fluid d-flex flex-column my-3">
+        @if(this.groupArrayState.groupSignal().length == 0){
+        <p class="mx-auto my-3 text-secondary text-center"> you dont have groups to add users </p>
+        }
+        @for (item of this.groupArrayState.groupSignal(); track $index) {
+            <app-group-notification [chatData]="item"></app-group-notification>
+        }
+    </section>
+</div>

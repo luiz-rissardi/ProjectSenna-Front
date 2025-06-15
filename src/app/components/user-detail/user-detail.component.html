@@ -1,30 +1,36 @@
+@defer (hydrate on interaction){
 @if(this.userDetailState.userDetailSignal()?.show ){
 <section
     [classList]="this.userDetailState.userDetailSignal()?.data == undefined?'user-detail-box user-detail-hidden':'user-detail-box'">
     <button class="btn-back" (click)="this.closeDetails()"> → </button>
     <article class="user-detail-section">
-        <img loading="lazy" class="user-detail-photo" [src]="this.userDetailState.userDetailSignal().data?.photo" alt="user image">
+        <img loading="lazy" class="user-detail-photo" [src]="this.userDetailState.userDetailSignal().data?.photo"
+            alt="user image">
         <h3> {{ this.userDetailState.userDetailSignal().data?.userName }} </h3>
     </article>
+
+    @if(this.userDetailState.userDetailSignal().data?.description != "null" &&
+    this.userDetailState.userDetailSignal().data?.description != "") {
     <article class="user-detail-section">
         <p class="text-center">Description: </p>
         <p class="text-center"> {{ this.userDetailState.userDetailSignal().data?.description }} </p>
     </article>
+    }
     <article class="user-detail-section p-4 d-grid gap-3">
         <button buttonStyle (click)="this.deleteMessages()">
             delete messages
         </button>
 
         @if (this.userDetailState.userDetailSignal().data?.isActive) {
-            <button buttonStyle (click)="this.blockChat()">
-                block chat
-            </button>
+        <button buttonStyle (click)="this.blockChat()">
+            block chat
+        </button>
         }@else{
-            <button buttonStyle (click)="this.unlockedChat()">
-                unlock chat
-            </button>
+        <button buttonStyle (click)="this.unlockedChat()">
+            unlock chat
+        </button>
         }
     </article>
 </section>
-
+}
 }

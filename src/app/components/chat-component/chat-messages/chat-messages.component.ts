@@ -98,8 +98,10 @@ export class ChatMessagesComponent implements OnDestroy{
       const chatId = this.chatState.chatState()?.chatId;
       if (chatId && chatId === data.chatId) {
         this.scrollToBottom();
-
-        if (data.message != "" && data.languages != this.userState.userSignal().languages) {
+        if (
+          data.message != "" && 
+          data.languages != this.userState.userSignal().languages
+         ) {
           this.translatorService.translateText(
             [data.message],
             this.userState.userSignal().languages

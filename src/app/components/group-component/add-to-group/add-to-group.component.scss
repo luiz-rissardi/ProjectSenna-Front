@@ -1,0 +1,14 @@
+@import "../../../../styles.scss";
+
+h1 {
+    font-size: 2rem;
+
+    @include breakPoint(mobile-only) {
+        font-size: 1.5rem;
+    }
+}
+
+
+.back{
+    color: $dark !important;
+}

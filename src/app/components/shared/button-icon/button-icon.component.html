@@ -1,5 +1,7 @@
 
 
+@defer (hydrate on interaction){
 <button type="button" class="button-icon"> 
     <img #buttonImage (error)="this.loadAlternativeImage()" [src]="this.image()" [alt]="this.alt()">
 </button>
+}

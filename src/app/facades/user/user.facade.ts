@@ -27,13 +27,13 @@ export class UserFacade {
           const data: ResponseHttp<User | any> = response.body as ResponseHttp<User | any>;
           if (data.isSuccess == true) {
 
-            const photoArrayBlob = data.value?.photo?.data;
-            if (photoArrayBlob?.length == 0 || photoArrayBlob == undefined) {
-              data.value.photo = "../../../assets/icons/do-utilizador.png"
-            } else {
-              const photoBuffer = Buffer.from(photoArrayBlob);
-              data.value.photo = URL.createObjectURL(new Blob([photoBuffer]))
-            }
+            // const photoArrayBlob = data.value?.photo?.data;
+            // if (photoArrayBlob?.length == 0 || photoArrayBlob == undefined) {
+            //   data.value.photo = "../../../assets/icons/do-utilizador.png"
+            // } else {
+            //   const photoBuffer = Buffer.from(photoArrayBlob);
+            //   data.value.photo = URL.createObjectURL(new Blob([photoBuffer]))
+            // }
 
             this.userState.userSignal.set(data.value)
 

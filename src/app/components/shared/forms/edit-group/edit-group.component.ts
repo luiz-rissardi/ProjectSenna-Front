@@ -30,8 +30,9 @@ export class EditGroupComponent {
       groupDescription: [],
       groupName: []
     })
-
+    
     const group:Group = this.groupsState.groupSignal().filter(group => group.chatId == this.chatState.chatState().chatId)[0];
+    this.chosenImage = group.groupPhoto || this.chosenImage;
     this.groupForm.get("groupDescription").setValue(group.groupDescription);
     this.groupForm.get("groupName").setValue(group.groupName);
   }
