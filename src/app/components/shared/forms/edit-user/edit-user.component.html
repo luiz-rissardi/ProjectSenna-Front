@@ -10,7 +10,6 @@
     <form [formGroup]="this.formUserUpdate">
         <div class="edit-photo d-flex">
             <button ButtonIcon class="m-auto">
-
                 <div class="d-flex justify-content-center align-items-center">
                     <img #buttonImage id="buttonImage" (error)="this.loadAlternativeImage()" loading="lazy"
                         alt="user photo" (click)="changePhoto()" [src]="this.chosenImage">

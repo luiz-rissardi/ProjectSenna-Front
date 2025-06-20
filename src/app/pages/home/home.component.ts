@@ -12,10 +12,11 @@ import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-
 import { MessageFacade } from '../../facades/message/message.facade';
 import { ChatFacade } from '../../facades/chat/chat.facade';
 import { GroupFacade } from '../../facades/group/group.facade';
+import { ShareGroupComponent } from "../../components/share-group/share-group.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent],
+  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent, ShareGroupComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

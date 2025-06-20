@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserDetailState } from '../../core/states/userDetail/user-detail.state';
 import { ChatFacade } from '../../facades/chat/chat.facade';
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { UserState } from '../../core/states/User/user.state';
+import { ShareGroupsModalState } from '../../core/states/shareGroupModal/share-groups-modal.service';
+import { ChatState } from '../../core/states/chat/chat.state';
 
 @Component({
     selector: 'app-user-detail',
@@ -13,7 +15,9 @@ import { UserState } from '../../core/states/User/user.state';
 export class UserDetailComponent {
 
   private chatFacade = inject(ChatFacade);
+  private shareGroupState = inject(ShareGroupsModalState);
   private userState = inject(UserState)
+  protected chatState = inject(ChatState);
   protected userDetailState = inject(UserDetailState);
 
   protected closeDetails() {
@@ -43,5 +47,9 @@ export class UserDetailComponent {
     this.chatFacade.clearMessagesOfChat(
       this.userState.userSignal()?.userId
     )
+  }
+
+  protected SearchChats(){
+    this.shareGroupState.shareGroupState.set(true);
   }
 }

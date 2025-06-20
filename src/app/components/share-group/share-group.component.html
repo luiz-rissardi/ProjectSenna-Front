@@ -1,0 +1,35 @@
+@if (this.shareGroupState.shareGroupState()) {
+<section class="dialog">
+
+    <div class="shared-modal" #modalShareGroup>
+
+        <button type="button" class="btn-close ms-auto" (click)="this.shareGroupState.shareGroupState.set(false)"></button>
+
+        <h2>invite your friends to the group</h2>
+
+        <fieldset class="form-group my-4">
+            <label for="searchContacts" class="label">search Contacts</label>
+            <input type="text" id="searchContacts" class="control">
+            <div class="line"></div>
+        </fieldset>
+
+        <h3>CONTACTS</h3>
+        <hr>
+
+        <div class="scroll-list">
+            @defer (when this.contactsState.contactSignal() != null) {
+
+            @for (item of this.contactsState.contactSignal(); track $index) {
+            <div class="shared-box ">
+                <button-icon [alt]="item.userName" [image]="item.photo"></button-icon>
+                <p class="m-auto ms-3"> {{item.userName}} </p>
+
+                <input type="checkbox" class="ms-auto me-3">
+            </div>
+            }
+            }
+        </div>
+        <button buttonStyle> Invite contacts </button>
+    </div>
+</section>
+}

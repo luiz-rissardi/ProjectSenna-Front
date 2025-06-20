@@ -17,6 +17,13 @@
     </article>
     }
     <article class="user-detail-section p-4 d-grid gap-3">
+
+        @if (this.chatState.chatState()?.chatType == "group") {
+        <button buttonStyle (click)="this.SearchChats()">
+            invite new members
+        </button>
+        }
+
         <button buttonStyle (click)="this.deleteMessages()">
             delete messages
         </button>

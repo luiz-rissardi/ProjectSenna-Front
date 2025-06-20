@@ -46,10 +46,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./components/group-component/groups/groups.component').then(c => c.GroupsComponent)
             },
             {
-                path: "add-user-to-group",
-                loadComponent: () => import('./components/group-component/add-to-group/add-to-group.component').then(c => c.AddToGroupComponent)
-            },
-            {
                 path: "contact",
                 loadComponent: () => import('./components/contacts/contacts.component').then(c => c.ContactsComponent)
             },

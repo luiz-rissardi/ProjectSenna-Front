@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddToGroupComponent } from './add-to-group.component';
+import { ShareGroupComponent } from './share-group.component';
 
-describe('AddToGroupComponent', () => {
-  let component: AddToGroupComponent;
-  let fixture: ComponentFixture<AddToGroupComponent>;
+describe('ShareGroupComponent', () => {
+  let component: ShareGroupComponent;
+  let fixture: ComponentFixture<ShareGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddToGroupComponent]
+      imports: [ShareGroupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddToGroupComponent);
+    fixture = TestBed.createComponent(ShareGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
