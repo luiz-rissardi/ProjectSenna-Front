@@ -1,4 +1,4 @@
-@defer (hydrate on interaction){
+
 <section class="chat py-4" id="chat" #chat (scroll)="onScroll()">
 
     @if(this.showEditMessage){
@@ -21,11 +21,12 @@
     }
 
     @for (item of this.messagesState.messageSignal(); track item.messageId) {
-    <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
-        [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
-    </message>
+        @defer(hydrate on hover){
+            <message [isGroup]="false" [message]="item" (showEditMessage)="this.changeShowEdit($event)"
+                [isYourMessage]="item.userId != this.userDetailState.userDetailSignal().data.userId">
+            </message>
+        }
     }
 
 
 </section>
-}

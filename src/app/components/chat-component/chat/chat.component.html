@@ -1,10 +1,14 @@
-@defer (hydrate on interaction){
+@defer (hydrate on hover){
 <app-chat-user-data></app-chat-user-data>
+}
 
 @if(this.chatState.chatState()?.chatId != undefined ){
-<app-chat-messages></app-chat-messages>
-<app-chat-sender></app-chat-sender>
-<app-chat-image-zoom></app-chat-image-zoom>
+
+    @defer(hydrate on hover){
+        <app-chat-messages></app-chat-messages>
+        <app-chat-sender></app-chat-sender>
+        <app-chat-image-zoom></app-chat-image-zoom>
+    }
 }
 @else {
 <div class="w-100 d-flex flex-column align-items-center py-5" style="background-color:#a5d3fb; height: 100vh;">
@@ -12,11 +16,10 @@
         Enjoy Just Translate <br>
         Chat with anyone!
     </h2>
-    <img loading="eager" fetchpriority="high" class="social-network-img" src="assets/redes.webp" alt="rede social">
+    <img loading="lazy" fetchpriority="high" class="social-network-img" src="assets/redes.webp" alt="rede social">
 
     <article class="inform">
         Conversations are all private to just 2 users, except when sent to a group with more members!
     </article>
 </div>
-}
 }

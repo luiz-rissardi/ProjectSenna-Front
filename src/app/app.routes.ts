@@ -7,6 +7,9 @@ import { authGuard } from './shared/guards/auth/auth.guard';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { CreateGroupComponent } from './components/shared/forms/create-group/create-group.component';
 import { EditGroupComponent } from './components/shared/forms/edit-group/edit-group.component';
+import { fetchFirstConversationsResolver } from './resolvers/firstConversations/fetch-first-conversations.resolver';
+import { fetchFirstGroupsResolver } from './resolvers/firstGroups/fetch-first-groups.resolver';
+import { fetchFirstContactsResolver } from './resolvers/firstContacts/fetch-first-contacts.resolver';
 
 
 export const routes: Routes = [
@@ -35,6 +38,9 @@ export const routes: Routes = [
     {
         path: "home",
         canActivate:[authGuard],
+        resolve:{
+            chats:fetchFirstConversationsResolver
+        },
         loadComponent: () => import("./pages/home/home.component").then(c => c.HomeComponent),
         children: [
             {
@@ -43,10 +49,16 @@ export const routes: Routes = [
             },
             {
                 path: "group",
+                resolve:{
+                    groups:fetchFirstGroupsResolver
+                },
                 loadComponent: () => import('./components/group-component/groups/groups.component').then(c => c.GroupsComponent)
             },
             {
                 path: "contact",
+                resolve:{
+                    contacts:fetchFirstContactsResolver
+                },
                 loadComponent: () => import('./components/contacts/contacts.component').then(c => c.ContactsComponent)
             },
             {

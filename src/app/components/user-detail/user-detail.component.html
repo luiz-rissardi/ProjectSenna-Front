@@ -1,4 +1,4 @@
-@defer (hydrate on interaction){
+
 @if(this.userDetailState.userDetailSignal()?.show ){
 <section
     [classList]="this.userDetailState.userDetailSignal()?.data == undefined?'user-detail-box user-detail-hidden':'user-detail-box'">
@@ -39,5 +39,4 @@
         }
     </article>
 </section>
-}
 }

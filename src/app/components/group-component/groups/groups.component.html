@@ -15,7 +15,9 @@
         </button>
         }
         @for (item of this.groupArrayState.groupSignal(); track $index) {
-        <app-group-notification [chatData]="item"></app-group-notification>
+            @defer (hydrate on hover) {
+                <app-group-notification [chatData]="item"></app-group-notification>
+            }
         }
     </section>
 </div>

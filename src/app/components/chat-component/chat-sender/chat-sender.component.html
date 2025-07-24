@@ -1,5 +1,3 @@
-
-@defer (hydrate on interaction){
 <div class="chat-sender">
     @if(isRecording){
     <section class="d-flex w-100 justify-content-end p-2">
@@ -56,8 +54,10 @@
 </div>
 
 @if(this.source() != null){
-<app-file-sender-chat [source]="this.source()" [nameSource]="this.sourceName()" [sourceType]="this.sourceType()"
-    [sourceBlob]="this.sourceBlob()"></app-file-sender-chat>
+    @defer(hydrate on hover){
+        <app-file-sender-chat [source]="this.source()" [nameSource]="this.sourceName()"
+        [sourceType]="this.sourceType()" [sourceBlob]="this.sourceBlob()"></app-file-sender-chat>
+    }
 }
-}
+
 <!-- "só faz licenciatura que não se garante no soco no mercado" - Luiz -->

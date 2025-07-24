@@ -27,19 +27,19 @@ export const serverRoutes: ServerRoute[] = [
     // Rotas para home e suas sub-rotas
     {
         path: 'home/conversation',
-        renderMode: RenderMode.Prerender,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'home/group',
-        renderMode: RenderMode.Prerender,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'home/contact',
-        renderMode: RenderMode.Prerender,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'home/configuration',
-        renderMode: RenderMode.Prerender,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'home/edit-user',
@@ -63,7 +63,7 @@ export const serverRoutes: ServerRoute[] = [
     },
     {
         path:"edit/group",
-        renderMode: RenderMode.Prerender,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'home/add/group',

@@ -43,6 +43,7 @@ export class ContactsComponent {
       ?.filter(Boolean); // Remove valores nulos
     this.data.set(contacts)
     this.cache.set(contacts)
+
   }
 
   protected filtercontacts(event: Event) {

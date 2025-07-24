@@ -1,10 +1,12 @@
-
-
 <div class="d-flex">
+
+    @defer (hydrate on hover) {
     <app-user-area></app-user-area>
+    }
+
     <div class="d-block bg-white" style="width: 100% !important;">
         <section class="data-chats">
-                <router-outlet></router-outlet>
+            <router-outlet></router-outlet>
         </section>
     </div>
 </div>

@@ -1,18 +1,25 @@
-@defer (hydrate on interaction) {
+
 <div class="container-fluid p-0 h-100 d-flex bg-white">
     @if (this.showChat == false || this.isMobile == false) {
     <section class="data-area">
+
+        @defer(hydrate on hover){
         <chat-data></chat-data>
+        }
     </section>
     }
     @if(this.showChat){
     <section class="data-chats">
+        @defer(hydrate on hover){
         <chat></chat>
+        }
     </section>
     }
-    <app-user-detail></app-user-detail>
+
+    @defer (hydrate on hover) {
+        <app-user-detail></app-user-detail>
+    }
     <app-warnig></app-warnig>
     <app-share-group></app-share-group>
 
 </div>
-}

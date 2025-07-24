@@ -1,4 +1,4 @@
-@defer (hydrate on interaction){
+
 <div class="contact">
     <h1 class="ms-3">Contacts</h1>
     <form>
@@ -11,7 +11,9 @@
 
         @if(this.data()?.length > 0){
             @for (item of this.data(); track $index) {
-                <app-contact [contact]="item.contact" [chatData]="item.chatData"></app-contact>
+                @defer(hydrate on hover){
+                    <app-contact [contact]="item.contact" [chatData]="item.chatData"></app-contact>
+                }
             }
         }@else {
             <h3 class="m-auto">
@@ -21,4 +23,3 @@
     </section>
 
 </div>
-}

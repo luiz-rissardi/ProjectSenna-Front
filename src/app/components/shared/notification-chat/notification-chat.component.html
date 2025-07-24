@@ -1,4 +1,4 @@
-@defer (when this.show() == true; hydrate on interaction) {
+@defer (when this.show() == true) {
 <article #notification class="notification " (click)="openChat(notification)">
     @if(this.notificationsCont() > 0){
         <span class="position-absolute ranslate-middle badge rounded-pill bg-danger">

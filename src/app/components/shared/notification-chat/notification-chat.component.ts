@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, effect, inject, input, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
@@ -7,6 +7,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ChatData } from '../../../shared/interfaces/chatData';
 import { UserState } from '../../../core/states/User/user.state';
 import { SocketService } from '../../../core/services/socket/socket.service';
+import { BufferToUrl } from '../../../workers/teste';
 
 @Component({
   selector: 'notification-chat',
@@ -17,7 +18,8 @@ import { SocketService } from '../../../core/services/socket/socket.service';
 })
 export class NotificationChatComponent extends DOMManipulation implements AfterViewInit {
 
-  chatData = input<ChatData>();
+  chatDataInput = input<ChatData>()
+  protected chatData = linkedSignal(() => this.chatDataInput());
   protected show = signal(false)
   private chatState = inject(ChatState);
   private userState = inject(UserState);
@@ -28,7 +30,7 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
   @ViewChild('notification') notificationElement!: ElementRef;
 
   constructor() {
-    
+
     super();
     effect(() => {
       if (this.chatState.chatState() != null && this.isSetted == false) {
@@ -41,11 +43,11 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
     })
 
     this.socketService.on("message", (data: any) => {
-      if(
-        (data?.chatId == this.chatData()?.chatId) && 
+      if (
+        (data?.chatId == this.chatData()?.chatId) &&
         (data.userId != this.userState.userSignal()?.userId) &&
         (this.chatState.chatState()?.chatId != data?.chatId)
-      ){
+      ) {
         this.notificationsCont.update(count => {
           return count + 1
         })
@@ -55,19 +57,23 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
 
 
   ngAfterViewInit(): void {
-    if (typeof Worker !== 'undefined') {
-      if (typeof this.chatData().otherUserPhoto == "string" || this.chatData().otherUserPhoto == null) {
-        this.show.set(true);
-        return;
-      }
+    // console.log(this.chatData()?.otherUserPhoto);
+    // if (typeof Worker !== 'undefined') {
+    //   if (typeof this.chatData().otherUserPhoto == "string" || this.chatData().otherUserPhoto == null) {
+    //     this.show.set(true);
+    //     return;
+    //   }
 
-      const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-      worker.onmessage = ({ data }) => {
-        this.chatData().otherUserPhoto = data
-        this.show.set(true)
-      };
-      worker.postMessage(this.chatData()?.otherUserPhoto);
-    }
+    const urlImage = BufferToUrl(this.chatData()?.otherUserPhoto)
+    this.chatData.update(dataSignal => ({ ...dataSignal, otherUserPhoto: urlImage }))
+    this.show.set(true)
+    //   const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
+    //   worker.onmessage = ({ data }) => {
+    //     this.chatData.update(dataSignal => ({...dataSignal,otherUserPhoto:data}))
+    //     this.show.set(true)
+    //   };
+    //   worker.postMessage(this.chatData()?.otherUserPhoto);
+    // }
   }
 
   protected stopPropagation(event: Event) {

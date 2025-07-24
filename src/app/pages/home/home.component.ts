@@ -23,25 +23,14 @@ import { ShareGroupComponent } from "../../components/share-group/share-group.co
 export class HomeComponent {
 
   private chatState = inject(ChatState);
-  private contactFacade = inject(ContactFacade);
   private chatArrayState = inject(ChatArrayState);
   private socketService = inject(SocketService);
   private messageFacade = inject(MessageFacade);
-  private chatFacade = inject(ChatFacade);
   private offlineMessages = inject(OffLineMessagesService);
-  private groupFacade = inject(GroupFacade);
-  private userState = inject(UserState)
   protected isMobile = window.innerWidth < 940;
   protected showChat = !this.isMobile;
 
   constructor() {
-
-    if (this.chatArrayState.chatsArrayState()?.length == undefined) {
-      const userId = this.userState.userSignal()?.userId;
-      if (userId) {
-        this.chatFacade.getChatsOfUser(userId)
-      }
-    }
 
     effect(() => {
       const chats = this.chatArrayState.chatsArrayState()?.map(el => el.chatId)
@@ -71,10 +60,6 @@ export class HomeComponent {
       }
     })
 
-    effect(()=>{
-      this.contactFacade.findContactsOfUser(this.userState.userSignal().contactId)
-      this.groupFacade.getGroups(this.userState.userSignal().userId)
-    })
   }
 
 }
