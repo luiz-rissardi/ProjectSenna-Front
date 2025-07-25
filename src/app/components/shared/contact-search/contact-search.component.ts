@@ -3,13 +3,14 @@ import { LimitTextPipe } from '../../../shared/pipes/limitText/limit-text.pipe';
 import { UserState } from '../../../core/states/User/user.state';
 import { ChatFacade } from '../../../facades/chat/chat.facade';
 import { User } from '../../../shared/interfaces/user';
+import { BufferToUrl } from '../../../workers/teste';
 
 
 @Component({
-    selector: 'app-contact-search',
-    imports: [LimitTextPipe],
-    templateUrl: './contact-search.component.html',
-    styleUrl: './contact-search.component.scss'
+  selector: 'app-contact-search',
+  imports: [LimitTextPipe],
+  templateUrl: './contact-search.component.html',
+  styleUrl: './contact-search.component.scss'
 })
 export class ContactSearchComponent implements AfterViewInit {
 
@@ -23,13 +24,8 @@ export class ContactSearchComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-      worker.onmessage = ({ data }) => {
-        this.photoImage.set(data)
-      };
-      worker.postMessage(this.user().photo);
-    }
+    const urlImage = BufferToUrl(this.user().photo)
+    this.photoImage.set(urlImage)
   }
 
   AddNewChat() {

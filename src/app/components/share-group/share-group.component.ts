@@ -4,6 +4,7 @@ import { ContactsState } from '../../core/states/contacts/contacts.state';
 import { ButtonIconComponent } from "../shared/button-icon/button-icon.component";
 import { ButtonStyleDirective } from '../../directives/buttonStyle/button-style.directive';
 import { fromEvent } from 'rxjs';
+import { BufferToUrl } from '../../workers/teste';
 
 @Component({
   selector: 'app-share-group',
@@ -31,11 +32,7 @@ export class ShareGroupComponent {
 
       if (this.contactsState.contactSignal() != null) {
         for (let contact of this.contactsState.contactSignal()) {
-          const worker = new Worker(new URL("../../workers/photo-process.worker", import.meta.url));
-          worker.onmessage = ({ data }) => {
-            contact.photo = data
-          };
-          worker.postMessage(contact.photo);
+          contact.photo = BufferToUrl(contact.photo)
         }
       }
     })

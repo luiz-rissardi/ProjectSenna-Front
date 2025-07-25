@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy, signal, ViewChild } from '@angular/core';
 import { debounceTime, fromEvent, map, Subject, takeUntil } from "rxjs"
 import { UserService } from '../../core/services/user/user.service';
 import { User } from '../../shared/interfaces/user';
@@ -10,15 +10,16 @@ import { RouterLink } from '@angular/router';
     selector: 'app-add',
     imports: [NgxSkeletonLoaderModule, ContactSearchComponent,RouterLink],
     templateUrl: './add.component.html',
-    styleUrl: './add.component.scss'
+    styleUrl: './add.component.scss',
+    changeDetection:ChangeDetectionStrategy.Default
 })
 export class AddComponent implements AfterViewInit, OnDestroy {
 
+  protected queryText = "";
+  protected filtedListUsers = signal<User[]>([])
   private detroy = new Subject<void>();
   private userService = inject(UserService);
-  protected filtedListUsers: User[] = [];
   private pagination = 1
-  private queryText = "";
   @ViewChild("query") private queryInput!: ElementRef;
   @ViewChild("contacts") private contacts!: ElementRef;
 
@@ -43,11 +44,11 @@ export class AddComponent implements AfterViewInit, OnDestroy {
         })
       )
       .subscribe((atBottom: boolean) => {
-        if (atBottom && this.filtedListUsers.length >= 5) {
+        if (atBottom && this.filtedListUsers().length >= 5) {
           this.pagination++;
           this.userService.getUsersByQuery(this.queryText, this.pagination)
             .subscribe((users: User[]) => {
-              this.filtedListUsers.push(...users);
+              this.filtedListUsers.update(data => [...data,...users])
             })
         }
       });
@@ -55,16 +56,16 @@ export class AddComponent implements AfterViewInit, OnDestroy {
 
   private changeQuery() {
     fromEvent(this.queryInput.nativeElement, "keypress").pipe(
-      debounceTime(700),
+      debounceTime(400),
       map((e: any) => {
         const query = e.target.value;
         this.queryText = query;
         this.pagination = 0;
         this.contacts.nativeElement.scrollTop = 0;
-        this.filtedListUsers.length = 0;
+        this.filtedListUsers().length = 0;
         this.userService.getUsersByQuery(query, this.pagination)
           .subscribe((users: User[]) => {
-            this.filtedListUsers = users;
+            this.filtedListUsers.set(users)
           })
       }),
       takeUntil(this.detroy)

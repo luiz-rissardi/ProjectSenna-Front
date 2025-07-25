@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, inject, input, InputSignal, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, input, InputSignal, linkedSignal, ViewChild } from '@angular/core';
 import { Contact } from '../../../shared/interfaces/contact';
 import { ChatData } from '../../../shared/interfaces/chatData';
 import { ChatState } from '../../../core/states/chat/chat.state';
@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { ContactFacade } from '../../../facades/contact/contact.facade';
 import { UserState } from '../../../core/states/User/user.state';
+import { BufferToUrl } from '../../../workers/teste';
 
 @Component({
   selector: 'app-contact',
@@ -16,8 +17,9 @@ import { UserState } from '../../../core/states/User/user.state';
 })
 export class ContactComponent extends DOMManipulation implements AfterViewInit {
 
-  contact: InputSignal<Contact> = input({ photo: "../../../../assets/icons/do-utilizador.png", userId: "", userName: "" });
+  contactInput: InputSignal<Contact> = input({ photo: "../../../../assets/icons/do-utilizador.png", userId: "", userName: "" });
   chatData: InputSignal<ChatData> = input();
+  protected contact = linkedSignal(()=> this.contactInput())
   protected isVisibleDropDown = false;
 
   private chatState = inject(ChatState);
@@ -31,14 +33,9 @@ export class ContactComponent extends DOMManipulation implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (typeof Worker !== 'undefined') {
-      if (typeof this.contact().photo != "string") {
-        const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-        worker.onmessage = ({ data }) => {
-          this.contact().photo = data
-        };
-        worker.postMessage(this.contact().photo);
-      }
+    if(typeof this.contactInput().photo == "object"){
+      const urlImage = BufferToUrl(this.contactInput().photo)
+      this.contact.update(dataSignal => ({ ...dataSignal, photo: urlImage }))
     }
   }
 
@@ -72,8 +69,8 @@ export class ContactComponent extends DOMManipulation implements AfterViewInit {
     allDropdowns.forEach((dropdown) => {
       this.removeClassToElement(dropdown, 'visible');
     });
-      // Alterna a visibilidade do dropdown atual
-      this.isVisibleDropDown = true;
+    // Alterna a visibilidade do dropdown atual
+    this.isVisibleDropDown = true;
 
     // Aplica a classe 'visible' ao dropdown atual, se necessário
     if (this.isVisibleDropDown) {
@@ -81,8 +78,8 @@ export class ContactComponent extends DOMManipulation implements AfterViewInit {
     }
   }
 
-  protected deleteContact(){
-    this.contactFacade.removeContact(this.userState.userSignal().contactId,this.contact().userId);
+  protected deleteContact() {
+    this.contactFacade.removeContact(this.userState.userSignal().contactId, this.contact().userId);
   }
 
   @HostListener('document:click', ['$event'])

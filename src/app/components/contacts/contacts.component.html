@@ -12,7 +12,7 @@
         @if(this.data()?.length > 0){
             @for (item of this.data(); track $index) {
                 @defer(hydrate on hover){
-                    <app-contact [contact]="item.contact" [chatData]="item.chatData"></app-contact>
+                    <app-contact [contactInput]="item.contact" [chatData]="item.chatData"></app-contact>
                 }
             }
         }@else {

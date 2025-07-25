@@ -39,7 +39,9 @@ export const routes: Routes = [
         path: "home",
         canActivate:[authGuard],
         resolve:{
-            chats:fetchFirstConversationsResolver
+            chats:fetchFirstConversationsResolver,
+            groups:fetchFirstGroupsResolver,
+            contacts:fetchFirstContactsResolver
         },
         loadComponent: () => import("./pages/home/home.component").then(c => c.HomeComponent),
         children: [
@@ -49,16 +51,10 @@ export const routes: Routes = [
             },
             {
                 path: "group",
-                resolve:{
-                    groups:fetchFirstGroupsResolver
-                },
                 loadComponent: () => import('./components/group-component/groups/groups.component').then(c => c.GroupsComponent)
             },
             {
                 path: "contact",
-                resolve:{
-                    contacts:fetchFirstContactsResolver
-                },
                 loadComponent: () => import('./components/contacts/contacts.component').then(c => c.ContactsComponent)
             },
             {

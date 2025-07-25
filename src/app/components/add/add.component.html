@@ -21,9 +21,9 @@
         <h4 class="mx-auto"> Persons in Just Translate </h4>
 
         <div class="contacts py-3 d-flex flex-column" #contacts>
-            @if(query.value != "" && this.filtedListUsers.length > 0){
-            @for (item of this.filtedListUsers; track $index) {
-            @defer (when item.photo != undefined) {
+            @if(this.filtedListUsers().length > 0){
+            @for (item of this.filtedListUsers(); track item.userId) {
+            @defer (when item.photo != undefined; hydrate on idle) {
             <app-contact-search [user]="item">
             </app-contact-search>
             }@loading(minimum 500ms){

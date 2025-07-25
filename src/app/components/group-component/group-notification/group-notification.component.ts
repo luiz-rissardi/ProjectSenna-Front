@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, input, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, inject, input, linkedSignal, signal, ViewChild } from '@angular/core';
 import { SocketService } from '../../../core/services/socket/socket.service';
 import { ChatState } from '../../../core/states/chat/chat.state';
 import { UserState } from '../../../core/states/User/user.state';
@@ -8,6 +8,7 @@ import { DOMManipulation } from '../../../shared/operators/DomManipulation';
 import { ButtonIconComponent } from '../../shared/button-icon/button-icon.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Buffer } from 'buffer';
+import { BufferToUrl } from '../../../workers/teste';
 
 @Component({
   selector: 'app-group-notification',
@@ -18,7 +19,8 @@ import { Buffer } from 'buffer';
 export class GroupNotificationComponent extends DOMManipulation implements AfterViewInit {
 
 
-  chatData = input<Group>();
+  chatDataInput = input<Group>();
+  protected chatData = linkedSignal(() => this.chatDataInput())
   protected show = signal(false)
   private chatState = inject(ChatState);
   private userState = inject(UserState);
@@ -55,26 +57,9 @@ export class GroupNotificationComponent extends DOMManipulation implements After
   }
 
   async ngAfterViewInit() {
-    if (typeof Worker !== 'undefined') {
-
-      if (typeof this.chatData().groupPhoto == "string") {
-        this.show.set(true);
-        return;
-      }
-
-      if (this.chatData().groupPhoto instanceof Blob) {
-        this.show.set(true)
-        this.chatData().groupPhoto = URL.createObjectURL(this.chatData().groupPhoto)
-      } else {
-        const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-        worker.onmessage = ({ data }) => {
-          this.chatData().groupPhoto = data
-          this.show.set(true)
-        };
-        worker.postMessage(this.chatData()?.groupPhoto);
-      }
-
-    }
+      const urlImage = BufferToUrl(this.chatData()?.groupPhoto)
+      this.chatData.update(dataSignal => ({ ...dataSignal, groupPhoto: urlImage }))
+      this.show.set(true)
   }
 
   protected stopPropagation(event: Event) {

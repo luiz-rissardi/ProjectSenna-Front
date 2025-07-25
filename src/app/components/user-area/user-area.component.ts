@@ -4,12 +4,13 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DOMManipulation } from '../../shared/operators/DomManipulation';
 import { ButtonIconComponent } from '../shared/button-icon/button-icon.component';
 import { UserState } from '../../core/states/User/user.state';
+import { BufferToUrl } from '../../workers/teste';
 
 @Component({
-    selector: 'app-user-area',
-    imports: [RouterLink, NgbTooltipModule, ButtonIconComponent],
-    templateUrl: './user-area.component.html',
-    styleUrl: './user-area.component.scss'
+  selector: 'app-user-area',
+  imports: [RouterLink, NgbTooltipModule, ButtonIconComponent],
+  templateUrl: './user-area.component.html',
+  styleUrl: './user-area.component.scss'
 })
 export class UserAreaComponent extends DOMManipulation {
 
@@ -21,17 +22,11 @@ export class UserAreaComponent extends DOMManipulation {
     super();
 
     effect(() => {
-      if (typeof Worker !== 'undefined') {
-        // Create a new
-        const worker = new Worker(new URL("../../workers/photo-process.worker", import.meta.url));
-        worker.onmessage = ({ data }) => {
-          this.userState.userSignal.update(user => {
-            user.photo = data
-            return user;
-          })
-        };
-        worker.postMessage(this.userState.userSignal().photo);
-      }
+      const urlImage = BufferToUrl(this.userState.userSignal().photo)
+      this.userState.userSignal.update(user => {
+        user.photo = urlImage
+        return user;
+      })
     })
   }
 

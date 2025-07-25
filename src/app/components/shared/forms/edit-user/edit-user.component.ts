@@ -7,12 +7,13 @@ import { User } from '../../../../shared/interfaces/user';
 import { fromEvent, map, Subject, takeUntil } from 'rxjs';
 import { UserFacade } from '../../../../facades/user/user.facade';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BufferToUrl } from '../../../../workers/teste';
 
 @Component({
-    selector: 'app-edit-user',
-    imports: [ButtonIconDirective, ButtonStyleDirective, RouterLink, ReactiveFormsModule],
-    templateUrl: './edit-user.component.html',
-    styleUrl: './edit-user.component.scss'
+  selector: 'app-edit-user',
+  imports: [ButtonIconDirective, ButtonStyleDirective, RouterLink, ReactiveFormsModule],
+  templateUrl: './edit-user.component.html',
+  styleUrl: './edit-user.component.scss'
 })
 export class EditUserComponent {
 
@@ -42,12 +43,8 @@ export class EditUserComponent {
       this.userAccount = this.userState.userSignal()
       if (this.userAccount != undefined) {
         if (this.userAccount?.photo?.type == "Buffer") {
-          const worker = new Worker(new URL("../../../../workers/photo-process.worker", import.meta.url));
-          worker.onmessage = ({ data }) => {
-            this.chosenImage = data;
-          };
-          worker.postMessage(this.userState.userSignal().photo);
-        }else{
+          this.chosenImage = BufferToUrl(this.userState.userSignal().photo)
+        } else {
           this.chosenImage = this.userAccount?.photo;
         }
         this.formUserUpdate.get("languages").setValue(this.userAccount?.languages);

@@ -6,7 +6,7 @@ export const serverRoutes: ServerRoute[] = [
     },
     {
         path: 'home',
-        renderMode: RenderMode.Client,
+        renderMode: RenderMode.Server,
     },
     {
         path: 'auth',

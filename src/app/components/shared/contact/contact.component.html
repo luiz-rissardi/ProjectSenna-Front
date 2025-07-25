@@ -3,7 +3,7 @@
     <section class="contact-box d-flex flex-column" tabindex="0" [routerLink]="'/home/conversation'"
         (click)="this.openChat()">
         <div class="d-flex">
-            <img (error)="this.loadAlternativeImage()" class="contact-photo" [src]="this.contact().photo"
+            <img class="contact-photo" [src]="this.contact().photo"
                 [alt]="'photo of' + this.contact().userName">
 
             <div class="flex flex-column ms-3 mb-3 my-auto">

@@ -9,6 +9,7 @@ import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { Buffer } from 'buffer';
 import { SwitchTranslationState } from '../../../core/states/switchTranslation/switch-translation.state';
 import { ChatImageZoomState } from '../../../core/states/chatImageZoom/chat-image-zoom';
+import { BufferToUrl } from '../../../workers/teste';
 
 @Component({
   selector: 'message',
@@ -22,7 +23,7 @@ export class MessageComponent implements AfterViewInit {
   isGroup = input<boolean>();
   message: InputSignal<Message> = input(null);
   protected showEditMessage = output<any>();
-  
+
   protected switchTranslation = inject(SwitchTranslationState);
   private messageFacade = inject(MessageFacade);
   private messageZoomImageState = inject(ChatImageZoomState);
@@ -55,15 +56,8 @@ export class MessageComponent implements AfterViewInit {
 
               if (result.isSuccess) {
                 this.messageFileSignal.set(result.value)
-                const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-
-                const processResult = ({ data }) => {
-                  this.messageFileSignal?.set({ ...this.messageFileSignal(), data });
-                  worker.removeEventListener("message", processResult);
-                };
-
-                worker.onmessage = processResult
-                worker.postMessage(result.value.data);
+                const urlImage = BufferToUrl(result.value.data)
+                this.messageFileSignal.update(dataSignal => ({ ...dataSignal, data: urlImage }))
               }
             })
         }
@@ -124,8 +118,8 @@ export class MessageComponent implements AfterViewInit {
     this.isExtend = !this.isExtend;
   }
 
-    protected openZoomImage(){
-      this.messageZoomImageState.zoomImageSignal.set(this.messageFileSignal().data.toString())
-    }
+  protected openZoomImage() {
+    this.messageZoomImageState.zoomImageSignal.set(this.messageFileSignal().data.toString())
+  }
 
 }
