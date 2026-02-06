@@ -122,4 +122,8 @@ export class MessageComponent implements AfterViewInit {
     this.messageZoomImageState.zoomImageSignal.set(this.messageFileSignal().data.toString())
   }
 
+  protected translateMessage() {
+    this.messageFacade.translateMessage(this.message().messageId);
+  }
+
 }

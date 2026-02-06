@@ -94,10 +94,32 @@
         font-weight: 600;
         margin-top: 10px;
 
-        &-translate{
+        &-translate {
             font-weight: 500;
             color: $boldRed !important;
         }
+    }
+}
+
+.btn-translate {
+    border: 1px solid $boldRed;
+    background-color: transparent;
+    color: $boldRed;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 200ms ease;
+    display: flex;
+    align-items: center;
+
+    i {
+        font-size: 0.9rem;
+    }
+
+    &:hover {
+        background-color: $boldRed;
+        color: $white;
     }
 }
 
@@ -141,7 +163,7 @@
         left: 96.5%;
         rotate: 180deg;
 
-        .audio-wave{
+        .audio-wave {
             background-color: $white;
         }
     }
@@ -214,20 +236,24 @@
     &:nth-child(3) {
         animation: audioWaveAnimation 1.7s infinite ease-in;
     }
+
     &:nth-child(4) {
         animation: audioWaveAnimation 1.0s infinite ease-in-out;
     }
+
     &:nth-child(5) {
         animation: audioWaveAnimation 0.7s infinite ease-out;
     }
+
     &:nth-child(6) {
         animation: audioWaveAnimation 3.7s infinite ease;
     }
+
     &:nth-child(7) {
         animation: audioWaveAnimation 1.7s infinite ease;
     }
 
-    &-stop{
+    &-stop {
         width: 5px;
         height: 5px;
         background-color: $dark;

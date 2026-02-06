@@ -13,11 +13,10 @@ import { MessageFacade } from '../../facades/message/message.facade';
 import { ChatFacade } from '../../facades/chat/chat.facade';
 import { GroupFacade } from '../../facades/group/group.facade';
 import { ShareGroupComponent } from "../../components/share-group/share-group.component";
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent, ShareGroupComponent, CommonModule],
+  imports: [ChatDataComponent, ChatComponent, UserDetailComponent, WarnigComponent, ShareGroupComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -32,6 +31,8 @@ export class HomeComponent {
   protected showChat = !this.isMobile;
 
   constructor() {
+
+    this.socketService.connect();
 
     effect(() => {
       const chats = this.chatArrayState.chatsArrayState()?.map(el => el.chatId)

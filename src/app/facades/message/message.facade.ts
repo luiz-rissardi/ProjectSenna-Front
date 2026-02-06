@@ -40,29 +40,44 @@ export class MessageFacade {
 
       this.messageService.getMessagesOfChat(chatId, userId, skipMessages)
         .subscribe((result: ResponseHttp<Message[]>) => {
-          from(result.value)
-            .subscribe((message: Message) => {
-              if (message.message != "" && message.userId != this.userState.userSignal().userId) {
-
-                this.translatorService.translateText(
-                  [message.message],
-                  this.userState.userSignal().languages
-                ).subscribe((result: any) => {
-                  message.translatedMessageText = result.value.translation
-                })
-              }
-            })
-
+          // Mensagens carregadas sem tradução automática
+          // Tradução será feita on-demand quando usuário clicar no botão
           this.messagesState.messageSignal.update(messages => {
-            return [...messages, ...localMessages, ...result.value]
-          })
-        })
+            return [...messages, ...localMessages, ...result.value];
+          });
+        });
     } catch (error) {
       this.warningState.warnigSignal.set({
         IsSucess: false,
         data: { message: "its not possible get messages" }
-      })
+      });
     }
+  }
+
+  /**
+   * Traduz uma mensagem específica on-demand (quando usuário clica no botão)
+   */
+  translateMessage(messageId: string): void {
+    const messages = this.messagesState.messageSignal();
+    const message = messages.find(msg => msg.messageId === messageId);
+
+    if (!message || !message.message || message.translatedMessageText) {
+      return; // Já traduzida ou sem conteúdo
+    }
+
+    this.translatorService.translateText(
+      [message.message],
+      this.userState.userSignal().languages
+    ).subscribe((result: any) => {
+      this.messagesState.messageSignal.update(msgs => {
+        return msgs.map(msg => {
+          if (msg.messageId === messageId) {
+            return { ...msg, translatedMessageText: result.value.translation };
+          }
+          return msg;
+        });
+      });
+    });
   }
 
   sendMessage(messageText: string, messageType: string = "text") {
@@ -74,37 +89,51 @@ export class MessageFacade {
       languages: this.userState.userSignal()?.languages,
       messageType,
       userName: '',
-      messageId: Math.floor(Math.random() * 1000).toString(), // random id
-      status: ''
+      messageId: Math.floor(Math.random() * 1000).toString(), // random id temporário
+      status: 'sending' // status de envio
     };
 
     // SSR-safe: sem internet salvar localmente
     if (isPlatformBrowser(this.platformId) && !navigator.onLine) {
       this.offlineMessages.saveLocalMessages(message);
       this.messagesState.messageSignal.update((messages: Message[]) => {
-        messages.unshift(message)
-        return messages
-      })
+        return [message, ...messages];
+      });
       return;
     }
+
+    // Optimistic Update: mostra a mensagem imediatamente na UI
+    this.messagesState.messageSignal.update((messages: Message[]) => {
+      return [message, ...messages];
+    });
 
     try {
       this.messageService.sendMessageToChat(message)
         .subscribe((result: ResponseHttp<Message>) => {
+          // Atualiza com os dados do servidor (id real, status confirmado)
+          this.messagesState.messageSignal.update((messages: Message[]) => {
+            return messages.map(msg =>
+              msg.messageId === message.messageId
+                ? { ...result.value, status: 'sent' }
+                : msg
+            );
+          });
+
           this.socketService.emit("send-message", {
             message: result.value
-          })
-          this.messagesState.messageSignal.update((messages: Message[]) => {
-            messages.unshift(result.value)
-            return messages
-          })
-        })
+          });
+        });
 
     } catch (error) {
+      // Remove a mensagem em caso de erro
+      this.messagesState.messageSignal.update((messages: Message[]) => {
+        return messages.filter(msg => msg.messageId !== message.messageId);
+      });
+
       this.warningState.warnigSignal.set({
         IsSucess: false,
         data: { message: "its not possible send the message" }
-      })
+      });
     }
   }
 

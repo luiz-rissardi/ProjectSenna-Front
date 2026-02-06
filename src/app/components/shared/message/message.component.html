@@ -1,4 +1,3 @@
-
 <div class="position-relative w-auto" (focus)="showOptions = false">
     <div [className]="isYourMessage() ? 'setLeft setLeft-me' : 'setLeft'"></div>
     <article [className]="isYourMessage() ? 'message-card me' : 'message-card'" #messageCard>
@@ -72,8 +71,12 @@
         </p>
 
         @if(this.switchTranslation.translationState() == true && this.isYourMessage() == false){
-        @defer(when message()?.translatedMessageText != undefined){
+        @if(message()?.translatedMessageText) {
         <p class="message-text-translate mt-2"> {{ message()?.translatedMessageText }} </p>
+        } @else {
+        <button type="button" class="btn-translate mt-2" (click)="translateMessage()">
+            <i class="fi fi-rr-globe me-1"></i> Traduzir
+        </button>
         }
         }
 
@@ -115,4 +118,3 @@
         }
     </article>
 </div>
-

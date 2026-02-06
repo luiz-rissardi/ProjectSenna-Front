@@ -17,7 +17,7 @@ import { TranslateService } from '../../../core/services/translate/translate.ser
   templateUrl: './chat-messages.component.html',
   styleUrl: './chat-messages.component.scss'
 })
-export class ChatMessagesComponent implements OnDestroy{
+export class ChatMessagesComponent implements OnDestroy {
 
   protected userDetailState: UserDetailState = inject(UserDetailState);
   protected messagesState = inject(MessagesState);
@@ -42,7 +42,7 @@ export class ChatMessagesComponent implements OnDestroy{
     this.destroy.complete()
     this.destroy.next(null)
   }
-  
+
   constructor() {
     this.initializeSocketListeners();
 
@@ -97,25 +97,14 @@ export class ChatMessagesComponent implements OnDestroy{
     this.socketService.on('message', (data: any) => {
       const chatId = this.chatState.chatState()?.chatId;
       if (chatId && chatId === data.chatId) {
-        this.scrollToBottom();
-        if (
-          data.message != "" && 
-          data.languages != this.userState.userSignal().languages
-         ) {
-          this.translatorService.translateText(
-            [data.message],
-            this.userState.userSignal().languages
-          ).subscribe((result: any) => {
-            data.translatedMessageText = result.value.translation
-          })
-        }
-
+        // Adiciona mensagem e faz scroll automático
         this.messagesState.messageSignal.update((messages) => {
           if (!messages.some((msg) => msg.messageId === data.messageId)) {
             return [data, ...messages];
           }
           return messages;
         });
+        this.scrollToBottom();
       }
     });
 
@@ -134,19 +123,14 @@ export class ChatMessagesComponent implements OnDestroy{
       this.messagesState.messageSignal.update(messages => {
         return messages.map((message) => {
           if (messageEdit.messageId == message.messageId) {
-
-            this.translatorService.translateText(
-              [messageEdit.message],
-              this.userState.userSignal().languages
-            ).subscribe((result: any) => {
-              messageEdit.translatedMessageText = result.value.translation
-            })
-            return messageEdit
+            // Limpa tradução antiga quando mensagem é editada
+            messageEdit.translatedMessageText = undefined;
+            return messageEdit;
           }
-          return message
-        })
-      })
-    })
+          return message;
+        });
+      });
+    });
 
     this.socketService.on("delete-message", (messageEdit: Message) => {
       this.messagesState.messageSignal.update((messages) => {
