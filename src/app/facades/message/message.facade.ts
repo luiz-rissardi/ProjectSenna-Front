@@ -1,4 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { MessagesService } from '../../core/services/messages/messages.service';
 import { MessagesState } from '../../core/states/messages/messages.state';
 import { WarningState } from '../../core/states/warning/warning.state';
@@ -17,6 +18,7 @@ import { OffLineMessagesService } from '../../core/services/OffLineMessages/off-
   providedIn: 'root'
 })
 export class MessageFacade {
+  private platformId = inject(PLATFORM_ID);
   private messageService = inject(MessagesService);
   private messageFileService = inject(MessageFileService);
   private translatorService = inject(TranslateService);
@@ -76,8 +78,8 @@ export class MessageFacade {
       status: ''
     };
 
-    // sem internet salvar localmente
-    if (navigator.onLine == false) {
+    // SSR-safe: sem internet salvar localmente
+    if (isPlatformBrowser(this.platformId) && !navigator.onLine) {
       this.offlineMessages.saveLocalMessages(message);
       this.messagesState.messageSignal.update((messages: Message[]) => {
         messages.unshift(message)

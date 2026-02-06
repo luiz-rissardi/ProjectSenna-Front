@@ -10,6 +10,7 @@ import { EditGroupComponent } from './components/shared/forms/edit-group/edit-gr
 import { fetchFirstConversationsResolver } from './resolvers/firstConversations/fetch-first-conversations.resolver';
 import { fetchFirstGroupsResolver } from './resolvers/firstGroups/fetch-first-groups.resolver';
 import { fetchFirstContactsResolver } from './resolvers/firstContacts/fetch-first-contacts.resolver';
+import { Component } from '@angular/core';
 
 
 export const routes: Routes = [
@@ -82,13 +83,13 @@ export const routes: Routes = [
                 loadComponent: () => import('./components/add/add.component').then(c => c.AddComponent),
             },
             {
-                path:"add/group",
-                component:CreateGroupComponent
+                path:"edit/group",
+                loadComponent:()=> import("./components/shared/forms/edit-group/edit-group.component").then(c => c.EditGroupComponent)
             },
             {
-                path:"edit/group",
-                component:EditGroupComponent
-            },
+                path:"add/group",
+                component:CreateGroupComponent
+            }
         ]
     },
     {

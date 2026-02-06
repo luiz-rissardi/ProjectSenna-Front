@@ -1,4 +1,5 @@
-import { Directive, ElementRef, HostListener, inject, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Renderer2, PLATFORM_ID, afterNextRender } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[ButtonIcon]',
@@ -6,11 +7,15 @@ import { Directive, ElementRef, HostListener, inject, Renderer2 } from '@angular
 })
 export class ButtonIconDirective {
 
+  private el = inject(ElementRef);
+  private renderer = inject(Renderer2);
+  private platformId = inject(PLATFORM_ID);
 
-  private el = inject(ElementRef)
-  private renderer = inject(Renderer2)
   constructor() {
-    this.setStyles();
+    // SSR-safe: executa manipulação de DOM apenas após render no browser
+    afterNextRender(() => {
+      this.setStyles();
+    });
   }
 
   private setStyles() {
@@ -33,19 +38,23 @@ export class ButtonIconDirective {
     if (icon) {
       this.renderer.setStyle(icon, 'fontSize', '2rem');
 
-      // Adiciona media query usando JavaScript
-      const mediaQueryList = window.matchMedia('(max-width: 600px)');
-      const applyIconStyles = (e: MediaQueryListEvent | MediaQueryList) => {
-        if (e.matches) {
-          this.renderer.setStyle(icon, 'fontSize', '1.5rem');
-        } else {
-          this.renderer.setStyle(icon, 'fontSize', '2rem');
-        }
-      };
-      // Listener para mudanças na media query
-      mediaQueryList.addEventListener('change', applyIconStyles);
-      // Aplica estilos baseados no estado atual da media query
-      applyIconStyles(mediaQueryList);
+      // SSR-safe: media query só existe no browser
+      if (isPlatformBrowser(this.platformId)) {
+        const mediaQueryList = window.matchMedia('(max-width: 600px)');
+
+        const applyIconStyles = (e: MediaQueryListEvent | MediaQueryList) => {
+          if (e.matches) {
+            this.renderer.setStyle(icon, 'fontSize', '1.5rem');
+          } else {
+            this.renderer.setStyle(icon, 'fontSize', '2rem');
+          }
+        };
+
+        // Listener para mudanças na media query
+        mediaQueryList.addEventListener('change', applyIconStyles);
+        // Aplica estilos baseados no estado atual da media query
+        applyIconStyles(mediaQueryList);
+      }
     }
   }
 

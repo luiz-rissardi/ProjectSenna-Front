@@ -5,16 +5,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-    selector: 'app-account',
-    imports: [ButtonIconDirective, RouterLink],
-    templateUrl: './account.component.html',
-    styleUrl: './account.component.scss'
+  selector: 'app-account',
+  imports: [ButtonIconDirective, RouterLink],
+  templateUrl: './account.component.html',
+  styleUrl: './account.component.scss'
 })
 export class AccountComponent {
 
   private modalService = inject(NgbModal);
-  
-  protected openModal(templateRef:TemplateRef<any>){
+
+  protected openModal(templateRef: TemplateRef<any>) {
     this.modalService.open(templateRef);
   }
 }

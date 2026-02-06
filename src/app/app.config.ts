@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -10,7 +10,7 @@ import { requestInterceptor } from './shared/interceptors/request.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     // provideZoneChangeDetection({ eventCoalescing: true }),
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
     provideClientHydration(withEventReplay(),withIncrementalHydration()),
     provideHttpClient(

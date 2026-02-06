@@ -57,23 +57,9 @@ export class NotificationChatComponent extends DOMManipulation implements AfterV
 
 
   ngAfterViewInit(): void {
-    // console.log(this.chatData()?.otherUserPhoto);
-    // if (typeof Worker !== 'undefined') {
-    //   if (typeof this.chatData().otherUserPhoto == "string" || this.chatData().otherUserPhoto == null) {
-    //     this.show.set(true);
-    //     return;
-    //   }
-
     const urlImage = BufferToUrl(this.chatData()?.otherUserPhoto)
     this.chatData.update(dataSignal => ({ ...dataSignal, otherUserPhoto: urlImage }))
     this.show.set(true)
-    //   const worker = new Worker(new URL("../../../workers/photo-process.worker", import.meta.url));
-    //   worker.onmessage = ({ data }) => {
-    //     this.chatData.update(dataSignal => ({...dataSignal,otherUserPhoto:data}))
-    //     this.show.set(true)
-    //   };
-    //   worker.postMessage(this.chatData()?.otherUserPhoto);
-    // }
   }
 
   protected stopPropagation(event: Event) {

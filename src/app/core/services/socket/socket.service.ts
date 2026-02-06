@@ -1,4 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { io, Socket } from 'socket.io-client';
 import { UserState } from '../../states/User/user.state';
 
@@ -7,35 +8,72 @@ import { UserState } from '../../states/User/user.state';
 })
 export class SocketService {
 
-  private userState = inject(UserState)
-  private socket: Socket = null;
+  private platformId = inject(PLATFORM_ID);
+  private userState = inject(UserState);
+  private socket: Socket | null = null;
 
-  constructor() {
-    if (this.socket == null) {
-      this.socket = io("http://localhost:3000", {
-        transports: ['websocket'],
-        query: {
-          userId: this.userState.userSignal().userId
-        }
-      });
+  /**
+   * Conecta ao servidor de WebSocket.
+   * Deve ser chamado apenas no cliente (browser).
+   */
+  connect(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return; // Não executa no servidor SSR
     }
-    return this;
+
+    if (this.socket !== null) {
+      return; // Já conectado
+    }
+
+    const userId = this.userState.userSignal()?.userId;
+    if (!userId) {
+      console.warn('SocketService: Cannot connect without userId');
+      return;
+    }
+
+    this.socket = io("http://localhost:3000", {
+      transports: ['websocket'],
+      query: { userId }
+    });
   }
 
-
-  on(event: string, fn: Function) {
-    this.socket.on(event, (data) => {
-      fn(data)
-    })
+  /**
+   * Registra um listener para um evento.
+   */
+  on(event: string, fn: (data: any) => void): void {
+    if (!this.socket) {
+      console.warn('SocketService: Socket not connected. Call connect() first.');
+      return;
+    }
+    this.socket.on(event, fn);
   }
 
-  emit(event: string, data: any) {
+  /**
+   * Emite um evento para o servidor.
+   */
+  emit(event: string, data: any): void {
+    if (!this.socket) {
+      console.warn('SocketService: Socket not connected. Call connect() first.');
+      return;
+    }
     this.socket.emit(event, data);
   }
 
-  destroy() {
-    this.socket.disconnect()
-    this.socket.io.opts.reconnection = false;
+  /**
+   * Desconecta do servidor e limpa recursos.
+   */
+  destroy(): void {
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket.io.opts.reconnection = false;
+      this.socket = null;
+    }
   }
 
+  /**
+   * Verifica se o socket está conectado.
+   */
+  isConnected(): boolean {
+    return this.socket?.connected ?? false;
+  }
 }
